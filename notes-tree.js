@@ -20,6 +20,11 @@ var FORMAT_TREE = {
         "advisedcustomer": {
           format: "Provided update to customer {name} {method}.",
           nodes: { "method": "METHOD", "name": "NAME" }
+        },
+        "leftsite": {
+          format: "Had to leave site as, {reason}.",
+          nodes: { "reason": "REASON" }
+        }
       }
     },
     "ALL_DOORS": {
@@ -38,4 +43,9 @@ var FORMAT_TREE = {
       }
     }
   }
+};
+
+var left_site = {
+  format: "Had to leave site as, {reason}.",
+  nodes: { "reason": "REASON" }
 };

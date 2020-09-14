@@ -19,11 +19,11 @@ var MAP_TO_TREE = {
     { path: [ "{0}", "advisedcustomer", "name" ], value: "{1}" },
   ],
   "CUSTOMERINPERSONUPDATE": [
-    { path: [ "{0}", "advisedcustomer", "method" ], value: "in person" }
+    { path: [ "{1}", "advisedcustomer", "method" ], value: "in person" },
     { path: [ "{0}", "advisedcustomer", "name" ], value: "{1}" },
   ],
   "CUSTOMERMESSAGEUPDATE": [
-    { path: [ "{0}", "advisedcustomer", "method" ], value: "by leaving a message" }
+    { path: [ "{0}", "advisedcustomer", "method" ], value: "by leaving a message" },
     { path: [ "{0}", "advisedcustomer", "name" ], value: "{1}" },
   ]
 };

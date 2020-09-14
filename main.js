@@ -1,6 +1,5 @@
 // Main functions required to draw/update the UI
 //
-console.log('test');
 
 document.AI = {
   curr_position: [],
@@ -142,8 +141,9 @@ function clearUI() {
 }; // end clearUI()
 
 function saveAndExit() {
-  document.body.innerHTML = "";
   var output = document.AI.submitted;
+  buildOutputTree( output );
+  document.body.innerHTML = "";
   output.forEach( function(out) {
     console.log(JSON.stringify(out));
     var output_p = document.createElement('p');
