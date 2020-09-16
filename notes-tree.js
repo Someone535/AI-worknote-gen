@@ -2,20 +2,16 @@
 //
 
 var FORMAT_TREE = {
-  format: "{ARRIVAL_NOTES}\n\n{ALL_DOORS}\n\n{SPECIFIC_DOORS}\n\n{REMAINING_DOORS}\n\n{DEPARTURE_NOTES}",
+  format: "{ARRIVAL_NOTES}\n{ALL_DOORS}\n{SPECIFIC_DOORS}\n{REMAINING_DOORS}\n{DEPARTURE_NOTES}",
   nodes: {
     "ARRIVAL_NOTES": {
-      format: "{inducted} {leftsite}",
+      format: "{opening}",
       nodes: {
-        "inducted": "Obtained induction onsite.",
-        "leftsite": {
-          format: "Had to leave site as, {reason}.",
-          nodes: { "reason": "REASON" }
-        }
+        "opening": "Opening notes.",
       }
     },
     "DEPARTURE_NOTES": {
-      format: "{advisecustomer}",
+      format: "{advisecustomer} {leftsite}",
       nodes: {
         "advisedcustomer": {
           format: "Provided update to customer {name} {method}.",
@@ -43,9 +39,4 @@ var FORMAT_TREE = {
       }
     }
   }
-};
-
-var left_site = {
-  format: "Had to leave site as, {reason}.",
-  nodes: { "reason": "REASON" }
 };

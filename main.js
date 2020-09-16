@@ -39,16 +39,18 @@ function drawUI() {
   for ( var node in obj.nodes ) {
     // Input button
     if ( obj.nodes[node].input ) {
+      var new_container = document.createElement('div');
       var new_input = document.createElement('input');
       new_input.setAttribute('type','text');
       new_input.setAttribute('placeholder',obj.nodes[node].label);
       new_input.setAttribute('id',node+'_input');
-      options_div.appendChild(new_input);
+      new_container.appendChild(new_input);
       var new_submit = document.createElement('button');
       new_submit.innerText = 'Submit';
       new_submit.setAttribute('data',node);
       new_submit.onclick = inputButtonHandler;
-      options_div.appendChild(new_submit);
+      new_container.appendChild(new_submit);
+      options_div.appendChild(new_container);
     } else { // Simple option button
       var new_input = document.createElement('button');
       new_input.innerText = obj.nodes[node].label;
@@ -66,6 +68,18 @@ function drawUI() {
   if ( obj.nodes == undefined ) {
     save_btn.setAttribute('data',obj.leafcode);
     save_btn.style.display = '';
+    var leaf_text = [];
+    var data_key = null;
+    document.AI.curr_position.forEach( function(el) {
+      data_key = data_key ? ':'+el : el;
+      if ( document.AI.curr_data[data_key] != undefined ) {
+        leaf_text.push( el + '( ' + document.AI.curr_data[data_key] + ' )' ); 
+      } else leaf_text.push( el );
+    });
+    leaf_text = leaf_text.join(', ');
+    var leaf_text_p = document.createElement('p');
+    leaf_text_p.innerText = leaf_text;
+    options_div.appendChild(leaf_text_p);
   } else {
     save_btn.style.display = 'none';
   }
@@ -142,7 +156,7 @@ function clearUI() {
 
 function saveAndExit() {
   var output = document.AI.submitted;
-  buildOutputTree( output );
+  var note_tree = buildOutputTree( output );
   document.body.innerHTML = "";
   output.forEach( function(out) {
     console.log(JSON.stringify(out));
@@ -150,6 +164,10 @@ function saveAndExit() {
     output_p.innerText = JSON.stringify(out);
     document.body.appendChild(output_p);
   });
+  var notes = collapseOutputTree( note_tree );
+  var notes_p = document.createElement('p');
+  notes_p.innerText = notes;
+  document.body.appendChild(notes_p);
 }; // end saveAndExit()
 
 function getUINode(ui_map,key_arr) {

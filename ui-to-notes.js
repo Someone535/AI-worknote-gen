@@ -2,28 +2,34 @@
 //
 
 var MAP_TO_TREE = {
+  "ARRIVEDONTIME": [
+    { path: [ "ARRIVAL_NOTES", "opening" ], value: "Arrived onsite at predetermined time." }
+  ],
+  "ARRIVEDLATE": [
+    { path: [ "ARRIVAL_NOTES", "opening" ], value: "Arrived {1} hours late." }
+  ],
   "INDUCTED": [
-    { path: [ "{0}", "inducted" ], value: null }
+    { path: [ "ARRIVAL_NOTES", "opening" ], value: "Obtained induction onsite." }
   ],
   "SITECLOSED": [
-    { path: [ "{0}", "leftsite", "reason" ], value: "site was closed" }
+    { path: [ "DEPARTURE_NOTES", "leftsite", "reason" ], value: "site was closed" }
   ],
   "CUSTOMERBUSY": [
-    { path: [ "{0}", "leftsite", "reason" ], value: "customer was too busy as advised by {1}" }
+    { path: [ "DEPARTURE_NOTES", "leftsite", "reason" ], value: "customer was too busy (advised by {1})" }
   ],
   "SITEBUSY": [
-    { path: [ "{0}", "leftsite", "reason" ], value: "site was too busy" }
+    { path: [ "DEPARTURE_NOTES", "leftsite", "reason" ], value: "site was too busy" }
   ],
   "CUSTOMERPHONEUPDATE": [
-    { path: [ "{0}", "advisedcustomer", "method" ], value: "over the phone" },
-    { path: [ "{0}", "advisedcustomer", "name" ], value: "{1}" },
+    { path: [ "DEPARTURE_NOTES", "advisedcustomer", "method" ], value: "over the phone" },
+    { path: [ "DEPARTURE_NOTES", "advisedcustomer", "name" ], value: "{1}" },
   ],
   "CUSTOMERINPERSONUPDATE": [
-    { path: [ "{1}", "advisedcustomer", "method" ], value: "in person" },
-    { path: [ "{0}", "advisedcustomer", "name" ], value: "{1}" },
+    { path: [ "DEPARTURE_NOTES", "advisedcustomer", "method" ], value: "in person" },
+    { path: [ "DEPARTURE_NOTES", "advisedcustomer", "name" ], value: "{1}" },
   ],
   "CUSTOMERMESSAGEUPDATE": [
-    { path: [ "{0}", "advisedcustomer", "method" ], value: "by leaving a message" },
-    { path: [ "{0}", "advisedcustomer", "name" ], value: "{1}" },
+    { path: [ "DEPARTURE_NOTES", "advisedcustomer", "method" ], value: "by leaving a message" },
+    { path: [ "DEPARTURE_NOTES", "advisedcustomer", "name" ], value: "{1}" },
   ]
 };

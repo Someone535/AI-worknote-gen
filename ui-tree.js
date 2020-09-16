@@ -2,6 +2,22 @@
 //
 
 var arrive_depart_submap = {
+  "arrived": {
+    label: "Arrived onsite",
+    input: false,
+    nodes: {
+      "ontime": {
+        label: "On time",
+        input: false,
+        leafcode: "ARRIVEDONTIME"
+      },
+      "late": {
+        label: "Late (hours)",
+        input: true,
+        leafcode: "ARRIVEDLATE"
+      }
+    }
+  },
   "inducted": {
     label: "Got Inducted",
     input: false,
