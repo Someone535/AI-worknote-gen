@@ -71,7 +71,7 @@ function drawUI() {
     var leaf_text = [];
     var data_key = null;
     document.AI.curr_position.forEach( function(el) {
-      data_key = data_key ? ':'+el : el;
+      data_key = data_key ? data_key+':'+el : el;
       if ( document.AI.curr_data[data_key] != undefined ) {
         leaf_text.push( el + '( ' + document.AI.curr_data[data_key] + ' )' ); 
       } else leaf_text.push( el );
@@ -158,12 +158,12 @@ function saveAndExit() {
   var output = document.AI.submitted;
   var note_tree = buildOutputTree( output );
   document.body.innerHTML = "";
-  output.forEach( function(out) {
+  /*output.forEach( function(out) {
     console.log(JSON.stringify(out));
     var output_p = document.createElement('p');
     output_p.innerText = JSON.stringify(out);
     document.body.appendChild(output_p);
-  });
+  });*/
   var notes = collapseOutputTree( note_tree );
   var notes_p = document.createElement('p');
   notes_p.innerText = notes;

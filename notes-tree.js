@@ -5,7 +5,7 @@ var FORMAT_TREE = {
   format: "{ARRIVAL_NOTES}\n{ALL_DOORS}\n{SPECIFIC_DOORS}\n{REMAINING_DOORS}\n{DEPARTURE_NOTES}",
   nodes: {
     "ARRIVAL_NOTES": {
-      format: "{opening}",
+      format: "{opening:\n}",
       nodes: {
         "opening": "Opening notes.",
       }

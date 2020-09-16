@@ -58,16 +58,13 @@ function buildOutputTree( ui_output ) {
       for ( var i = 0; i < fmt_path.length-1; i++ ) {
         // Check if the current key exists, if it doesn't then create it
         var key = fmt_path[i];
-        console.log('key: '+key);
         if ( curr_pos.nodes[key] == undefined ) curr_pos.nodes[key] = {};
         // Move our position to the new node
         curr_pos = curr_pos.nodes[key];
         curr_keys.push(key);
         // Gather the format and create the sub-nodes for the current node
         verifyCurrentNode( curr_pos, curr_keys );
-        console.log('verifiedNode: '+JSON.stringify(curr_pos));
       }
-      console.log('penultimate node: '+JSON.stringify(curr_pos));
 
       // set value of final node depending on it's current type
       var final_key = fmt_path[ fmt_path.length-1 ];
@@ -106,25 +103,29 @@ function _collapseNode( node ) {
 
   try {
 
-    // Join array nodes into one string
-    var sep = ' ';
-    if ( Array.isArray(node) ) return node.join(sep);
+    // Generate separator array for all sub-nodes
+    var sep_regexp = new RegExp('{(.*?)(:(.*?))?}','gis');
+    var result = Array.from( node.format.matchAll( sep_regexp ), function(el) {
+      return { key: el[1], sep: el[3] || ' ' } 
+    });
+    var sep_map = {};
+    result.forEach( function(el) { sep_map[el.key] = el.sep; });
+    // Remove sep codes from format string
+    node.format = node.format.replace( sep_regexp, '{$1}');
 
     // Process sub-nodes if current node is an object
     for ( var key in node.nodes ) {
-      console.log('checking node: '+key);
-      if ( typeof node.nodes[key] != 'string' ) {
-        console.log('node is not a string');
+      if ( Array.isArray( node.nodes[key] ) ) {
+        var node_str = node.nodes[key].join( sep_map[key] );
+        node.nodes[key] = node_str;
+      } else if ( typeof node.nodes[key] != 'string' ) {
         var node_str = _collapseNode( node.nodes[key] );
         node.nodes[key] = node_str;
-        console.log('node is now a string: '+node_str);
       }
     }
 
     // Format the sub-nodes into a return string
-    console.log('formating node');
     var out_str = node.format.formatUnicorn( node.nodes );
-    console.log('formatted node: '+out_str);
 
     return out_str;
 
@@ -142,15 +143,11 @@ function getNode( obj, path_arr ) {
   var curr_pos = obj;
   path_arr.forEach( function(key) {
     curr_pos = curr_pos.nodes[key];
-    console.log('locating... '+JSON.stringify(curr_pos));
   });
-  console.log('located: '+JSON.stringify(curr_pos));
   return curr_pos;
 }; // end getNode( path_arr )
 
 function verifyCurrentNode( node, path_arr ) {
-  console.log('checking node: '+JSON.stringify(node));
-  console.log('path arr for check: '+JSON.stringify(path_arr));
   if ( node.format == undefined ) {
     // gather the format and prepare the sub nodes
     var fmt_node = getNode( FORMAT_TREE, path_arr );
