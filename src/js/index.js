@@ -1,4 +1,4 @@
-/** main.js - Main functions required to draw/update the UI
+/** index.js - Main functions required to draw/update the UI
  *
  * This file is part of the Auto Ingress Work Note Generator.
  *
@@ -20,6 +20,8 @@
  * along with the Auto Ingress Work Note Generator.
  * If not, see <https://www.gnu.org/licenses/>.
  */
+import UI_MAP from './ui-tree.js'
+import backend from './notes-gen.js'
 
 document.AI = {
   curr_position: [],
@@ -176,15 +178,9 @@ function clearUI() {
 
 function saveAndExit() {
   var output = document.AI.submitted;
-  var note_tree = buildOutputTree( output );
+  var note_tree = backend.buildOutputTree( output );
   document.body.innerHTML = "";
-  /*output.forEach( function(out) {
-    console.log(JSON.stringify(out));
-    var output_p = document.createElement('p');
-    output_p.innerText = JSON.stringify(out);
-    document.body.appendChild(output_p);
-  });*/
-  var notes = collapseOutputTree( note_tree );
+  var notes = backend.collapseOutputTree( note_tree );
   var notes_p = document.createElement('p');
   notes_p.innerText = notes;
   document.body.appendChild(notes_p);

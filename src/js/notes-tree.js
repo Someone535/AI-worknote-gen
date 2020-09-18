@@ -21,7 +21,8 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-var FORMAT_TREE = {
+var FORMAT_TREE;
+export default FORMAT_TREE = {
   format: "{ARRIVAL_NOTES}\n{ALL_DOORS}\n{SPECIFIC_DOORS}\n{REMAINING_DOORS}\n{DEPARTURE_NOTES}",
   nodes: {
     "ARRIVAL_NOTES": {

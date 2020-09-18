@@ -95,7 +95,8 @@ var arrive_depart_submap = {
 
 var worknotes_submap = {};
 
-var UI_MAP = {
+var UI_MAP;
+export default UI_MAP = {
   label: "Select a Section",
   input: false,
   nodes: {
@@ -131,4 +132,3 @@ var UI_MAP = {
     }
   }
 };
-

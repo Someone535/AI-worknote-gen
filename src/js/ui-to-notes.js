@@ -22,7 +22,8 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-var MAP_TO_TREE = {
+var MAP_TO_TREE;
+export default MAP_TO_TREE = {
   "ARRIVEDONTIME": [
     { path: [ "ARRIVAL_NOTES", "opening" ], value: "Arrived onsite at predetermined time." }
   ],

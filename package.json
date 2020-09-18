@@ -1,0 +1,24 @@
+{
+  "name": "work-note-generator",
+  "version": "1.0.0",
+  "description": "This tool is designed for use by auto ingress field technicians in order to assist in the generation of work notes at the completion of a job. The user navigates a simple menu system, pressing buttons and only typing information where absolutely needed. In this way work notes can be created very quickly and with reduced spelling or grammatical errors. The disconnect between the UI that the technician sees and the work notes generated at the other end allows careful control of the wording used to report more sensitive situations onsite.",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack-dev-server --open"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^4.4.1",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "save-dev": "0.0.1-security",
+    "webpack-dev-server": "^3.11.0"
+  }
+}

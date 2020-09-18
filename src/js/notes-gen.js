@@ -21,6 +21,9 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
+import MAP_TO_TREE from './ui-to-notes.js'
+import FORMAT_TREE from './notes-tree.js'
+
 String.prototype.formatUnicorn = String.prototype.formatUnicorn ||
 function () {
     "use strict";
@@ -175,3 +178,9 @@ function verifyCurrentNode( node, path_arr ) {
     node.nodes = {};
   }
 }; // end verifyCurrentNode( node, path_arr )
+
+var exp;
+export default exp = {
+  buildOutputTree: buildOutputTree,
+  collapseOutputTree: collapseOutputTree
+}
