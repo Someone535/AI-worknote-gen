@@ -20,8 +20,103 @@
  * along with the Auto Ingress Work Note Generator.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import UI_MAP from './ui-tree.js'
-import backend from './notes-gen.js'
+import UI_MAP from './ui-tree.js';
+import backend from './notes-gen.js';
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+class MainContainer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      curr_position: [],
+      curr_data: {},
+      submitted: []
+    };
+  }
+
+  handleOpt(opt) {
+    this.setState((state,props) => {
+      var new_pos = state.curr_position;
+      new_pos.push(opt);
+      return { curr_position: new_pos };
+    });  
+    console.log( 'Container State: '+JSON.stringify(this.state) );
+  };
+
+  handleBackBtn() {
+    this.setState((state,props) => {
+      var new_pos = state.curr_position;
+      new_pos.pop();
+      return { curr_position: new_pos };
+    });
+  };
+
+  renderOption(key,node) {
+    return (
+      <Option 
+        key={key} node={node} node_key={key} 
+        onClick={() => this.handleOpt(key)} 
+      />
+    );
+  };
+
+  render() {
+    var node = getUINode(UI_MAP,this.state.curr_position);
+    var options = [];
+    for ( var key in node.nodes ) {
+      options.push( this.renderOption(key,node.nodes[key]) );
+    }
+    return (
+      <div>
+        <h1>{node.label}</h1>
+        <div id='options_list'>{options}</div>
+        <div id='navigation_buttons'>
+          <button id='save_btn'>Save Note</button>
+          <button id='go_back_btn' onClick={()=>this.handleBackBtn()}>Go Back</button>
+          <button id='complete_btn'>Submit All Notes &amp; Exit</button>
+        </div>
+      </div>
+    );
+  }
+}
+
+class Option extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  };
+
+  render() {
+
+    var jsxOut = null;
+    var jsxBtn = ( 
+      <button
+        id={'opt_'+this.props.node_key} 
+        onClick={() => this.props.onClick()}
+      >
+        {this.props.node.input ? 'Submit' : this.props.node.label}
+      </button>
+    );
+    if ( this.props.node.input ) {
+      jsxOut  = (
+        <div>
+          <input 
+            id={'ipt_'+this.props.node.node_key} 
+            type='text' 
+            placeholder={this.props.node.label} 
+          />
+          {jsxBtn}
+        </div>
+      );
+    } else {
+      jsxOut = jsxBtn;
+    }
+
+    return jsxOut;
+  }
+}
 
 document.AI = {
   curr_position: [],
@@ -193,3 +288,5 @@ function getUINode(ui_map,key_arr) {
   });
   return out;
 }; // end getUINode(key_arr)
+
+ReactDOM.render( <MainContainer />, document.getElementById('root') );
