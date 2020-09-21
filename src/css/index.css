@@ -1,0 +1,60 @@
+body {
+  display: flex;
+  flex-direction: column;
+}
+body * {
+  align-self: center;
+}
+#page_title {
+  flex: 0 1 auto;
+}
+div#options_list {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+}
+div#options_list button,input {
+  width: fit-content;
+  align-self: center;
+  margin: 10px;
+}
+div#navigation_buttons {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+}
+button {
+  border: solid 1px black;
+  border-radius: 3px;
+}
+button:hover {
+  filter: brightness(90%);
+}
+button:active {
+  box-shadow: inset 0px 0px 5px black;
+  outline: none;
+}
+button#save_btn {
+  color: white;
+  background-color: #4287f5;
+}
+button#complete_btn {
+  background-color: #3cc954;
+  margin: 30px 0px 0px 0px;
+}
+button#go_back_btn {
+  background-color: orange;
+}
+div#debug_info {
+  background-color: #444444;
+  color: white;
+  width: 100vw;
+  height: 40vh;
+  flex: 0 1 auto;
+}
+div#spacer {
+  width: 100vw;
+  height: auto;
+  flex: 1 1 auto;
+}
