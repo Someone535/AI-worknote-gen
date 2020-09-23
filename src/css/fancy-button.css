@@ -1,0 +1,74 @@
+/** fance-button.css - Styles for the FancyButton component
+ *
+ * This file is part of the Auto Ingress Work Note Generator.
+ *
+ *  Copyright 2020 by Auto Ingress Pty Ltd
+ *  Written by Aidan Jessen <aidan.jessen@gmail.com>
+ *  Released under the GNU General Public License
+ *
+ * The Auto Ingress Work Note Generator is free software: you can redistribute 
+ * it and/or modify it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ *
+ * The Auto Ingress Work Note Generator is distributed in the hope that it will 
+ * be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the Auto Ingress Work Note Generator.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+.fancy-button {
+  width: 10vw;
+  height: 10vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  overflow: hidden;
+}
+.fancy-button i {
+  align-self: center;
+  font-size: 8vw;
+  color: white;
+}
+.fancy-btn-default-left, .fancy-btn-default {
+  width: 0;
+  transition: width .5s ease;
+}
+.fancy-btn-load-left, .fancy-btn-load {
+  width: 10vw;
+  transition: width .5s ease;
+}
+.fancy-btn-unload-left, .fancy-btn-unload {
+  width: 0;
+  transition: width .5s ease;
+}
+.fancy-btn-default-right {
+  width: 0;
+  margin-left: 10vw;
+  transition: width .5s ease;
+}
+.fancy-btn-load-right {
+  width: 10vw;
+  margin-left: 0;
+  transition: width .5s ease, margin-left .5s ease;
+}
+.fancy-btn-unload-right {
+  width: 0;
+  margin-left: 10vw;
+  transition: width .5s ease, margin-left 0.5s ease;
+}
+.fancy-btn-default-up {
+  width: 0;
+  transition: width .5s ease;
+}
+.fancy-btn-load-up {
+  height: 10vw;
+  transition: height .5s ease;
+}
+.fancy-btn-unload-up {
+  height: 0;
+  transition: height .5s ease;
+}

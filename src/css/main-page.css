@@ -1,0 +1,72 @@
+/** main-page.css - Styles for the MainPage component
+ *
+ * This file is part of the Auto Ingress Work Note Generator.
+ *
+ *  Copyright 2020 by Auto Ingress Pty Ltd
+ *  Written by Aidan Jessen <aidan.jessen@gmail.com>
+ *  Released under the GNU General Public License
+ *
+ * The Auto Ingress Work Note Generator is free software: you can redistribute 
+ * it and/or modify it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ *
+ * The Auto Ingress Work Note Generator is distributed in the hope that it will 
+ * be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the Auto Ingress Work Note Generator.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+.main-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+.main-page * {
+  align-self: center;
+}
+.main-title {
+  font-size: xxx-large;
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
+  height: 10vw;
+}
+.sub-title {
+  font-size: xx-large;
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
+  height: 10vw;
+}
+.menu-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #81a5f8;
+}
+.search-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #81a5f8;
+}
+.exit-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #0aae15;
+}
+.back-btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #cad40c;
+}
