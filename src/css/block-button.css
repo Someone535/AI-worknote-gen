@@ -1,4 +1,4 @@
-/** nav-panel.css - Styles for the NavPanel component
+/** block-button.css - Styles for the BlockButton component
  *
  * This file is part of the Auto Ingress Work Note Generator.
  *
@@ -20,11 +20,31 @@
  * along with the Auto Ingress Work Note Generator.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-.nav-panel {
-  width: 80vw;
-  height: 81vh;
-  overflow: scroll;
-  display: flex;
-  flex-flow: row wrap;
-  align-content: flex-start;
+.block-button {
+  overflow: hidden;
+}
+.block-btn-default-fade, .block-btn-default {
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.block-btn-load-fade, .block-btn-load {
+  opacity: 1;
+  transition: opacity .25s ease;
+}
+.block-btn-unload-fade, .block-btn-unload {
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.block-button {
+  flex-basis: 45%;
+  width: 100%;
+  height: 25vh;
+  margin: 10px;
+  text-align: center;
+  font-size: xx-large;
+  border-radius: 10px;
+  background-color: #f3a435;
+}
+.block-button:active {
+  box-shadow: inset 0px 0px 20px #333333;
 }

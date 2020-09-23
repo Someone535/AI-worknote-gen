@@ -24,64 +24,49 @@ import React from 'react';
 
 import css from '../css/nav-panel.css';
 
+import BlockButton from './block-button.js';
+import MegaButton from './mega-button.js';
+
 class NavPanel extends React.Component {
   constructor(props) {
     super(props);
-    this.handleTilePress = this.handleTilePress.bind(this);
+
+    this.state = { show_children: this.props.show_children };
   }; // end constructor
 
-  handleTilePress(evt) {
-    this.props.onClick( evt.target.getAttribute('data-key') );
-  };
-
   renderBlock(tree) {
-    var out_jsx = [];
+    var blocks = [];
     for ( var key in tree.nodes ) {
-      out_jsx.push(
-        <div
-          key={key}
-          className='nav-panel-block'
-          data-key={key}
-          onClick={this.handleTilePress}
-        >
-          {tree.nodes[key].label}
-        </div>
-      );
+      blocks.push({ key: key, label: tree.nodes[key].label });
     }
-    return out_jsx;
+    return blocks.map( (bl) => (
+      <BlockButton
+        key={bl.key}
+        onClick={() => this.props.onClick(bl.key) }
+        text={bl.label}
+        mounted={this.props.show_children}
+      />
+    ));
   }; // end renderBlock
 
   renderMegaList(tree) {
-    var out_jsx = [];
+    var btns = [];
     for ( var key in tree.nodes ) {
-      var sub_titles = [];
-      for ( var sub_key in tree.nodes[key].nodes ) {
-        sub_titles.push( 
-          <div 
-            className='nav-panel-megalist-subtitle'
-            key={tree.nodes[key].nodes[sub_key].label}
-          >
-            {tree.nodes[key].nodes[sub_key].label}
-          </div>
-        );
+      var subtitles = [];
+      for ( var subkey in tree.nodes[key].nodes ) {
+        subtitles.push( tree.nodes[key].nodes[subkey].label );
       }
-      out_jsx.push(
-        <div
-          className='nav-panel-megalist'
-          key={tree.nodes[key].label}
-          data-key={key}
-          onClick={this.handleTilePress}
-        >
-          <div className='nav-panel-megalist-title'>
-            {tree.nodes[key].label}
-          </div>
-          <div className='nav-panel-megalist-subcontainer'>
-            {sub_titles}
-          </div>
-        </div>
-      );
-    };
-    return out_jsx;
+      btns.push({ key: key, label: tree.nodes[key].label, subtitles: subtitles });
+    }
+    return btns.map( (btn) => (
+      <MegaButton
+        key={btn.key}
+        title={btn.label}
+        subtitles={btn.subtitles}
+        mounted={this.props.show_children}
+        onClick={() => this.props.onClick(btn.key) }
+      />
+    ));
   }; // end renderMegaList
 
   renderAcordion(tree) {
@@ -108,7 +93,8 @@ class NavPanel extends React.Component {
 NavPanel.defaultProps = {
   option_tree: {},
   style: 'block',
-  onClick: () => 1
+  onClick: () => 1,
+  show_children: 'true'
 };
 
 export default NavPanel;

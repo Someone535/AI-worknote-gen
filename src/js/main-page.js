@@ -34,8 +34,10 @@ class MainPage extends React.Component {
     super(props);
     this.navClick = this.navClick.bind(this);
     this.handleBackBtn = this.handleBackBtn.bind(this);
+    this.showContent = this.showContent.bind(this);
+    this.hideContentCallback = this.hideContentCallback.bind(this);
 
-    this.state = { path: [], data: {}, leaves: [] };
+    this.state = { path: [], data: {}, leaves: [], show_content: true };
   }; // end constructor
 
   getNode(tree,path) {
@@ -44,16 +46,26 @@ class MainPage extends React.Component {
     return out;
   }; // getNode
 
+  hideContentCallback( fnc, params ) {
+    this.setState({ show_content: false });
+    setTimeout( () => fnc(params), 250 );
+  }; // end hideContentCallback
+  showContent() {
+    this.setState({ show_content: true });
+  }; // end showContent
+
   navClick(new_key) {
     var new_path = this.state.path;
     new_path.push(new_key);
     this.setState({ path: new_path });
+    this.showContent();
   }; // end navClick
 
   handleBackBtn() {
     var new_path = this.state.path;
     new_path.pop();
     this.setState({ path: new_path });
+    this.showContent();
   }; // end handleBackBtn
 
   render() {
@@ -74,11 +86,20 @@ class MainPage extends React.Component {
       <div className='main-page'>
         <h1 className='main-title'>{title}</h1>
         <h2 className='sub-title'>{subtitle}</h2>
-        <NavPanel style={nav_panel_style} option_tree={curr_node} onClick={this.navClick}/>
+        <NavPanel
+          style={nav_panel_style}
+          option_tree={curr_node}
+          onClick={(key) => this.hideContentCallback(this.navClick,[key])} 
+          show_children={this.state.show_content}
+        />
         <FancyButton className='menu-btn' icon='list' direction='left' mounted='true' />
         <FancyButton className='search-btn' icon='search' direction='right' mounted='true' />
         <FancyButton className='exit-btn' icon='save' direction='right' mounted={this.state.leaves.length > 0} />
-        <FancyButton className='back-btn' icon='arrow_back' direction='left' onClick={this.handleBackBtn} mounted={this.state.path.length > 0} />
+        <FancyButton 
+          className='back-btn' icon='arrow_back' direction='left'
+          onClick={() => this.hideContentCallback(this.handleBackBtn,[])}
+          mounted={this.state.path.length > 0}
+        />
       </div>
     );
   }; // end render
