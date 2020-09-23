@@ -70,6 +70,10 @@ class MainPage extends React.Component {
 
   render() {
     var curr_node = this.getNode(UI_MAP,this.state.path);
+    var section_label = this.state.path.length > 0 ? 
+      this.getNode(UI_MAP,this.state.path.slice(0,1)).label : '';
+    var type_label = this.state.path.length > 1 ?
+      this.getNode(UI_MAP,this.state.path.slice(0,2)).label : '';
     var title = 'Select Section';
     var subtitle = '';
     var nav_panel_style = 'block';
@@ -77,10 +81,11 @@ class MainPage extends React.Component {
       title = 'Select Note Type';
       subtitle = curr_node.label;
       nav_panel_style = 'mega-list';
-    } else if ( this.state.path.length > 1 ) {
+    }
+    if ( this.state.path.length > 1 ) {
       title = 'Build Note';
-      subtitle = 'SECTION - NOTE_TYPE';
-      nav_panel_style = 'acordion';
+      subtitle = section_label + ' - ' + type_label;
+      nav_panel_style = 'accordion';
     }
     return (
       <div className='main-page'>

@@ -30,8 +30,6 @@ import MegaButton from './mega-button.js';
 class NavPanel extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = { show_children: this.props.show_children };
   }; // end constructor
 
   renderBlock(tree) {
@@ -45,6 +43,7 @@ class NavPanel extends React.Component {
         onClick={() => this.props.onClick(bl.key) }
         text={bl.label}
         mounted={this.props.show_children}
+        transition='slide'
       />
     ));
   }; // end renderBlock
@@ -65,6 +64,7 @@ class NavPanel extends React.Component {
         subtitles={btn.subtitles}
         mounted={this.props.show_children}
         onClick={() => this.props.onClick(btn.key) }
+        transition='slidedown'
       />
     ));
   }; // end renderMegaList
@@ -79,7 +79,7 @@ class NavPanel extends React.Component {
         var options = this.renderBlock( this.props.option_tree ); break;
       case 'mega-list':
         var options = this.renderMegaList( this.props.option_tree ); break;
-      case 'acordion':
+      case 'accordion':
         var options = this.renderAcordion( this.props.option_tree ); break;
     };
     return (

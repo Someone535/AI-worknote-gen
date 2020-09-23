@@ -20,9 +20,6 @@
  * along with the Auto Ingress Work Note Generator.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-.block-button {
-  overflow: hidden;
-}
 .block-btn-default-fade, .block-btn-default {
   opacity: 0;
   transition: opacity .25s ease;
@@ -35,16 +32,36 @@
   opacity: 0;
   transition: opacity .25s ease;
 }
+.block-btn-default-slide {
+  left: -80vh;
+  transition: left .5s ease;
+}
+.block-btn-load-slide {
+  left: 0vh;
+  transition: left .5s ease;
+}
+.block-btn-unload-slide {
+  opacity: 0;
+  transition: opacity .25s ease;
+}
 .block-button {
+  position: relative;
+  overflow: hidden;
   flex-basis: 45%;
   width: 100%;
-  height: 25vh;
+  height: 39vh;
+  line-height: 39vh;
   margin: 10px;
   text-align: center;
   font-size: xx-large;
+  font-weight: bold;
   border-radius: 10px;
   background-color: #f3a435;
+  color: white;
+  box-shadow: 10px 10px 10px #444444;
 }
 .block-button:active {
-  box-shadow: inset 0px 0px 20px #333333;
+  transform: scale(0.95);
+  box-shadow: 3px 3px 10px #444444;
+  transition: transform .5s ease, box-shadow .5s ease;
 }
