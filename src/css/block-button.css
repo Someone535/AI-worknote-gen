@@ -1,0 +1,67 @@
+/** block-button.css - Styles for the BlockButton component
+ *
+ * This file is part of the Auto Ingress Work Note Generator.
+ *
+ *  Copyright 2020 by Auto Ingress Pty Ltd
+ *  Written by Aidan Jessen <aidan.jessen@gmail.com>
+ *  Released under the GNU General Public License
+ *
+ * The Auto Ingress Work Note Generator is free software: you can redistribute 
+ * it and/or modify it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ *
+ * The Auto Ingress Work Note Generator is distributed in the hope that it will 
+ * be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the Auto Ingress Work Note Generator.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+.block-btn-default-fade, .block-btn-default {
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.block-btn-load-fade, .block-btn-load {
+  opacity: 1;
+  transition: opacity .25s ease;
+}
+.block-btn-unload-fade, .block-btn-unload {
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.block-btn-default-slide {
+  left: -80vh;
+  transition: left .5s ease;
+}
+.block-btn-load-slide {
+  left: 0vh;
+  transition: left .5s ease;
+}
+.block-btn-unload-slide {
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.block-button {
+  position: relative;
+  overflow: hidden;
+  flex-basis: 45%;
+  width: 100%;
+  height: 39vh;
+  line-height: 39vh;
+  margin: 10px;
+  text-align: center;
+  font-size: xx-large;
+  font-weight: bold;
+  border-radius: 10px;
+  background-color: #f3a435;
+  color: white;
+  box-shadow: 10px 10px 10px #444444;
+}
+.block-button:active {
+  transform: scale(0.95);
+  box-shadow: 3px 3px 10px #444444;
+  transition: transform .5s ease, box-shadow .5s ease;
+}

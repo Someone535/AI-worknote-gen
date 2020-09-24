@@ -1,0 +1,64 @@
+/** accordion-menu.css - Styles for the AccordionMenu component
+ *
+ * This file is part of the Auto Ingress Work Note Generator.
+ *
+ *  Copyright 2020 by Auto Ingress Pty Ltd
+ *  Written by Aidan Jessen <aidan.jessen@gmail.com>
+ *  Released under the GNU General Public License
+ *
+ * The Auto Ingress Work Note Generator is free software: you can redistribute 
+ * it and/or modify it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ *
+ * The Auto Ingress Work Note Generator is distributed in the hope that it will 
+ * be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the Auto Ingress Work Note Generator.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+.accordion-menu-default-slidedown, .accordion-menu-default {
+  max-height: 0%;
+  transition: max-height .5s ease;
+}
+.accordion-menu-load-slidedown, .accordion-menu-load {
+  max-height: 100%;
+  transition: max-height 2s ease;
+}
+.accordion-menu-unload-slidedown, .accordion-menu-unload {
+  max-height: 0%;
+  transition: max-height .5s ease;
+}
+.accordion-menu {
+  overflow: hidden;
+  width: calc(100% - 30px);
+  margin-top: 5px;
+  float: right;
+}
+.accordion-title {
+  background-color: #444444;
+  color: white;
+  padding-left: 10px;
+  border-radius: 10px;
+  font-size: xx-large;
+  padding-left: 30px;
+}
+.accordion-menu.depth0 .accordion-title {
+  background-color: #3ec0f4;
+}
+.accordion-menu.depth1 .accordion-title {
+  background-color: #0eb1f1;
+}
+.accordion-menu.depth2 .accordion-title {
+  background-color: #0b8dc1;
+}
+.accordion-menu.depth3 .accordion-title {
+  background-color: #086a91;
+}
+.accordion-leaf:after {
+  content: '*';
+  padding-left: 10px;
+}

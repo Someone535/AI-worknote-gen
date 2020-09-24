@@ -1,0 +1,81 @@
+/** mega-button.css - Styles for the MegaButton component
+ *
+ * This file is part of the Auto Ingress Work Note Generator.
+ *
+ *  Copyright 2020 by Auto Ingress Pty Ltd
+ *  Written by Aidan Jessen <aidan.jessen@gmail.com>
+ *  Released under the GNU General Public License
+ *
+ * The Auto Ingress Work Note Generator is free software: you can redistribute 
+ * it and/or modify it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ *
+ * The Auto Ingress Work Note Generator is distributed in the hope that it will 
+ * be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the Auto Ingress Work Note Generator.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+.mega-btn-default-fade, .mega-btn-default {
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.mega-btn-load-fade, .mega-btn-load {
+  opacity: 1;
+  transition: opacity .25s ease;
+}
+.mega-btn-unload-fade, .mega-btn-unload {
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.mega-btn-default-slidedown {
+  top: -80vh;
+  transition: top .5s cubic-bezier(0, 1, 0.5, 1);
+}
+.mega-btn-load-slidedown {
+  top: 0vh;
+  transition: top .5s cubic-bezier(0, 1, 0.5, 1);
+}
+.mega-btn-unload-slidedown {
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.mega-button {
+  overflow: hidden;
+  position: relative;
+  align-self: center;
+  width: 90%;
+  margin: 10px;
+  text-align: center;
+  font-size: xx-large;
+  border-radius: 10px;
+  background-color: #f3d335;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 10px 10px 10px #444444;
+}
+.mega-button:active {
+  transform: scale(0.95);
+  box-shadow: 3px 3px 10px #444444;
+  transition: transform .5s cubic-bezier(0, 1, 0.5, 1), box-shadow .5s cubic-bezier(0, 1, 0.5, 1);
+}
+.mega-button-title {
+  font-size: xx-large;
+  font-weight: bold;
+  align-self: flex-start;
+  margin-left: 10px;
+}
+.mega-button-subcontainer {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  width: 100%;
+}
+.mega-button-subtitle {
+  flex-basis: 33%;
+  font-size: xx-large;
+}

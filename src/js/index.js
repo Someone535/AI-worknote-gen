@@ -28,6 +28,8 @@ import ReactDOM from 'react-dom';
 
 import css from '../css/index.css'
 
+import MainPage from './main-page.js';
+
 class MainContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -181,4 +183,5 @@ function getUINode(ui_map,key_arr) {
   return out;
 }; // end getUINode(key_arr)
 
-ReactDOM.render( <MainContainer />, document.getElementById('root') );
+//ReactDOM.render( <MainContainer />, document.getElementById('root') );
+ReactDOM.render( <MainPage />, document.getElementById('root') );

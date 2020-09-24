@@ -93,25 +93,34 @@ var arrive_depart_submap = {
   }
 };
 
-var worknotes_submap = {};
+var worknotes_submap = {
+  "symptoms": {
+    label: "Symptoms",
+    input: false,
+    nodes: {}
+  },
+  "faults": {
+    label: "Faults",
+    input: false,
+    nodes: {}
+  },
+  "causes": {
+    label: "Possible Root Causes",
+    input: false,
+    nodes: {}
+  },
+  "actions": {
+    label: "Actions",
+    input: false,
+    nodes: arrive_depart_submap
+  }
+};
 
 var UI_MAP;
 export default UI_MAP = {
   label: "Select a Section",
   input: false,
   nodes: {
-    "arrival": {
-      label: "Arrival Notes",
-      value: "ARRIVAL_NOTES",
-      input: false,
-      nodes: arrive_depart_submap
-    },
-    "departure": {
-      label: "Departure Notes",
-      value: "DEPARTURE_NOTES",
-      input: false,
-      nodes: arrive_depart_submap
-    },
     "alldoors": {
       label: "All Doors Onsite",
       value: "ALL_DOORS",
