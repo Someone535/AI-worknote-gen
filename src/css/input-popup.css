@@ -1,0 +1,86 @@
+/** input-popup.css - Styles for the InputPopup component
+ *
+ * This file is part of the Auto Ingress Work Note Generator.
+ *
+ *  Copyright 2020 by Auto Ingress Pty Ltd
+ *  Written by Aidan Jessen <aidan.jessen@gmail.com>
+ *  Released under the GNU General Public License
+ *
+ * The Auto Ingress Work Note Generator is free software: you can redistribute 
+ * it and/or modify it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ *
+ * The Auto Ingress Work Note Generator is distributed in the hope that it will 
+ * be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the Auto Ingress Work Note Generator.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+.input-popup {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: white;
+  font-size: xxx-large;
+}
+.input-popup-textinput {
+  border-radius: 10px 0px 0px 10px;
+}
+.input-popup-message {
+  font-size: xx-large;
+}
+.input-popup-textinput {
+  font-size: xx-large;
+}
+.input-popup-options {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.input-popup-opt {
+  display: flex;
+  flex-direction: row;
+}
+.input-popup-options i {
+  align-self: center;
+  font-size: 8vw;
+}
+.input-popup-default-left, .input-popup-default {
+  width: 0;
+  transition: width .5s ease;
+}
+.input-popup-load-left, .input-popup-load {
+  width: 10vw;
+  transition: width .5s ease;
+}
+.input-popup-unload-left, .input-popup-unload {
+  width: 0;
+  transition: width .5s ease;
+}
+.input-popup-default-right {
+  width: 0;
+  transition: width .5s ease;
+}
+.input-popup-load-right {
+  transition: width .5s ease;
+}
+.input-popup-unload-right {
+  width: 0;
+  transition: width .5s ease;
+}
+.input-popup-default-bottom {
+  height: 0;
+  transition: height .5s ease;
+}
+.input-popup-load-bottom {
+  transition: height .5s ease;
+}
+.input-popup-unload-bottom {
+  height: 0;
+  transition: height .5s ease;
+}

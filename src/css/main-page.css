@@ -76,3 +76,18 @@
   left: 0;
   background-color: #f3a435;
 }
+.leaf-alert {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 40vh;
+  width: 100vw;
+  background-color: #81a5f8;
+}
+.text-input-alert {
+  position: absolute;
+  right: 0;
+  top: 50vh;
+  width: 70vw;
+  background-color: #81a5f8;
+}
