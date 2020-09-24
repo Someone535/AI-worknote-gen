@@ -34,6 +34,7 @@ class MainPage extends React.Component {
     super(props);
     this.navClick = this.navClick.bind(this);
     this.handleBackBtn = this.handleBackBtn.bind(this);
+    this.handleHomeBtn = this.handleHomeBtn.bind(this);
     this.showContent = this.showContent.bind(this);
     this.hideContentCallback = this.hideContentCallback.bind(this);
 
@@ -48,25 +49,42 @@ class MainPage extends React.Component {
 
   hideContentCallback( fnc, params ) {
     this.setState({ show_content: false });
-    setTimeout( () => fnc(params), 250 );
+    setTimeout( () => fnc(...params), 250 );
   }; // end hideContentCallback
   showContent() {
     this.setState({ show_content: true });
   }; // end showContent
 
-  navClick(new_key) {
-    var new_path = this.state.path;
-    new_path.push(new_key);
-    this.setState({ path: new_path });
+  navClick(input) {
+    console.log('nav input: '+JSON.stringify(input)+' - '+typeof input);
+    if ( Array.isArray(input) ) {
+      var root_path = this.state.path.slice(0,2);
+      console.log('root_path: '+root_path);
+      console.log('new_path: '+[...root_path, ...input]);
+      this.setState({ path: [...root_path, ...input ] });
+    } else if ( typeof input == 'string' ) {
+      var new_path = this.state.path;
+      new_path.push(input);
+      this.setState({ path: new_path });
+    }
     this.showContent();
   }; // end navClick
 
   handleBackBtn() {
-    var new_path = this.state.path;
-    new_path.pop();
-    this.setState({ path: new_path });
+    if ( this.state.path.length < 2 ) {
+      var new_path = this.state.path;
+      new_path.pop();
+      this.setState({ path: new_path });
+    } else {
+      this.setState({ path: this.state.path.slice(0,1) });
+    }
     this.showContent();
   }; // end handleBackBtn
+
+  handleHomeBtn() {
+    this.setState({ path: [] });
+    this.showContent();
+  }; // end handleHomeBtn
 
   render() {
     var curr_node = this.getNode(UI_MAP,this.state.path);
@@ -86,6 +104,7 @@ class MainPage extends React.Component {
       title = 'Build Note';
       subtitle = section_label + ' - ' + type_label;
       nav_panel_style = 'accordion';
+      curr_node = this.getNode(UI_MAP,this.state.path.slice(0,2));
     }
     return (
       <div className='main-page'>
@@ -95,6 +114,7 @@ class MainPage extends React.Component {
           style={nav_panel_style}
           option_tree={curr_node}
           onClick={(key) => this.hideContentCallback(this.navClick,[key])} 
+          clickNoUIUpdate={this.navClick}
           show_children={this.state.show_content}
         />
         <FancyButton className='menu-btn' icon='list' direction='left' mounted='true' />
@@ -104,6 +124,11 @@ class MainPage extends React.Component {
           className='back-btn' icon='arrow_back' direction='left'
           onClick={() => this.hideContentCallback(this.handleBackBtn,[])}
           mounted={this.state.path.length > 0}
+        />
+        <FancyButton 
+          className='home-btn' icon='arrow_back' direction='left'
+          onClick={() => this.hideContentCallback(this.handleHomeBtn,[])}
+          mounted={this.state.path.length > 1}
         />
       </div>
     );

@@ -38,6 +38,7 @@ class AccordionMenu extends React.Component {
     this.state = {
       show: this.props.mounted,
       style_class: class_name,
+      expanded_child: null,
     };
   }; // end constructor
 
@@ -71,15 +72,52 @@ class AccordionMenu extends React.Component {
     }
   }; // end transitionEnd
 
+  getNode(tree,path) {
+    var out = tree;
+    path.forEach( el => out = out.nodes[el] );
+    return out;
+  }; // end getNode
+
+  expandChild(key) {
+    if ( this.state.expanded_child == key )
+      this.setState({ expanded_child: null });
+    else
+      this.setState({ expanded_child: key });
+  }; // end expandChild
+
   render() {
     var class_name = 'accordion-menu ' + this.state.style_class;
+    class_name += ' depth'+this.props.depth;
+    var node = this.getNode(this.props.tree,this.props.path);
+    var children = node.nodes && Object.keys( node.nodes ).map( (key) => (
+        <AccordionMenu
+          key={key}
+          tree={this.props.tree}
+          expanded={key == this.state.expanded_child}
+          mounted={this.props.expanded}
+          onClick={this.props.onClick} 
+          path={[ ...this.props.path, key ]}
+          expandChild={ () => this.expandChild(key) }
+          depth={Number(this.props.depth)+1}
+        />
+    ));
+    var title = this.props.path.length > 0 && (
+      <div
+        className={'accordion-title'+(!node.nodes ? ' accordion-leaf' : '')}
+        onClick={() => {
+          this.props.onClick( this.props.path );
+          this.props.expandChild();
+        }}
+      >{node.label}</div>
+    );
     return this.state.show && (
       <div
         className={class_name} 
-        onClick={this.props.onClick} 
+        data-path={this.props.path}
         onTransitionEnd={this.transitionEnd}
       >
-        {this.props.text}
+        {title}
+        {children}
       </div>
     );
   }; // end render
@@ -88,8 +126,14 @@ class AccordionMenu extends React.Component {
 
 AccordionMenu.defaultProps = {
   onClick: () => 1,
-  tree: '',
-  transition: null
+  expandChild: () => 1,
+  tree: {},
+  transition: null,
+  mounted: true,
+  expanded_child: null,
+  expanded: false,
+  path: [],
+  depth: 0,
 };
 
 export default AccordionMenu;

@@ -20,28 +20,45 @@
  * along with the Auto Ingress Work Note Generator.
  * If not, see <https://www.gnu.org/licenses/>.
  */
+.accordion-menu-default-slidedown, .accordion-menu-default {
+  max-height: 0%;
+  transition: max-height .5s ease;
+}
+.accordion-menu-load-slidedown, .accordion-menu-load {
+  max-height: 100%;
+  transition: max-height 2s ease;
+}
+.accordion-menu-unload-slidedown, .accordion-menu-unload {
+  max-height: 0%;
+  transition: max-height .5s ease;
+}
 .accordion-menu {
   overflow: hidden;
+  width: calc(100% - 30px);
+  margin-top: 5px;
+  float: right;
 }
-.accordion-menu-default-fade, .accordion-menu-default {
-  opacity: 0;
-  transition: opacity .25s ease;
-}
-.accordion-menu-load-fade, .accordion-menu-load {
-  opacity: 1;
-  transition: opacity .25s ease;
-}
-.accordion-menu-unload-fade, .accordion-menu-unload {
-  opacity: 0;
-  transition: opacity .25s ease;
-}
-.accordion-menu {
-  flex-basis: 45%;
-  width: 100%;
-  height: 25vh;
-  margin: 10px;
-  text-align: center;
-  font-size: xx-large;
+.accordion-title {
+  background-color: #444444;
+  color: white;
+  padding-left: 10px;
   border-radius: 10px;
-  background-color: #f3a435;
+  font-size: xx-large;
+  padding-left: 30px;
+}
+.accordion-menu.depth0 .accordion-title {
+  background-color: #3ec0f4;
+}
+.accordion-menu.depth1 .accordion-title {
+  background-color: #0eb1f1;
+}
+.accordion-menu.depth2 .accordion-title {
+  background-color: #0b8dc1;
+}
+.accordion-menu.depth3 .accordion-title {
+  background-color: #086a91;
+}
+.accordion-leaf:after {
+  content: '*';
+  padding-left: 10px;
 }

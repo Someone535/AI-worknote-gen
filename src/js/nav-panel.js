@@ -26,6 +26,7 @@ import css from '../css/nav-panel.css';
 
 import BlockButton from './block-button.js';
 import MegaButton from './mega-button.js';
+import AccordionMenu from './accordion-menu.js';
 
 class NavPanel extends React.Component {
   constructor(props) {
@@ -70,7 +71,14 @@ class NavPanel extends React.Component {
   }; // end renderMegaList
 
   renderAcordion(tree) {
-    return this.renderMegaList(tree);
+    return (
+      <AccordionMenu
+        tree={tree}
+        mounted={this.props.show_children}
+        onClick={this.props.clickNoUIUpdate}
+        expanded='true'
+      />
+    );
   }; // end renderAcordion
 
   render() {

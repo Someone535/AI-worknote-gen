@@ -70,3 +70,9 @@
   left: 0;
   background-color: #cad40c;
 }
+.home-btn {
+  position: absolute;
+  bottom: 15vw;
+  left: 0;
+  background-color: #f3a435;
+}
