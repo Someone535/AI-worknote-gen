@@ -32,8 +32,10 @@ var arrive_depart_submap = {
         leafcode: "ARRIVEDONTIME"
       },
       "late": {
-        label: "Late (hours)",
+        label: "Late",
         input: true,
+        input_message: 'How late?',
+        input_placeholder: '[hours]',
         leafcode: "ARRIVEDLATE"
       }
     }
@@ -57,8 +59,9 @@ var arrive_depart_submap = {
         input: false,
         nodes: {
           "customer": {
-            label: "Advised by Customer (name)",
+            label: "Advised by Customer",
             input: true,
+            input_message: 'Enter Customer Name',
             leafcode: "CUSTOMERBUSY"
           },
           "tech": {
@@ -71,8 +74,9 @@ var arrive_depart_submap = {
     }
   },
   "updatecustomer": {
-    label: "Updated Customer (name)",
+    label: "Updated Customer",
     input: true,
+    input_message: 'Enter Customer Name',
     nodes: {
       "byphone": {
         label: "Over Phone",

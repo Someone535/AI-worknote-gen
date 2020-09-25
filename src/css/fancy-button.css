@@ -31,13 +31,11 @@
 .fancy-button i {
   align-self: center;
   font-size: 8vw;
+  font-weight: bold;
   color: white;
 }
-.fancy-button:hover i {
-}
 .fancy-button:active i {
-  font-weight: bold;
-  transform: scale(1.4);
+  transform: rotate(360deg) scale(1.1);
   transition: transform .2s cubic-bezier(0, 1, 0.5, 1);
 }
 .fancy-btn-default-left, .fancy-btn-default {

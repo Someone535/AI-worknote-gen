@@ -88,6 +88,7 @@ class AccordionMenu extends React.Component {
   render() {
     var class_name = 'accordion-menu ' + this.state.style_class;
     class_name += ' depth'+this.props.depth;
+    if ( this.props.expanded ) class_name += ' accordion-menu-expanded';
     var node = this.getNode(this.props.tree,this.props.path);
     var children = node.nodes && Object.keys( node.nodes ).map( (key) => (
         <AccordionMenu

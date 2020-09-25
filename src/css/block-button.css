@@ -50,18 +50,26 @@
   flex-basis: 45%;
   width: 100%;
   height: 39vh;
-  line-height: 39vh;
   margin: 10px;
-  text-align: center;
-  font-size: xx-large;
-  font-weight: bold;
   border-radius: 10px;
-  background-color: #f3a435;
+  background-color: hsla(35,89%,65%,1);
   color: white;
-  box-shadow: 10px 10px 10px #444444;
+  box-shadow: 0px 10px 20px #999999;
+  align: center;
+  vertical-align: middle;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-.block-button:active {
-  transform: scale(0.95);
-  box-shadow: 3px 3px 10px #444444;
+.block-button-text {
+  align-self: center;
+  text-align: center;
+  font-size: xxx-large;
+  white-space: pre-wrap;
+  font-weight: bold;
+}
+.block-button:active, .block-button:hover {
+  transform: scale(0.90);
+  box-shadow: 0px 3px 20px #444444;
   transition: transform .5s ease, box-shadow .5s ease;
 }

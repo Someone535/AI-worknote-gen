@@ -79,7 +79,9 @@ class BlockButton extends React.Component {
         onClick={this.props.onClick} 
         onTransitionEnd={this.transitionEnd}
       >
-        {this.props.text}
+        <div className='block-button-text'>
+          {this.props.text.replace(/ /g,'\n')}
+        </div>
       </div>
     );
   }; // end render

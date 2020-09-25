@@ -45,23 +45,28 @@
   border-radius: 10px;
   font-size: xx-large;
   padding-left: 30px;
+  font-weight: bold;
 }
 .accordion-menu.depth0 .accordion-title {
-  background-color: #3ec0f4;
+  background-color: hsla(222,89%,80%,0.7);
 }
 .accordion-menu.depth1 .accordion-title {
-  background-color: #0eb1f1;
+  background-color: hsla(222,89%,70%,0.7);
 }
 .accordion-menu.depth2 .accordion-title {
-  background-color: #0b8dc1;
+  background-color: hsla(222,89%,60%,0.7);
 }
 .accordion-menu.depth3 .accordion-title {
-  background-color: #086a91;
+  background-color: hsla(222,89%,50%,0.7);
 }
 .accordion-leaf:after {
-  content: 'Select';
+  content: 'Submit';
   font-size: x-large;
   padding-left: 10px;
   float: right;
   padding-right: 30px;
+}
+.accordion-menu-expanded {
+  text-decoration: underline;
+  text-decoration-color: white;
 }

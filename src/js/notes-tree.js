@@ -32,7 +32,7 @@ export default FORMAT_TREE = {
       }
     },
     "DEPARTURE_NOTES": {
-      format: "{advisecustomer}{leftsite}",
+      format: "{advisedcustomer}{leftsite}",
       nodes: {
         "advisedcustomer": {
           format: "Provided update to customer {name} {method}. ",
