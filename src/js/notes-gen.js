@@ -107,7 +107,7 @@ function buildOutputTree( ui_output ) {
 
   });
 
-  console.log( JSON.stringify( out_tree, null, '\t' ) );
+  console.log( 'out_tree: '+JSON.stringify( out_tree, null, '\t' ) );
 
   return out_tree;
 

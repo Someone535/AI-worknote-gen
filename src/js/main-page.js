@@ -28,6 +28,7 @@ import FancyButton from './fancy-button.js';
 import NavPanel from './nav-panel.js';
 import AlertPopup from './alert-popup.js';
 import InputPopup from './input-popup.js';
+import SubmitPage from './submit-page.js';
 
 import UI_MAP from './ui-tree.js';
 
@@ -43,8 +44,12 @@ class MainPage extends React.Component {
     this.goUp = this.goUp.bind(this);
     this.saveData = this.saveData.bind(this);
     this.navigateTo = this.navigateTo.bind(this);
+    this.handleSaveExitBtn = this.handleSaveExitBtn.bind(this);
 
-    this.state = { path: [], data: {}, leaves: [], show_content: true };
+    this.state = {
+      path: [], data: {}, leaves: [],
+      show_content: true, show_submit_page: false
+    };
   }; // end constructor
 
   getNode(tree,path) {
@@ -119,11 +124,15 @@ class MainPage extends React.Component {
     this.showContent();
   }; // end handleHomeBtn
 
+  handleSaveExitBtn() {
+    this.setState({ show_submit_page: true });
+  }; // end handleSaveExitBtn
+
   submitCurrentLeaf() {
     var new_leaves = this.state.leaves;
     var node = this.getNode(UI_MAP,this.state.path);
     new_leaves.push({
-      code: node.leafcode, data: this.state.data
+      code: node.leafcode, data: Object.values( this.state.data )
     });
     this.handleBackBtn();
   }; // end submitCurrentLeaf
@@ -217,6 +226,16 @@ class MainPage extends React.Component {
     );
   }; // end renderNavPane
 
+  renderSubmitPage() {
+    return (
+      <SubmitPage
+        mounted={this.state.show_submit_page}
+        leaves={this.state.leaves}
+        unmount={ () => this.setState({ show_submit_page: false }) }
+      />
+    );
+  }; // end renderSubmitPage
+
   render() {
     return (
       <div className='main-page'>
@@ -224,7 +243,13 @@ class MainPage extends React.Component {
         {this.renderNavPane()}
         <FancyButton className='menu-btn' icon='list' direction='left' mounted='true' />
         <FancyButton className='search-btn' icon='search' direction='right' mounted='true' />
-        <FancyButton className='exit-btn' icon='save' direction='right' mounted={this.state.leaves.length > 0} />
+        <FancyButton
+          className='exit-btn'
+          icon='save'
+          direction='right'
+          onClick={this.handleSaveExitBtn}
+          mounted={this.state.leaves.length > 0}
+        />
         <FancyButton 
           className='back-btn' icon='arrow_back' direction='left'
           onClick={() => this.hideContentCallback(this.handleBackBtn,[])}
@@ -237,6 +262,7 @@ class MainPage extends React.Component {
         />
         {this.renderLeafConfirmation()}
         {this.renderTextInputBox()}
+        {this.renderSubmitPage()}
       </div>
     );
   }; // end render
