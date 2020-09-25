@@ -47,6 +47,10 @@
   padding-left: 30px;
   font-weight: bold;
 }
+.accordion-title:active {
+  transform: scale(0.95);
+  transition: transform 0.15s ease;
+}
 .accordion-menu.depth0 .accordion-title {
   background-color: hsla(222,89%,80%,0.7);
 }
