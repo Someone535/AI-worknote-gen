@@ -10,6 +10,7 @@ module.exports = {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist',
+    host: '192.168.0.72'
   },
   plugins: [
     new CleanWebpackPlugin(),

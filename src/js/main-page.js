@@ -29,6 +29,7 @@ import NavPanel from './nav-panel.js';
 import AlertPopup from './alert-popup.js';
 import InputPopup from './input-popup.js';
 import SubmitPage from './submit-page.js';
+import DoorsPopup from './doors-popup.js';
 
 import UI_MAP from './ui-tree.js';
 
@@ -45,10 +46,11 @@ class MainPage extends React.Component {
     this.saveData = this.saveData.bind(this);
     this.navigateTo = this.navigateTo.bind(this);
     this.handleSaveExitBtn = this.handleSaveExitBtn.bind(this);
+    this.renderDoorsPopup = this.renderDoorsPopup.bind(this);
 
     this.state = {
       path: [], data: {}, leaves: [],
-      show_content: true, show_submit_page: false
+      show_content: true, show_submit_page: false, select_doors: false
     };
   }; // end constructor
 
@@ -103,6 +105,7 @@ class MainPage extends React.Component {
       new_path.push(input);
       this.navigateTo( new_path );
     }
+    if ( input == 'specificdoors' ) this.setState({ select_doors: true });
     this.showContent();
   }; // end navClick
 
@@ -244,6 +247,22 @@ class MainPage extends React.Component {
     );
   }; // end renderSubmitPage
 
+  renderDoorsPopup() {
+    return (
+      <DoorsPopup
+        mounted={this.state.select_doors}
+        title='Select Doors:'
+        options={['12345','45a56','Rear Entry']}
+        custom='true'
+        onUnmount={() => this.setState({ select_doors: false })}
+        onSubmit={(arr) => {
+          console.log(arr);
+          this.setState({ select_doors: false });
+        }}
+      />
+    );
+  }; // end renderDoorsPopup
+
   render() {
     return (
       <div className='main-page'>
@@ -270,6 +289,7 @@ class MainPage extends React.Component {
         />
         {this.renderLeafConfirmation()}
         {this.renderTextInputBox()}
+        {this.renderDoorsPopup()}
         {this.renderSubmitPage()}
       </div>
     );
