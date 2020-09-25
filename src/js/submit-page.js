@@ -85,19 +85,16 @@ class SubmitPage extends React.Component {
         <h1>Your Work Notes:</h1>
         <p>{work_notes}</p>
         <div className='submit-page-options'>
-          <div className='submit-page-cancel' onClick={this.props.onUnmount}>
-            <span>Cancel</span>
-            <i className='material-icons'>cancel</i>
+          <div className='submit-page-clear' onClick={this.props.onClear}>
+            <i className='material-icons'>delete_forever</i>
           </div>
           <CopyToClipboard text={work_notes}>
             <div className='submit-page-copy'>
-              <span>Copy to Clipboard</span>
               <i className='material-icons'>save</i>
             </div>
           </CopyToClipboard>
-          <div className='submit-page-clear' onClick={this.props.onClear}>
-            <span>Clear All</span>
-            <i className='material-icons'>clear</i>
+          <div className='submit-page-cancel' onClick={this.props.onUnmount}>
+            <i className='material-icons'>arrow_back</i>
           </div>
         </div>
       </div>

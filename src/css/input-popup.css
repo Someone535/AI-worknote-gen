@@ -26,21 +26,44 @@
   overflow: hidden;
   color: white;
   font-size: xxx-large;
-}
-.input-popup-textinput {
   border-radius: 10px 0px 0px 10px;
+  justify-content: space-around;
+  background-color: hsl(360,89%,66%,0.7);
+}
+.input-popup.icon-alert {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0,0,0);
+}
+.input-popup-blocker {
+  background-color: hsl(360,100%,50%,0);
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+}
+i.icon-alert {
+  transform: rotate(360deg);
+  transition: transform 0.5s ease;
 }
 .input-popup-message {
+  margin-top: 10px;
   font-size: xx-large;
+  font-weight: bold;
 }
 .input-popup-textinput {
   font-size: xx-large;
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: 30px;
+  height: 1.5em;
+  flex-grow: 1;
 }
 .input-popup-options {
   display: flex;
   width: 100%;
   flex-direction: row;
   justify-content: space-around;
+  margin-bottom: 10px;
 }
 .input-popup-opt {
   display: flex;
@@ -49,6 +72,10 @@
 .input-popup-options i {
   align-self: center;
   font-size: 8vw;
+}
+.input-popup-options i:active {
+  transform: rotate(360deg);
+  transition: transform .5s ease;
 }
 .input-popup-default-left, .input-popup-default {
   width: 0;
@@ -83,4 +110,15 @@
 .input-popup-unload-bottom {
   height: 0;
   transition: height .5s ease;
+}
+.face:hover {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+@keyframes shake {
+  10%, 90% { transform: translate3d(0, -5px, 0); }
+  20%, 80% { transform: translate3d(0, 10px, 0); }
+  30%, 50%, 70% { transform: translate3d(0, -20px, 0); }
+  40%, 60% { transform: translate3d(0, 20px, 0); }
 }

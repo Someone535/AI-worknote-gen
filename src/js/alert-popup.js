@@ -80,11 +80,9 @@ class AlertPopup extends React.Component {
         <div className='alert-popup-message'>{this.props.message}</div>
         <div className='alert-popup-options'>
           <div className='alert-popup-cancel alert-popup-opt' onClick={this.props.onCancel}>
-            <span>Cancel</span>
             <i className='material-icons'>cancel</i>
           </div>
           <div className='alert-popup-confirm alert-popup-opt' onClick={this.props.onSubmit}>
-            <span>Submit</span>
             <i className='material-icons'>check</i>
           </div>
         </div>

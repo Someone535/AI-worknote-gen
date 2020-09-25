@@ -32,6 +32,9 @@ class InputPopup extends React.Component {
     this.mountStyle = this.mountStyle.bind(this);
     this.transitionEnd = this.transitionEnd.bind(this);
     this.updateText = this.updateText.bind(this);
+    this.alertTransitionEnd = this.alertTransitionEnd.bind(this);
+
+    this.textInput = React.createRef();
 
     var class_name = 'input-popup-default';
     if ( this.props.transition ) class_name += '-' + this.props.transition;
@@ -39,7 +42,8 @@ class InputPopup extends React.Component {
     this.state = {
       show: this.props.mounted,
       style_class: class_name,
-      text: ''
+      text: '',
+      alerting: false
     };
   }; // end constructor
 
@@ -77,25 +81,51 @@ class InputPopup extends React.Component {
     this.setState({ text: evt.target.value });
   }; // end updateText
 
+  alertTransitionEnd(evt) {
+    this.setState({ alerting: false });
+  }; // end alertTransitionEnd
+
   render() {
-    var class_name = 'input-popup input-popup-' + this.props.type + ' ' + this.state.style_class;
+    var class_name = 'input-popup ' + this.state.style_class;
     if ( this.props.className ) class_name += ' ' + this.props.className;
+    if ( this.state.alerting ) class_name += ' icon-alert';
     return this.state.show && (
-      <div className={class_name} onTransitionEnd={this.transitionEnd}>
-        <div className='input-popup-message'>{this.props.message}</div>
-        <div className='input-popup-options'>
-          <input
-            className='input-popup-textinput'
-            type='text'
-            placeholder={this.props.text_prompt}
-            onChange={this.updateText}
-          />
-          <i
-            className='material-icons'
-            onClick={ () => this.props.onSubmit( this.state.text ) }
-          >
-            check
-          </i>
+      <div
+        className='input-popup-blocker'
+        onClick={(evt) => {
+          this.textInput.current.focus();
+          this.setState({ alerting: true });
+        }}
+      >
+        <div
+          className={class_name}
+          onTransitionEnd={this.transitionEnd}
+          onClick={ (evt) => {
+            evt.stopPropagation();
+            evt.nativeEvent.stopImmediatePropagation();
+          }}
+        >
+          <div className='input-popup-message'>{this.props.message}</div>
+          <div className='input-popup-options'>
+            <input
+              autoFocus
+              ref={this.textInput}
+              className='input-popup-textinput'
+              type='text'
+              placeholder={this.props.text_prompt}
+              onChange={this.updateText}
+              onKeyDown={ (evt) => {
+                if ( evt.key == 'Enter' ) this.props.onSubmit( this.state.text );
+              }}
+            />
+            <i
+              className={this.state.alerting ? 'material-icons icon-alert' : 'material-icons'}
+              onClick={ (evt) => this.props.onSubmit( this.state.text ) }
+              onTransitionEnd={this.alertTransitionEnd}
+            >
+              check
+            </i>
+          </div>
         </div>
       </div>
     );

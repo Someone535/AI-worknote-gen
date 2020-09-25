@@ -26,12 +26,16 @@
   overflow: hidden;
   color: white;
   font-size: xxx-large;
+  background-color: hsla(124,89%,36%,0.7);
+  height: auto;
 }
 .alert-popup-textinput {
   border-radius: 10px 0px 0px 10px;
 }
 .alert-popup-message {
   font-size: xx-large;
+  white-space: pre-wrap;
+  text-align: center;
 }
 .alert-popup-textinput {
   font-size: xx-large;
@@ -53,6 +57,11 @@
 .alert-popup-opt i {
   align-self: center;
   font-size: 8vw;
+  margin: 40px;
+}
+.alert-popup-opt i:active {
+  transform: scale(1.5) rotate(360deg);
+  transition: transform .5s ease;
 }
 .alert-popup-default-left, .alert-popup-default {
   width: 0;
@@ -78,13 +87,17 @@
   transition: width .5s ease;
 }
 .alert-popup-default-bottom {
-  height: 0;
-  transition: height .5s ease;
+  transform: scaleY(0) translateY(100%);
+  transform-origin: bottom;
+  transition: transform .5s ease;
 }
 .alert-popup-load-bottom {
-  transition: height .5s ease;
+  transform: scaleY(1) translateY(0%);
+  transform-origin: bottom;
+  transition: transform .5s ease;
 }
 .alert-popup-unload-bottom {
-  height: 0;
-  transition: height .5s ease;
+  transform: scaleY(0) translateY(100%);
+  transform-origin: bottom;
+  transition: transform .5s ease;
 }

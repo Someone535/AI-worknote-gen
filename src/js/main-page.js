@@ -65,12 +65,14 @@ class MainPage extends React.Component {
     var path_cumulative = [];
     var matches = true;
     this.state.path.forEach( (el,ind) => {
-      if ( matches && ( !path[ind] || path[ind] != el ) ) matches = false;
+      if ( matches && ( ind > path.length-1 || path[ind] != el ) ) matches = false;
+      console.log('matches: '+matches+' - '+ind);
       path_cumulative.push(el);
       if ( !matches ) paths_to_clear.push( path_cumulative.join(':') );
     });
     // Clear data and change path
     var new_data = this.state.data;
+    console.log('paths_to_clear: '+paths_to_clear);
     paths_to_clear.forEach( el => delete this.state.data[el] );
     // Identify values to be saved based on nodes traversed
     var node = UI_MAP;
@@ -97,7 +99,7 @@ class MainPage extends React.Component {
       var root_path = this.state.path.slice(0,2);
       this.navigateTo([...root_path, ...input ]);
     } else if ( typeof input == 'string' ) {
-      var new_path = this.state.path;
+      var new_path = [...this.state.path];
       new_path.push(input);
       this.navigateTo( new_path );
     }
@@ -105,7 +107,7 @@ class MainPage extends React.Component {
   }; // end navClick
 
   goUp() {
-    var new_path = this.state.path;
+    var new_path = [...this.state.path];
     new_path.pop();
     this.navigateTo( new_path );
   }; // end goUp
@@ -147,9 +149,20 @@ class MainPage extends React.Component {
 
   renderLeafConfirmation() {
     var title = 'Would you like to submit the following leaf?';
-    var message = this.state.path.join(' : ');
+    var message = ''
+    var node = UI_MAP;
+    var path_cumulative = [];
+    this.state.path.forEach( (el,ind) => {
+      node = node.nodes[el];
+      path_cumulative.push(el);
+      if ( ind == 0 ) message += node.label;
+      else if ( ind == 1 ) message += ' -> ' + node.label;
+      else message += '- ' + node.label;
+      if ( node.input ) message += ' ( ' + this.state.data[ path_cumulative.join(':') ] + ' )';
+      if ( ind != 0 ) message += '\n';
+    });
     var node = this.getNode(UI_MAP,this.state.path);
-    message += ' -> ' + node.leafcode;
+    message += 'Final Code: ' + node.leafcode;
     var data = !node.input || this.state.data[ this.state.path.join(':') ];
     return (
       <AlertPopup
@@ -174,8 +187,8 @@ class MainPage extends React.Component {
       <InputPopup
         className='text-input-alert'
         type='textinput'
-        message={message}
-        text_prompt={text_prompt}
+        message={node.input_message}
+        text_prompt={node.input_placeholder}
         onSubmit={this.saveData}
         transition='right'
         mounted={data}
@@ -190,19 +203,9 @@ class MainPage extends React.Component {
     var type_label = this.state.path.length > 1 ?
       this.getNode(UI_MAP,this.state.path.slice(0,2)).label : '';
     var title = 'Select Section';
-    var subtitle = '';
-    if ( this.state.path.length > 0 ) {
-      title = 'Select Note Type';
-      subtitle = node.label;
-    }
-    if ( this.state.path.length > 1 ) {
-      title = 'Build Note';
-      subtitle = section_label + ' - ' + type_label;
-    }
-    return [
-      <h1 key='main-title' className='main-title'>{title}</h1>,
-      <h2 key='subtitle' className='sub-title'>{subtitle}</h2>
-    ];
+    if ( this.state.path.length > 0 ) title = node.label;
+    if ( this.state.path.length > 1 ) title = section_label + ' - ' + type_label;
+    return ( <h1 key='main-title' className='main-title'>{title}</h1> );
   }; // end renderTitles
 
   renderNavPane() {
