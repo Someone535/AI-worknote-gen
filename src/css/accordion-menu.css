@@ -59,6 +59,9 @@
   background-color: #086a91;
 }
 .accordion-leaf:after {
-  content: '*';
+  content: 'Select';
+  font-size: x-large;
   padding-left: 10px;
+  float: right;
+  padding-right: 30px;
 }

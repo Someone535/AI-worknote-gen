@@ -1,0 +1,90 @@
+/** alert-popup.css - Styles for the AlertPopup component
+ *
+ * This file is part of the Auto Ingress Work Note Generator.
+ *
+ *  Copyright 2020 by Auto Ingress Pty Ltd
+ *  Written by Aidan Jessen <aidan.jessen@gmail.com>
+ *  Released under the GNU General Public License
+ *
+ * The Auto Ingress Work Note Generator is free software: you can redistribute 
+ * it and/or modify it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ *
+ * The Auto Ingress Work Note Generator is distributed in the hope that it will 
+ * be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the Auto Ingress Work Note Generator.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+.alert-popup {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: white;
+  font-size: xxx-large;
+}
+.alert-popup-textinput {
+  border-radius: 10px 0px 0px 10px;
+}
+.alert-popup-message {
+  font-size: xx-large;
+}
+.alert-popup-textinput {
+  font-size: xx-large;
+}
+.alert-popup-options {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.alert-popup-opt {
+  display: flex;
+  flex-direction: row;
+}
+.alert-popup-opt span {
+  align-self: center;
+  padding-right: 20px;
+}
+.alert-popup-opt i {
+  align-self: center;
+  font-size: 8vw;
+}
+.alert-popup-default-left, .alert-popup-default {
+  width: 0;
+  transition: width .5s ease;
+}
+.alert-popup-load-left, .alert-popup-load {
+  width: 10vw;
+  transition: width .5s ease;
+}
+.alert-popup-unload-left, .alert-popup-unload {
+  width: 0;
+  transition: width .5s ease;
+}
+.alert-popup-default-right {
+  width: 0;
+  transition: width .5s ease;
+}
+.alert-popup-load-right {
+  transition: width .5s ease;
+}
+.alert-popup-unload-right {
+  width: 0;
+  transition: width .5s ease;
+}
+.alert-popup-default-bottom {
+  height: 0;
+  transition: height .5s ease;
+}
+.alert-popup-load-bottom {
+  transition: height .5s ease;
+}
+.alert-popup-unload-bottom {
+  height: 0;
+  transition: height .5s ease;
+}
