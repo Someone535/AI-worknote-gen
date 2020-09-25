@@ -231,7 +231,12 @@ class MainPage extends React.Component {
       <SubmitPage
         mounted={this.state.show_submit_page}
         leaves={this.state.leaves}
-        unmount={ () => this.setState({ show_submit_page: false }) }
+        onUnmount={ () => this.setState({ show_submit_page: false }) }
+        onClear={ () => {
+          this.setState({ show_submit_page: false });
+          this.setState({ leaves: [] });
+          this.navigateTo([]);
+        }}
       />
     );
   }; // end renderSubmitPage

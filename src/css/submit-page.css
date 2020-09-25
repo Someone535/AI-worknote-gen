@@ -68,6 +68,14 @@
 .submit-page-copy span {
   font-size: xx-large;
 }
+.submit-page-clear i {
+  align-self: center;
+  font-size: 8vw;
+  color: white;
+}
+.submit-page-clear span {
+  font-size: xx-large;
+}
 .submit-page-default-left, .submit-page-default {
   height: 0;
   transition: height .5s ease;

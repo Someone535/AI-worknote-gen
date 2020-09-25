@@ -23,19 +23,19 @@
 
 var FORMAT_TREE;
 export default FORMAT_TREE = {
-  format: "{ARRIVAL_NOTES}\n{ALL_DOORS}\n{SPECIFIC_DOORS}\n{REMAINING_DOORS}\n{DEPARTURE_NOTES}",
+  format: "{ARRIVAL_NOTES}{ALL_DOORS}{SPECIFIC_DOORS}{REMAINING_DOORS}{DEPARTURE_NOTES}",
   nodes: {
     "ARRIVAL_NOTES": {
-      format: "{opening:\n}",
+      format: "{opening:\n}\n",
       nodes: {
         "opening": "Opening notes.",
       }
     },
     "DEPARTURE_NOTES": {
-      format: "{advisecustomer} {leftsite}",
+      format: "{advisecustomer}{leftsite}",
       nodes: {
         "advisedcustomer": {
-          format: "Provided update to customer {name} {method}.",
+          format: "Provided update to customer {name} {method}. ",
           nodes: { "method": "METHOD", "name": "NAME" }
         },
         "leftsite": {
