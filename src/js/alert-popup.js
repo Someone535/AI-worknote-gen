@@ -52,15 +52,17 @@ class AlertPopup extends React.Component {
     this.setState({ style_class: class_name });
   }; // end unMountStyle
   
-  componentWillReceiveProps(newProps) {
-    if ( !newProps.mounted ) {
-      return this.unMountStyle();
-    } else {
-      this.setState({ show: true });
-      setTimeout( this.mountStyle, 10 );
+  componentDidUpdate(prevProps, prevState) {
+    if ( this.props.mounted != prevProps.mounted ) {
+      if ( !this.props.mounted ) {
+        return this.unMountStyle();
+      } else {
+        this.setState({ show: true });
+        setTimeout( this.mountStyle, 10 );
+      }
     }
-  }; // end componentWillReceiveProps
-  
+  }; // end componentDidUpdate
+ 
   componentDidMount() {
     setTimeout( this.mountStyle, 10 );
   }; // end componentDidMount

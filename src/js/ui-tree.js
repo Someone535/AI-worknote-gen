@@ -1657,24 +1657,5 @@ var UI_MAP;
 export default UI_MAP = {
   label: "Select a Section",
   input: false,
-  nodes: {
-    "alldoors": {
-      label: "All Doors Onsite",
-      value: "ALL_DOORS",
-      input: false,
-      nodes: worknotes_submap
-    },
-    "remainingdoors": {
-      label: "Remaining Doors",
-      value: "REMAINING_DOORS",
-      input: false,
-      nodes: worknotes_submap
-    },
-    "specificdoors": {
-      label: "Specific Doors",
-      value: "SPECIFIC_DOORS",
-      input: true,
-      nodes: worknotes_submap
-    }
-  }
+  nodes: worknotes_submap
 };

@@ -49,7 +49,7 @@
   overflow: hidden;
   flex-grow: 1;
   width: 47%;
-  height: 39vh;
+  min-height: 25vh;
   margin: 10px;
   border-radius: 10px;
   background-color: hsla(35,89%,65%,1);
