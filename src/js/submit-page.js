@@ -79,8 +79,7 @@ class SubmitPage extends React.Component {
   render() {
     var class_name = 'submit-page ' + this.state.style_class;
     if ( this.state.show ) {
-      var output_tree = backend.buildOutputTree( this.props.leaves );
-      var work_notes = backend.collapseOutputTree( output_tree );
+      var work_notes = backend.processUIOutput( this.props.sections );
     }
     return this.state.show && (
       <div className={class_name} onTransitionEnd={this.transitionEnd}>
@@ -106,7 +105,7 @@ class SubmitPage extends React.Component {
 }; // end SubmitPage
 
 SubmitPage.defaultProps = {
-  leaves: [],
+  sections: [],
   unmount: () => 1,
 };
 

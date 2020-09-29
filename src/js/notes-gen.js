@@ -57,11 +57,34 @@ function replaceErrors(key, value) {
   return value;
 };
 
-function buildOutputTree( ui_output ) {
+function processUIOutput( ui_output ) {
+
+  // for each notes section, generate a notes tree and collapse it
+  var notes_arr = ui_output.map( el => {
+    return {
+      label: el.label,
+      notes: collapseOutputTree( el.leaves )
+    }
+  });
+
+  // join each set of notes together with the labels
+  var final_notes = '';
+  notes_arr.forEach( el => {
+    if ( el.notes != '' ) {
+      final_notes += '\n'+el.label+'\n';
+      final_notes += el.notes+'\n';
+    }
+  });
+
+  return final_notes;
+
+}; // end processUIOutput
+
+function buildOutputTree( leaves ) {
 
   var out_tree = {};
 
-  ui_output.forEach( function(leaf) {
+  leaves.forEach( function(leaf) {
 
     MAP_TO_TREE[ leaf.code ].forEach( function(entry) {
 
@@ -70,25 +93,6 @@ function buildOutputTree( ui_output ) {
       entry.path.forEach( function(el) {
         fmt_path.push( el.formatUnicorn( leaf.data ) );
       });
-
-      // if first element of path is "SPECIFIC_DOORS" check if the identifier
-      // stored as the second data element already has a tree generated and if
-      // not generate it then change the first entry of path to point to the
-      // new tree
-      if ( fmt_path[0] == 'SPECIFIC_DOORS' ) {
-        if ( out_tree[ leaf.data[1] ] == undefined ) {
-          // Setup new tree in output tree
-          var new_tree = {
-            format: FORMAT_TREE.SPECIFIC_DOORS.format,
-            nodes: { "indentifier": leaf.data[1] }
-          }
-          out_tree[ leaf.data[1] ] = new_tree;
-          // Setup new branch in the format tree to match the specific door branch
-          FORMAT_TREE[ leaf.data[1] ] = FORMAT_TREE.SPECIFIC_DOORS;
-        }
-        // Modify the path to point to the tree for the given identifier
-        fmt_path[0] = leaf.data[1];
-      }
 
       // format the output value
       var fmt_out = entry.value && entry.value.formatUnicorn( leaf.data );
@@ -130,7 +134,7 @@ function buildOutputTree( ui_output ) {
 
   return out_tree;
 
-}; // end buildOutputTree( ui_output )
+}; // end buildOutputTree( leaves )
 
 function collapseOutputTree( notes_tree ) {
 
@@ -200,6 +204,7 @@ function verifyCurrentNode( node, path_arr ) {
 
 var exp;
 export default exp = {
-  buildOutputTree: buildOutputTree,
-  collapseOutputTree: collapseOutputTree
+  //buildOutputTree: buildOutputTree,
+  //collapseOutputTree: collapseOutputTree,
+  processUIOutput: processUIOutput
 }
