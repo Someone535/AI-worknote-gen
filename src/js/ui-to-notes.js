@@ -53,5 +53,8 @@ export default MAP_TO_TREE = {
   "CUSTOMERMESSAGEUPDATE": [
     { path: [ "DEPARTURE_NOTES", "advisedcustomer", "method" ], value: "by leaving a message" },
     { path: [ "DEPARTURE_NOTES", "advisedcustomer", "name" ], value: "{1}" },
-  ]
+  ],
+  "SQUEAKINGDOOR": [
+    { path: [ "SPECIFIC_DOORS", "doornotes", "symptoms", "squeaking" ], value: "Door was squeaking.\n" },
+  ],
 };

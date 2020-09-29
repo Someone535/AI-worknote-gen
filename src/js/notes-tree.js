@@ -21,6 +21,30 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
+var door_notes = {
+  format: "{symptoms}{faults}{causes}{actions}",
+  nodes: {
+    "symptoms": {
+      format: "Symptoms displayed:\n",
+      nodes: {
+        "squeaking": "Door was squeaking.\n",
+      }
+    },
+    "faults": {
+      format: "Faults Found:\n",
+      nodes: {}
+    },
+    "causes": {
+      format: "Suspected Contributing Factors:\n",
+      nodes: {}
+    },
+    "actions": {
+      format: "Actions Taken:\n",
+      nodes: {}
+    }
+  }
+}
+
 var FORMAT_TREE;
 export default FORMAT_TREE = {
   format: "{ARRIVAL_NOTES}{ALL_DOORS}{SPECIFIC_DOORS}{REMAINING_DOORS}{DEPARTURE_NOTES}",
@@ -45,18 +69,22 @@ export default FORMAT_TREE = {
       }
     },
     "ALL_DOORS": {
-      format: "",
+      format: "All Doors:\n{doornotes}",
       nodes: {
+        "doornotes": door_notes,
       }
     },
     "SPECIFIC_DOORS": {
-      format: "",
+      format: "{identifier}:\n{doornotes}",
       nodes: {
+        "identifier": "SPECIFICDOORS",
+        "doornotes": door_notes,
       }
     },
     "REMAINING_DOORS": {
-      format: "",
+      format: "Remaining Doors:\n{doornotes}",
       nodes: {
+        "doornotes": door_notes,
       }
     }
   }

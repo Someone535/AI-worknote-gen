@@ -71,6 +71,25 @@ function buildOutputTree( ui_output ) {
         fmt_path.push( el.formatUnicorn( leaf.data ) );
       });
 
+      // if first element of path is "SPECIFIC_DOORS" check if the identifier
+      // stored as the second data element already has a tree generated and if
+      // not generate it then change the first entry of path to point to the
+      // new tree
+      if ( fmt_path[0] == 'SPECIFIC_DOORS' ) {
+        if ( out_tree[ leaf.data[1] ] == undefined ) {
+          // Setup new tree in output tree
+          var new_tree = {
+            format: FORMAT_TREE.SPECIFIC_DOORS.format,
+            nodes: { "indentifier": leaf.data[1] }
+          }
+          out_tree[ leaf.data[1] ] = new_tree;
+          // Setup new branch in the format tree to match the specific door branch
+          FORMAT_TREE[ leaf.data[1] ] = FORMAT_TREE.SPECIFIC_DOORS;
+        }
+        // Modify the path to point to the tree for the given identifier
+        fmt_path[0] = leaf.data[1];
+      }
+
       // format the output value
       var fmt_out = entry.value && entry.value.formatUnicorn( leaf.data );
 

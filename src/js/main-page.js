@@ -49,7 +49,7 @@ class MainPage extends React.Component {
     this.renderDoorsPopup = this.renderDoorsPopup.bind(this);
 
     this.state = {
-      path: [], data: {}, leaves: [],
+      path: [], data: {}, leaves: [], sections: [],
       show_content: true, show_submit_page: false, select_doors: false
     };
   }; // end constructor
@@ -208,7 +208,11 @@ class MainPage extends React.Component {
     var title = 'Select Section';
     if ( this.state.path.length > 0 ) title = node.label;
     if ( this.state.path.length > 1 ) title = section_label + ' - ' + type_label;
-    return ( <h1 key='main-title' className='main-title'>{title}</h1> );
+    return (
+      <div className='main-page-title-container'>
+        <h1 key='main-title' className='main-title'>{title}</h1>
+      </div>
+    );
   }; // end renderTitles
 
   renderNavPane() {
@@ -258,6 +262,9 @@ class MainPage extends React.Component {
         onSubmit={(arr) => {
           console.log(arr);
           this.setState({ select_doors: false });
+          var new_data = this.state.data;
+          new_data[ this.state.path.join(':') ] = arr.join(', ');
+          this.setState({ select_doors: false, data: new_data });
         }}
       />
     );
