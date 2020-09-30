@@ -22,60 +22,24 @@
  */
 import React from 'react';
 
-import css from '../css/input-popup.css'
+import TransationContainer from './transition-container.js';
+
+import css from '../css/input-popup.css';
 
 class InputPopup extends React.Component {
 
   constructor(props) {
     super(props);
-    this.unMountStyle = this.unMountStyle.bind(this);
-    this.mountStyle = this.mountStyle.bind(this);
-    this.transitionEnd = this.transitionEnd.bind(this);
     this.updateText = this.updateText.bind(this);
     this.alertTransitionEnd = this.alertTransitionEnd.bind(this);
 
     this.textInput = React.createRef();
 
-    var class_name = 'input-popup-default';
-    if ( this.props.transition ) class_name += '-' + this.props.transition;
-
     this.state = {
-      show: this.props.mounted,
-      style_class: class_name,
       text: '',
       alerting: false
     };
   }; // end constructor
-
-  unMountStyle() {
-    var class_name = 'input-popup-unload';
-    if ( this.props.transition ) class_name += '-' + this.props.transition;
-    this.setState({ style_class: class_name });
-  }; // end unMountStyle
-  mountStyle() {
-    var class_name = 'input-popup-load';
-    if ( this.props.transition ) class_name += '-' + this.props.transition;
-    this.setState({ style_class: class_name });
-  }; // end unMountStyle
-  
-  componentWillReceiveProps(newProps) {
-    if ( !newProps.mounted ) {
-      return this.unMountStyle();
-    } else {
-      this.setState({ show: true });
-      setTimeout( this.mountStyle, 10 );
-    }
-  }; // end componentWillReceiveProps
-  
-  componentDidMount() {
-    setTimeout( this.mountStyle, 10 );
-  }; // end componentDidMount
-  
-  transitionEnd() {
-    if ( !this.props.mounted ) {
-      this.setState({ show: false });
-    }
-  }; // end transitionEnd
 
   updateText(evt) {
     this.setState({ text: evt.target.value });
@@ -86,11 +50,13 @@ class InputPopup extends React.Component {
   }; // end alertTransitionEnd
 
   render() {
-    var class_name = 'input-popup ' + this.state.style_class;
+    var class_name = 'input-popup';
     if ( this.props.className ) class_name += ' ' + this.props.className;
     if ( this.state.alerting ) class_name += ' icon-alert';
-    return this.state.show && (
-      <div
+    return (
+      <TransationContainer
+        mounted={this.props.mounted}
+        transition={this.props.transition}
         className='input-popup-blocker'
         onClick={(evt) => {
           this.textInput.current.focus();
@@ -99,7 +65,6 @@ class InputPopup extends React.Component {
       >
         <div
           className={class_name}
-          onTransitionEnd={this.transitionEnd}
           onClick={ (evt) => {
             evt.stopPropagation();
             evt.nativeEvent.stopImmediatePropagation();
@@ -127,7 +92,7 @@ class InputPopup extends React.Component {
             </i>
           </div>
         </div>
-      </div>
+      </TransationContainer>
     );
   }; // end render
 
@@ -137,6 +102,7 @@ InputPopup.defaultProps = {
   className: null,
   onSubmit: () => 1,
   message: '',
+  transition: 'growright'
 };
 
 export default InputPopup;

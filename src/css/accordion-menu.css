@@ -20,18 +20,6 @@
  * along with the Auto Ingress Work Note Generator.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-.accordion-menu-default-slidedown, .accordion-menu-default {
-  max-height: 0%;
-  transition: max-height .5s ease;
-}
-.accordion-menu-load-slidedown, .accordion-menu-load {
-  max-height: 100%;
-  transition: max-height 2s ease;
-}
-.accordion-menu-unload-slidedown, .accordion-menu-unload {
-  max-height: 0%;
-  transition: max-height .5s ease;
-}
 .accordion-menu {
   overflow: hidden;
   width: calc(100% - 30px);
@@ -48,8 +36,6 @@
   font-weight: bold;
 }
 .accordion-title:active {
-  transform: scale(0.95);
-  transition: transform 0.15s ease;
 }
 .accordion-menu.depth0 .accordion-title {
   background-color: hsla(222,89%,80%,0.7);

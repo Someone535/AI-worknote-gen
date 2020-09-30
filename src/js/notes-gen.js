@@ -57,11 +57,34 @@ function replaceErrors(key, value) {
   return value;
 };
 
-function buildOutputTree( ui_output ) {
+function processUIOutput( ui_output ) {
+
+  // for each notes section, generate a notes tree and collapse it
+  var notes_arr = ui_output.map( el => {
+    return {
+      label: el.label,
+      notes: collapseOutputTree( buildOutputTree( el.leaves ) )
+    }
+  });
+
+  // join each set of notes together with the labels
+  var final_notes = '';
+  notes_arr.forEach( el => {
+    if ( el.notes != '' ) {
+      final_notes += '\n'+el.label+'\n';
+      final_notes += el.notes+'\n\n';
+    }
+  });
+
+  return final_notes;
+
+}; // end processUIOutput
+
+function buildOutputTree( leaves ) {
 
   var out_tree = {};
 
-  ui_output.forEach( function(leaf) {
+  leaves.forEach( function(leaf) {
 
     MAP_TO_TREE[ leaf.code ].forEach( function(entry) {
 
@@ -111,7 +134,7 @@ function buildOutputTree( ui_output ) {
 
   return out_tree;
 
-}; // end buildOutputTree( ui_output )
+}; // end buildOutputTree( leaves )
 
 function collapseOutputTree( notes_tree ) {
 
@@ -181,6 +204,7 @@ function verifyCurrentNode( node, path_arr ) {
 
 var exp;
 export default exp = {
-  buildOutputTree: buildOutputTree,
-  collapseOutputTree: collapseOutputTree
+  //buildOutputTree: buildOutputTree,
+  //collapseOutputTree: collapseOutputTree,
+  processUIOutput: processUIOutput
 }

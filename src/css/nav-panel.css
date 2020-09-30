@@ -23,7 +23,7 @@
 .nav-panel {
   margin-top: 30px;
   width: 80vw;
-  height: 90vh;
+  max-height: 90vh;
   overflow: scroll;
   display: flex;
   flex-flow: column wrap;

@@ -29,6 +29,8 @@ import NavPanel from './nav-panel.js';
 import AlertPopup from './alert-popup.js';
 import InputPopup from './input-popup.js';
 import SubmitPage from './submit-page.js';
+import DoorsPopup from './doors-popup.js';
+import BlockButton from './block-button.js';
 
 import UI_MAP from './ui-tree.js';
 
@@ -45,10 +47,25 @@ class MainPage extends React.Component {
     this.saveData = this.saveData.bind(this);
     this.navigateTo = this.navigateTo.bind(this);
     this.handleSaveExitBtn = this.handleSaveExitBtn.bind(this);
+    this.renderDoorsPopup = this.renderDoorsPopup.bind(this);
+    this.locateSection = this.locateSection.bind(this);
+    this.joinSections = this.joinSections.bind(this);
+    this.clearSections = this.clearSections.bind(this);
+    this.resetSections = this.resetSections.bind(this);
+    this.handleSectionSelection = this.handleSectionSelection.bind(this);
 
     this.state = {
-      path: [], data: {}, leaves: [],
-      show_content: true, show_submit_page: false
+      section: null, path: [], data: {}, 
+      open_sections: [
+        { label: 'Opening Notes', leaves: [] },
+        { label: 'All Doors', leaves: [] },
+      ],
+      close_sections: [
+        { label: 'Remaining Doors', leaves: [] },
+        { label: 'Closing Notes', leaves: [] },
+      ],
+      other_sections: [],
+      show_content: false, show_submit_page: false, select_doors: false
     };
   }; // end constructor
 
@@ -58,21 +75,69 @@ class MainPage extends React.Component {
     return out;
   }; // getNode
 
+  locateSection( section_label ) {
+    var section_arr = '';
+    switch ( section_label ) {
+      case 'Opening Notes':
+      case 'All Doors':
+        section_arr = 'open_sections';
+        break;
+      case 'Closing Closing':
+      case 'Remaining Doors':
+        section_arr = 'close_sections';
+        break;
+      default:
+        section_arr = 'other_sections';
+    };
+    section_arr = this.state[section_arr];
+    var section = section_arr.find( el => el.label == section_label );
+    if ( section == undefined ) {
+      section = { label: section_label, leaves: [] };
+      section_arr.push(section);
+    }
+    return { state_arr: section_arr, section: section }
+  }; // end locateSection
+
+  joinSections() {
+    return [ 
+      ...this.state.open_sections, 
+      ...this.state.other_sections, 
+      ...this.state.close_sections,
+    ];
+  }; // end joinSections
+
+  hasLeaves() {
+    var leaves_found = false;
+    this.joinSections().forEach( el => {
+      if ( el.leaves.length > 0 ) leaves_found = true;
+    });
+    return leaves_found;
+  }; // end hasLeaves
+
+  clearSections() {
+    this.state.open_sections.forEach( el => el.leaves = [] );
+    this.state.close_sections.forEach( el => el.leaves = [] );
+    this.state.other_sections.forEach( el => el.leaves = [] );
+    this.setState({ section: null });
+  }; // end clearSections
+
+  resetSections() {
+    this.setState({ other_sections: [] });
+    this.clearSections();
+  }; // end resetSections
+
   navigateTo(path) {
-    console.log(JSON.stringify(this.state));
     // Locate data to be cleared based on differences between two paths
     var paths_to_clear = [];
     var path_cumulative = [];
     var matches = true;
     this.state.path.forEach( (el,ind) => {
       if ( matches && ( ind > path.length-1 || path[ind] != el ) ) matches = false;
-      console.log('matches: '+matches+' - '+ind);
       path_cumulative.push(el);
       if ( !matches ) paths_to_clear.push( path_cumulative.join(':') );
     });
     // Clear data and change path
     var new_data = this.state.data;
-    console.log('paths_to_clear: '+paths_to_clear);
     paths_to_clear.forEach( el => delete this.state.data[el] );
     // Identify values to be saved based on nodes traversed
     var node = UI_MAP;
@@ -96,13 +161,14 @@ class MainPage extends React.Component {
 
   navClick(input) {
     if ( Array.isArray(input) ) {
-      var root_path = this.state.path.slice(0,2);
+      var root_path = this.state.path.slice(0,1);
       this.navigateTo([...root_path, ...input ]);
     } else if ( typeof input == 'string' ) {
       var new_path = [...this.state.path];
       new_path.push(input);
       this.navigateTo( new_path );
     }
+    if ( input == 'specificdoors' ) this.setState({ select_doors: true });
     this.showContent();
   }; // end navClick
 
@@ -113,38 +179,44 @@ class MainPage extends React.Component {
   }; // end goUp
 
   handleBackBtn() {
-    if ( this.state.path.length < 2 ) {
-      this.goUp();
-    } else {
-      this.navigateTo( this.state.path.slice(0,1) );
-    }
+    this.navigateTo( [] );
     this.showContent();
   }; // end handleBackBtn
 
   handleHomeBtn() {
     this.navigateTo( [] );
-    this.showContent();
+    this.setState({ section: null });
   }; // end handleHomeBtn
 
   handleSaveExitBtn() {
     this.setState({ show_submit_page: true });
   }; // end handleSaveExitBtn
 
+  handleSectionSelection( section_label ) {
+    console.log(section_label);
+    if ( section_label == "Custom Doors" ) {
+      this.setState({ select_doors: true });
+    } else {
+      this.setState({ section: section_label });
+    }
+  }; // end handleSectionSelection
+
   submitCurrentLeaf() {
-    var new_leaves = this.state.leaves;
+    var section = this.locateSection(this.state.section);
     var node = this.getNode(UI_MAP,this.state.path);
-    new_leaves.push({
+    section.section.leaves.push({
       code: node.leafcode, data: Object.values( this.state.data )
     });
+    var new_state = {};
+    new_state[section.state_label] = section;
+    this.setState(new_state);
     this.handleBackBtn();
   }; // end submitCurrentLeaf
 
   saveData(data) {
-    console.log('saving data: '+data);
     var new_data = this.state.data;
     new_data[ this.state.path.join(':') ] = data;
     this.setState({ data: new_data });
-    console.log(JSON.stringify(this.state));
   }; // end saveData
 
   renderLeafConfirmation() {
@@ -172,8 +244,8 @@ class MainPage extends React.Component {
         message={message}
         onSubmit={() => this.hideContentCallback(this.submitCurrentLeaf,[])}
         onCancel={this.goUp}
-        mounted={data && node.leafcode != undefined}
-        transition='bottom'
+        mounted={node.leafcode != undefined && data}
+        transition='growleft'
       />
     );
   }; // end renderLeafConfirmation
@@ -190,33 +262,52 @@ class MainPage extends React.Component {
         message={node.input_message}
         text_prompt={node.input_placeholder}
         onSubmit={this.saveData}
-        transition='right'
+        transition='growright'
         mounted={data}
       />
     );
   }; // end renderTextInputBox()
 
   renderTitles() {
-    var node = this.getNode(UI_MAP,this.state.path);
-    var section_label = this.state.path.length > 0 ? 
-      this.getNode(UI_MAP,this.state.path.slice(0,1)).label : '';
-    var type_label = this.state.path.length > 1 ?
-      this.getNode(UI_MAP,this.state.path.slice(0,2)).label : '';
-    var title = 'Select Section';
-    if ( this.state.path.length > 0 ) title = node.label;
-    if ( this.state.path.length > 1 ) title = section_label + ' - ' + type_label;
-    return ( <h1 key='main-title' className='main-title'>{title}</h1> );
+    var title = this.state.section || 'Select Section';
+    var subtitle = this.state.path.length > 0 ? ' - ' + UI_MAP.nodes[ this.state.path[0] ].label : '';
+    var titles = [(
+      <div key={'0'} className='main-title title-shortened'>{title}</div> 
+    )];
+    if ( subtitle != '' ) titles.push(
+      <div key={'1'} className='main-title title-fulllength'>{subtitle}</div>
+    );
+    return (
+      <div className='main-page-title-container'>
+        {titles}
+      </div>
+    );
   }; // end renderTitles
+
+  renderSectionSelection() {
+    var sections = this.joinSections().map( el => el.label );
+    sections.push('Custom Doors');
+    sections = sections.map( el => (
+      <BlockButton
+        key={el}
+        text={el}
+        mounted={this.state.section == null}
+        transition='growdown'
+        onClick={ () => this.handleSectionSelection(el) }
+        onUnmount={ () => this.setState({ show_content: true }) }
+      />
+    )); 
+    return (
+      <div className="section-selection"> {sections} </div> 
+    );
+  }; // end renderSectionSelection
 
   renderNavPane() {
     var node = this.getNode(UI_MAP,this.state.path);
-    var nav_panel_style = 'block';
+    var nav_panel_style = 'mega-list';
     if ( this.state.path.length > 0 ) {
-      nav_panel_style = 'mega-list';
-    }
-    if ( this.state.path.length > 1 ) {
       nav_panel_style = 'accordion';
-      node = this.getNode(UI_MAP,this.state.path.slice(0,2));
+      node = this.getNode(UI_MAP,this.state.path.slice(0,1));
     }
     return (
       <NavPanel
@@ -225,6 +316,7 @@ class MainPage extends React.Component {
         onClick={(key) => this.hideContentCallback(this.navClick,[key])} 
         clickNoUIUpdate={this.navClick}
         show_children={this.state.show_content}
+        mounted={true}
       />
     );
   }; // end renderNavPane
@@ -233,43 +325,62 @@ class MainPage extends React.Component {
     return (
       <SubmitPage
         mounted={this.state.show_submit_page}
-        leaves={this.state.leaves}
+        sections={this.joinSections()}
         onUnmount={ () => this.setState({ show_submit_page: false }) }
         onClear={ () => {
-          this.setState({ show_submit_page: false });
-          this.setState({ leaves: [] });
+          this.setState({ show_submit_page: false, show_content: false });
+          this.resetSections();
           this.navigateTo([]);
         }}
       />
     );
   }; // end renderSubmitPage
 
+  renderDoorsPopup() {
+    return (
+      <DoorsPopup
+        mounted={this.state.select_doors}
+        title='Select Doors:'
+        options={['12345','45a56','Rear Entry']}
+        custom='true'
+        onUnmount={() => this.setState({ select_doors: false })}
+        onSubmit={(arr) => {
+          this.setState({ select_doors: false, show_content: true });
+          this.locateSection( 'Doors: '+arr.join(', ') );
+          this.setState({ section: 'Doors: '+arr.join(', ') });
+        }}
+      />
+    );
+  }; // end renderDoorsPopup
+
   render() {
     return (
       <div className='main-page'>
         {this.renderTitles()}
         {this.renderNavPane()}
-        <FancyButton className='menu-btn' icon='list' direction='left' mounted='true' />
-        <FancyButton className='search-btn' icon='search' direction='right' mounted='true' />
+        <FancyButton className='menu-btn' icon='list' transition='growleft' mounted='true' />
+        <FancyButton className='search-btn' icon='search' transition='growright' mounted='true' />
         <FancyButton
           className='exit-btn'
           icon='save'
-          direction='right'
+          transition='growright'
           onClick={this.handleSaveExitBtn}
-          mounted={this.state.leaves.length > 0}
+          mounted={this.hasLeaves()}
         />
         <FancyButton 
-          className='back-btn' icon='arrow_back' direction='left'
+          className='back-btn' icon='arrow_back' transition='growleft'
           onClick={() => this.hideContentCallback(this.handleBackBtn,[])}
           mounted={this.state.path.length > 0}
         />
         <FancyButton 
-          className='home-btn' icon='arrow_back' direction='left'
+          className='home-btn' icon='home' transition='growleft'
           onClick={() => this.hideContentCallback(this.handleHomeBtn,[])}
-          mounted={this.state.path.length > 1}
+          mounted={this.state.section}
         />
         {this.renderLeafConfirmation()}
         {this.renderTextInputBox()}
+        {this.renderSectionSelection()}
+        {this.renderDoorsPopup()}
         {this.renderSubmitPage()}
       </div>
     );

@@ -22,60 +22,25 @@
  */
 import React from 'react';
 
-import css from '../css/alert-popup.css'
+import TransitionContainer from './transition-container.js';
+
+import css from '../css/alert-popup.css';
 
 class AlertPopup extends React.Component {
 
   constructor(props) {
     super(props);
-    this.unMountStyle = this.unMountStyle.bind(this);
-    this.mountStyle = this.mountStyle.bind(this);
-    this.transitionEnd = this.transitionEnd.bind(this);
-
-    var class_name = 'alert-popup-default';
-    if ( this.props.transition ) class_name += '-' + this.props.transition;
-
-    this.state = {
-      show: this.props.mounted,
-      style_class: class_name,
-    };
   }; // end constructor
 
-  unMountStyle() {
-    var class_name = 'alert-popup-unload';
-    if ( this.props.transition ) class_name += '-' + this.props.transition;
-    this.setState({ style_class: class_name });
-  }; // end unMountStyle
-  mountStyle() {
-    var class_name = 'alert-popup-load';
-    if ( this.props.transition ) class_name += '-' + this.props.transition;
-    this.setState({ style_class: class_name });
-  }; // end unMountStyle
-  
-  componentWillReceiveProps(newProps) {
-    if ( !newProps.mounted ) {
-      return this.unMountStyle();
-    } else {
-      this.setState({ show: true });
-      setTimeout( this.mountStyle, 10 );
-    }
-  }; // end componentWillReceiveProps
-  
-  componentDidMount() {
-    setTimeout( this.mountStyle, 10 );
-  }; // end componentDidMount
-  
-  transitionEnd() {
-    if ( !this.props.mounted ) {
-      this.setState({ show: false });
-    }
-  }; // end transitionEnd
-
   render() {
-    var class_name = 'alert-popup alert-popup-' + this.props.type + ' ' + this.state.style_class;
+    var class_name = 'alert-popup alert-popup-' + this.props.type;
     if ( this.props.className ) class_name += ' ' + this.props.className;
-    return this.state.show && (
-      <div className={class_name} onTransitionEnd={this.transitionEnd}>
+    return (
+      <TransitionContainer 
+        mounted={this.props.mounted}
+        className={class_name} 
+        transition={this.props.transition}
+      >
         <div className='alert-popup-title'>{this.props.title}</div>
         <div className='alert-popup-message'>{this.props.message}</div>
         <div className='alert-popup-options'>
@@ -86,7 +51,7 @@ class AlertPopup extends React.Component {
             <i className='material-icons'>check</i>
           </div>
         </div>
-      </div>
+      </TransitionContainer>
     );
   }; // end render
 
@@ -98,6 +63,7 @@ AlertPopup.defaultProps = {
   onCancel: () => 1,
   title: '',
   message: '',
+  transition: 'growleft'
 };
 
 export default AlertPopup;

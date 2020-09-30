@@ -65,7 +65,7 @@ class NavPanel extends React.Component {
         subtitles={btn.subtitles}
         mounted={this.props.show_children}
         onClick={() => this.props.onClick(btn.key) }
-        transition='slidedown'
+        transition='growdown'
       />
     ));
   }; // end renderMegaList
@@ -77,6 +77,7 @@ class NavPanel extends React.Component {
         mounted={this.props.show_children}
         onClick={this.props.clickNoUIUpdate}
         expanded='true'
+        transition='heightgrowdown'
       />
     );
   }; // end renderAcordion
@@ -90,7 +91,7 @@ class NavPanel extends React.Component {
       case 'accordion':
         var options = this.renderAcordion( this.props.option_tree ); break;
     };
-    return (
+    return this.props.mounted && (
       <div className='nav-panel'>
         {options}
       </div>
@@ -102,7 +103,8 @@ NavPanel.defaultProps = {
   option_tree: {},
   style: 'block',
   onClick: () => 1,
-  show_children: 'true'
+  show_children: 'true',
+  mounted: true
 };
 
 export default NavPanel;

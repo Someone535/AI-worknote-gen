@@ -87,15 +87,3 @@
 .submit-page-clear span {
   font-size: xx-large;
 }
-.submit-page-default-left, .submit-page-default {
-  height: 0;
-  transition: height .5s ease;
-}
-.submit-page-load-left, .submit-page-load {
-  height: 100vh;
-  transition: height .5s ease;
-}
-.submit-page-unload-left, .submit-page-unload {
-  height: 0;
-  transition: height .5s ease;
-}

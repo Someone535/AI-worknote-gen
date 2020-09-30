@@ -22,74 +22,33 @@
  */
 import React from 'react';
 
+import TransitionContainer from './transition-container.js';
+
 import css from '../css/mega-button.css'
 
 class MegaButton extends React.Component {
 
   constructor(props) {
     super(props);
-    this.unMountStyle = this.unMountStyle.bind(this);
-    this.mountStyle = this.mountStyle.bind(this);
-    this.transitionEnd = this.transitionEnd.bind(this);
-
-    var class_name = 'mega-btn-default';
-    if ( this.props.transition ) class_name += '-' + this.props.transition;
-
-    this.state = {
-      show: this.props.mounted,
-      style_class: class_name,
-    };
   }; // end constructor
 
-  unMountStyle() {
-    var class_name = 'mega-btn-unload';
-    if ( this.props.transition ) class_name += '-' + this.props.transition;
-    this.setState({ style_class: class_name });
-  }; // end unMountStyle
-  mountStyle() {
-    var class_name = 'mega-btn-load';
-    if ( this.props.transition ) class_name += '-' + this.props.transition;
-    this.setState({ style_class: class_name });
-  }; // end unMountStyle
-  
-  componentWillReceiveProps(newProps) {
-    if ( !newProps.mounted ) {
-      return this.unMountStyle();
-    } else {
-      this.setState({ show: true });
-      setTimeout( this.mountStyle, 10 );
-    }
-  }; // end componentWillReceiveProps
-
-  componentDidMount() {
-    setTimeout( this.mountStyle, 10 );
-  }; // end componentDidMount
-  
-  transitionEnd() {
-    if ( !this.props.mounted ) {
-      this.setState({ show: false });
-    }
-  }; // end transitionEnd
-
   render() {
-    var class_name = 'mega-button ' + this.state.style_class;
     var subtitles = [];
     this.props.subtitles.forEach( (el,ind) => {
       subtitles.push( 
         <div className='mega-button-subtitle' key={el+'-'+ind}>{el}</div>
       );
     });
-    return this.state.show && (
-      <div
-        className={class_name} 
+    return (
+      <TransitionContainer
+        className='mega-button'
+        mounted={this.props.mounted}
         onClick={this.props.onClick} 
-        onTransitionEnd={this.transitionEnd}
+        transition={this.props.transition}
       >
         <div className='mega-button-title'>{this.props.title}</div>
-        <div className='mega-button-subcontainer'>
-          {subtitles}
-        </div>
-      </div>
+        <div className='mega-button-subcontainer'>{subtitles}</div>
+      </TransitionContainer>
     );
   }; // end render
 

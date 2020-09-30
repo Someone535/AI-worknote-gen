@@ -22,67 +22,29 @@
  */
 import React from 'react';
 
+import TransitionContainer from './transition-container.js';
+
 import css from '../css/block-button.css'
 
 class BlockButton extends React.Component {
 
   constructor(props) {
     super(props);
-    this.unMountStyle = this.unMountStyle.bind(this);
-    this.mountStyle = this.mountStyle.bind(this);
-    this.transitionEnd = this.transitionEnd.bind(this);
-
-    var class_name = 'block-btn-default';
-    if ( this.props.transition ) class_name += '-' + this.props.transition;
-
-    this.state = {
-      show: this.props.mounted,
-      style_class: class_name,
-    };
   }; // end constructor
 
-  unMountStyle() {
-    var class_name = 'block-btn-unload';
-    if ( this.props.transition ) class_name += '-' + this.props.transition;
-    this.setState({ style_class: class_name });
-  }; // end unMountStyle
-  mountStyle() {
-    var class_name = 'block-btn-load';
-    if ( this.props.transition ) class_name += '-' + this.props.transition;
-    this.setState({ style_class: class_name });
-  }; // end unMountStyle
-  
-  componentWillReceiveProps(newProps) {
-    if ( !newProps.mounted ) {
-      return this.unMountStyle();
-    } else {
-      this.setState({ show: true });
-      setTimeout( this.mountStyle, 10 );
-    }
-  }; // end componentWillReceiveProps
-
-  componentDidMount() {
-    setTimeout( this.mountStyle, 10 );
-  }; // end componentDidMount
-  
-  transitionEnd() {
-    if ( !this.props.mounted ) {
-      this.setState({ show: false });
-    }
-  }; // end transitionEnd
-
   render() {
-    var class_name = 'block-button ' + this.state.style_class;
-    return this.state.show && (
-      <div
-        className={class_name} 
-        onClick={this.props.onClick} 
-        onTransitionEnd={this.transitionEnd}
+    return (
+      <TransitionContainer
+        className='block-button'
+        transition={this.props.transition}
+        onClick={this.props.onClick}
+        onUnmount={this.props.onUnmount}
+        mounted={this.props.mounted}
       >
         <div className='block-button-text'>
           {this.props.text.replace(/ /g,'\n')}
         </div>
-      </div>
+      </TransitionContainer>
     );
   }; // end render
 

@@ -23,6 +23,50 @@
 
 var FORMAT_TREE;
 export default FORMAT_TREE = {
+  format: "{opening}{symptoms}{faults}{causes}{actions}",
+  nodes: {
+    "opening": {
+      format: "\n",
+      nodes: {
+      }
+    },
+    "symptoms": {
+      format: "Symptoms displayed:\n{alerts}{sensorissues:\n}{switchissues:\n}{speedissues:\n}{mechanicalissues:\n}{listed:\n}",
+      nodes: {
+        "alerts": {
+          format: "Digtal kepad displays: {listed:, }.",
+          nodes: { "listed": [], }
+        },
+        "sensorissues": [],
+        "switchissues": [],
+        "speedissues": [],
+        "mechanicalissues": [],
+        "listed": [],
+      }
+    },
+    "faults": {
+            format: "Faults Found:\n{listed:\n}",
+      nodes: {
+        "listed": [],
+      }
+    },
+    "causes": {
+            format: "Suspected Contributing Factors:\n{listed:\n}",
+      nodes: {
+        "listed": [],
+      }
+    },
+    "actions": {
+      format: "Actions Taken:\n{listed:\n}",
+      nodes: {
+        "listed": [],
+      }
+    },
+  }
+}
+
+var door_notes = FORMAT_TREE;
+var OLD_FORMAT_TREE = {
   format: "{ARRIVAL_NOTES}{ALL_DOORS}{SPECIFIC_DOORS}{REMAINING_DOORS}{DEPARTURE_NOTES}",
   nodes: {
     "ARRIVAL_NOTES": {
@@ -45,18 +89,22 @@ export default FORMAT_TREE = {
       }
     },
     "ALL_DOORS": {
-      format: "",
+      format: "All Doors:\n{doornotes}",
       nodes: {
+        "doornotes": door_notes,
       }
     },
     "SPECIFIC_DOORS": {
-      format: "",
+      format: "{identifier}:\n{doornotes}",
       nodes: {
+        "identifier": "SPECIFICDOORS",
+        "doornotes": door_notes,
       }
     },
     "REMAINING_DOORS": {
-      format: "",
+      format: "Remaining Doors:\n{doornotes}",
       nodes: {
+        "doornotes": door_notes,
       }
     }
   }

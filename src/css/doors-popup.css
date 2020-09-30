@@ -1,0 +1,119 @@
+/** doors-popup.css - Styles for the FancyButton component
+ *
+ * This file is part of the Auto Ingress Work Note Generator.
+ *
+ *  Copyright 2020 by Auto Ingress Pty Ltd
+ *  Written by Aidan Jessen <aidan.jessen@gmail.com>
+ *  Released under the GNU General Public License
+ *
+ * The Auto Ingress Work Note Generator is free software: you can redistribute 
+ * it and/or modify it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ *
+ * The Auto Ingress Work Note Generator is distributed in the hope that it will 
+ * be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the Auto Ingress Work Note Generator.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+.doors-popup {
+  display: flex;
+  width: 100vw;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: hsla(360,89%,66%,0.7);
+  border-radius: 10px 10px 0px 0px;
+  color: white;
+}
+.doors-popup-title {
+  font-size: xxx-large;
+  font-weight: bold;
+}
+.doors-popup-options {
+  width: auto;
+}
+.doors-popup-option {
+  align-self: flex-start;
+  flex-grow: 0;
+  font-size: xxx-large;
+  font-weight: bold;
+}
+.doors-popup-custom input {
+  font-size: xxx-large;
+}
+.doors-popup-submit {
+  align-self: flex-end;
+  font-size: 8vw;
+  padding: 10vw 10vw 10vw 0;
+}
+.doors-popup-submit:active {
+  transform: rotate(360deg);
+  transition: transform .5s ease;
+}
+
+/* Custom Checkbox */
+.doors-popup-label {
+  position: relative;
+}
+.doors-popup-checkbox {
+  height: 0;
+  width: 0;
+  opacity: 0;
+}
+.doors-popup-checkmark, .doors-popup-custom-checkmark {
+  position: absolute;
+  left: -5vw;
+  height: 5vw;
+  width: 5vw;
+  background-color: #eee;
+}
+.doors-popup-custom-checkmark {
+  top: -2vw;
+}
+.doors-popup-checkmark {
+  top: 1vw;
+}
+.doors-popup-label .doors-popup-checkbox:checked ~ .doors-popup-checkmark {
+  background-color: hsl(222,89%,80%,1);
+}
+.doors-popup-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.doors-popup-label .doors-popup-checkbox:checked ~ .doors-popup-checkmark:after {
+  display: block;
+}
+.doors-popup-label .doors-popup-checkmark:after {
+  left: 2vw;
+  top: 1vw;
+  width: 1vw;
+  height: 2vw;
+  border: solid white;
+  border-width: 0 0.5vw 0.5vw 0;
+  transform: rotate(45deg);
+}
+
+/* Transition on and off screen */
+.doors-popup-default {
+  transform: scaleY(0) translateY(100%);
+  transform-origin: bottom;
+  transition: transform .5s ease;
+}
+.doors-popup-load {
+  transform: scaleY(1) translateY(0%);
+  transform-origin: bottom;
+  transition: transform .5s ease;
+}
+.doors-popup-unload {
+  transform: scaleY(0) translateY(100%);
+  transform-origin: bottom;
+  transition: transform .5s ease;
+}
