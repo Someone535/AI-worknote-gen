@@ -65,7 +65,7 @@ class NavPanel extends React.Component {
         subtitles={btn.subtitles}
         mounted={this.props.show_children}
         onClick={() => this.props.onClick(btn.key) }
-        transition='slidedown'
+        transition='growdown'
       />
     ));
   }; // end renderMegaList
@@ -77,6 +77,7 @@ class NavPanel extends React.Component {
         mounted={this.props.show_children}
         onClick={this.props.clickNoUIUpdate}
         expanded='true'
+        transition='heightgrowdown'
       />
     );
   }; // end renderAcordion

@@ -1,0 +1,124 @@
+/** transiton-container.css - Styles for the FancyButton component
+ *
+ * This file is part of the Auto Ingress Work Note Generator.
+ *
+ *  Copyright 2020 by Auto Ingress Pty Ltd
+ *  Written by Aidan Jessen <aidan.jessen@gmail.com>
+ *  Released under the GNU General Public License
+ *
+ * The Auto Ingress Work Note Generator is free software: you can redistribute 
+ * it and/or modify it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ *
+ * The Auto Ingress Work Note Generator is distributed in the hope that it will 
+ * be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the Auto Ingress Work Note Generator.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+:root {
+  --transition-time: .3s;
+}
+.transition-container {
+  overflow: hidden;
+}
+
+/* Default Transition (Fade in/out) */
+.transition-container-default-fade, .transition-container-default {
+  opacity: 0;
+  transition: opacity var(--transition-time) ease;
+}
+.transition-container-load-fade, .transition-container-load {
+  opacity: 1;
+  transition: opacity var(--transition-time) ease;
+}
+.transition-container-unload-fade, .transition-container-unload {
+  opacity: 0;
+  transition: opacity var(--transition-time) ease;
+}
+
+/* Shrink Transitions (different directions) */
+.transition-container-default-growleft {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-time) ease;
+}
+.transition-container-load-growleft {
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform var(--transition-time) ease;
+}
+.transition-container-unload-growleft {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-time) ease;
+}
+.transition-container-default-growright {
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--transition-time) ease;
+}
+.transition-container-load-growright {
+  transform: scaleX(1);
+  transform-origin: right;
+  transition: transform var(--transition-time) ease;
+}
+.transition-container-unload-growright {
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--transition-time) ease;
+}
+.transition-container-default-growdown {
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--transition-time) ease;
+}
+.transition-container-load-growdown {
+  transform: scaleY(1);
+  transform-origin: top;
+  transition: transform var(--transition-time) ease;
+}
+.transition-container-unload-growdown {
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--transition-time) ease;
+}
+.transition-container-default-growup {
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform var(--transition-time) ease;
+}
+.transition-container-load-growup {
+  transform: scaleY(1);
+  transform-origin: bottom;
+  transition: transform var(--transition-time) ease;
+}
+.transition-container-unload-growup {
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform var(--transition-time) ease;
+}
+
+/* Height/Width Transitions */
+.transition-container-default-heightgrowdown {
+  position: relative;
+  max-height: 0;
+  top: 0;
+  transition: max-height var(--transition-time) ease, top var(--transition-time) ease;
+}
+.transition-container-load-heightgrowdown {
+  position: relative;
+  max-height: 100vh;
+  top: 0;
+  transition: max-height var(--transition-time) ease, top var(--transition-time) ease;
+}
+.transition-container-unload-heightgrowdown {
+  position: relative;
+  max-height: 0;
+  top: 0;
+  transition: max-height var(--transition-time) ease, top var(--transition-time) ease;
+}

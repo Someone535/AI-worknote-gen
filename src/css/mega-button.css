@@ -20,30 +20,6 @@
  * along with the Auto Ingress Work Note Generator.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-.mega-btn-default-fade, .mega-btn-default {
-  opacity: 0;
-  transition: opacity .25s ease;
-}
-.mega-btn-load-fade, .mega-btn-load {
-  opacity: 1;
-  transition: opacity .25s ease;
-}
-.mega-btn-unload-fade, .mega-btn-unload {
-  opacity: 0;
-  transition: opacity .25s ease;
-}
-.mega-btn-default-slidedown {
-  top: -80vh;
-  transition: top .5s cubic-bezier(0, 1, 0.5, 1);
-}
-.mega-btn-load-slidedown {
-  top: 0vh;
-  transition: top .5s cubic-bezier(0, 1, 0.5, 1);
-}
-.mega-btn-unload-slidedown {
-  opacity: 0;
-  transition: opacity .25s ease;
-}
 .mega-button {
   overflow: hidden;
   position: relative;
@@ -61,9 +37,7 @@
   justify-content: space-around;
 }
 .mega-button:active {
-  transform: scale(0.90);
   box-shadow: 0px 3px 20px #444444;
-  transition: transform .5s cubic-bezier(0, 1, 0.5, 1), box-shadow .5s cubic-bezier(0, 1, 0.5, 1);
 }
 .mega-button-title {
   font-size: xxx-large;

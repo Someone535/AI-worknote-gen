@@ -52,6 +52,7 @@ class MainPage extends React.Component {
     this.joinSections = this.joinSections.bind(this);
     this.clearSections = this.clearSections.bind(this);
     this.resetSections = this.resetSections.bind(this);
+    this.handleSectionSelection = this.handleSectionSelection.bind(this);
 
     this.state = {
       section: null, path: [], data: {}, 
@@ -64,7 +65,7 @@ class MainPage extends React.Component {
         { label: 'Closing Notes', leaves: [] },
       ],
       other_sections: [],
-      show_content: true, show_submit_page: false, select_doors: false
+      show_content: false, show_submit_page: false, select_doors: false
     };
   }; // end constructor
 
@@ -126,27 +127,22 @@ class MainPage extends React.Component {
   }; // end resetSections
 
   navigateTo(path) {
-    console.log(JSON.stringify(this.state));
     // Locate data to be cleared based on differences between two paths
     var paths_to_clear = [];
     var path_cumulative = [];
     var matches = true;
     this.state.path.forEach( (el,ind) => {
       if ( matches && ( ind > path.length-1 || path[ind] != el ) ) matches = false;
-      console.log('matches: '+matches+' - '+ind);
       path_cumulative.push(el);
       if ( !matches ) paths_to_clear.push( path_cumulative.join(':') );
     });
     // Clear data and change path
     var new_data = this.state.data;
-    console.log('paths_to_clear: '+paths_to_clear);
     paths_to_clear.forEach( el => delete this.state.data[el] );
     // Identify values to be saved based on nodes traversed
     var node = UI_MAP;
     path_cumulative = [];
-    console.log('path: '+path);
     path.forEach( el => {
-      console.log('el: '+el);
       path_cumulative.push(el);
       node = node.nodes[el];
       if ( node.value ) new_data[ path_cumulative.join(':') ] = node.value;
@@ -201,7 +197,7 @@ class MainPage extends React.Component {
     if ( section_label == "Custom Doors" ) {
       this.setState({ select_doors: true });
     } else {
-      this.setState({ section: section_label, show_content: true });
+      this.setState({ section: section_label });
     }
   }; // end handleSectionSelection
 
@@ -218,11 +214,9 @@ class MainPage extends React.Component {
   }; // end submitCurrentLeaf
 
   saveData(data) {
-    console.log('saving data: '+data);
     var new_data = this.state.data;
     new_data[ this.state.path.join(':') ] = data;
     this.setState({ data: new_data });
-    console.log(JSON.stringify(this.state));
   }; // end saveData
 
   renderLeafConfirmation() {
@@ -250,8 +244,8 @@ class MainPage extends React.Component {
         message={message}
         onSubmit={() => this.hideContentCallback(this.submitCurrentLeaf,[])}
         onCancel={this.goUp}
-        mounted={data && node.leafcode != undefined}
-        transition='bottom'
+        mounted={node.leafcode != undefined && data}
+        transition='growleft'
       />
     );
   }; // end renderLeafConfirmation
@@ -268,7 +262,7 @@ class MainPage extends React.Component {
         message={node.input_message}
         text_prompt={node.input_placeholder}
         onSubmit={this.saveData}
-        transition='right'
+        transition='growright'
         mounted={data}
       />
     );
@@ -298,11 +292,12 @@ class MainPage extends React.Component {
         key={el}
         text={el}
         mounted={this.state.section == null}
-        transition='slide'
+        transition='growdown'
         onClick={ () => this.handleSectionSelection(el) }
+        onUnmount={ () => this.setState({ show_content: true }) }
       />
     )); 
-    return this.state.section == null && (
+    return (
       <div className="section-selection"> {sections} </div> 
     );
   }; // end renderSectionSelection
@@ -320,8 +315,8 @@ class MainPage extends React.Component {
         option_tree={node}
         onClick={(key) => this.hideContentCallback(this.navClick,[key])} 
         clickNoUIUpdate={this.navClick}
-        show_children={this.state.show_content && this.state.section != null}
-        mounted={this.state.section != null}
+        show_children={this.state.show_content}
+        mounted={true}
       />
     );
   }; // end renderNavPane
@@ -333,7 +328,7 @@ class MainPage extends React.Component {
         sections={this.joinSections()}
         onUnmount={ () => this.setState({ show_submit_page: false }) }
         onClear={ () => {
-          this.setState({ show_submit_page: false });
+          this.setState({ show_submit_page: false, show_content: false });
           this.resetSections();
           this.navigateTo([]);
         }}
@@ -350,7 +345,6 @@ class MainPage extends React.Component {
         custom='true'
         onUnmount={() => this.setState({ select_doors: false })}
         onSubmit={(arr) => {
-          console.log(arr);
           this.setState({ select_doors: false, show_content: true });
           this.locateSection( 'Doors: '+arr.join(', ') );
           this.setState({ section: 'Doors: '+arr.join(', ') });
@@ -360,28 +354,26 @@ class MainPage extends React.Component {
   }; // end renderDoorsPopup
 
   render() {
-    console.log(this.state);
-    console.log(this.hasLeaves());
     return (
       <div className='main-page'>
         {this.renderTitles()}
         {this.renderNavPane()}
-        <FancyButton className='menu-btn' icon='list' direction='left' mounted='true' />
-        <FancyButton className='search-btn' icon='search' direction='right' mounted='true' />
+        <FancyButton className='menu-btn' icon='list' transition='growleft' mounted='true' />
+        <FancyButton className='search-btn' icon='search' transition='growright' mounted='true' />
         <FancyButton
           className='exit-btn'
           icon='save'
-          direction='right'
+          transition='growright'
           onClick={this.handleSaveExitBtn}
           mounted={this.hasLeaves()}
         />
         <FancyButton 
-          className='back-btn' icon='arrow_back' direction='left'
+          className='back-btn' icon='arrow_back' transition='growleft'
           onClick={() => this.hideContentCallback(this.handleBackBtn,[])}
           mounted={this.state.path.length > 0}
         />
         <FancyButton 
-          className='home-btn' icon='home' direction='left'
+          className='home-btn' icon='home' transition='growleft'
           onClick={() => this.hideContentCallback(this.handleHomeBtn,[])}
           mounted={this.state.section}
         />

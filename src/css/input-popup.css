@@ -77,40 +77,6 @@ i.icon-alert {
   transform: rotate(360deg);
   transition: transform .5s ease;
 }
-.input-popup-default-left, .input-popup-default {
-  width: 0;
-  transition: width .5s ease;
-}
-.input-popup-load-left, .input-popup-load {
-  width: 10vw;
-  transition: width .5s ease;
-}
-.input-popup-unload-left, .input-popup-unload {
-  width: 0;
-  transition: width .5s ease;
-}
-.input-popup-default-right {
-  width: 0;
-  transition: width .5s ease;
-}
-.input-popup-load-right {
-  transition: width .5s ease;
-}
-.input-popup-unload-right {
-  width: 0;
-  transition: width .5s ease;
-}
-.input-popup-default-bottom {
-  height: 0;
-  transition: height .5s ease;
-}
-.input-popup-load-bottom {
-  transition: height .5s ease;
-}
-.input-popup-unload-bottom {
-  height: 0;
-  transition: height .5s ease;
-}
 .face:hover {
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;

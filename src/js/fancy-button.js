@@ -22,65 +22,29 @@
  */
 import React from 'react';
 
+import TransationContainer from './transition-container.js';
+
 import css from '../css/fancy-button.css'
 
 class FancyButton extends React.Component {
 
   constructor(props) {
     super(props);
-    this.unMountStyle = this.unMountStyle.bind(this);
-    this.mountStyle = this.mountStyle.bind(this);
-    this.transitionEnd = this.transitionEnd.bind(this);
-
-    var class_name = 'fancy-btn-default';
-    if ( this.props.direction ) class_name += '-' + this.props.direction;
-
-    this.state = {
-      show: this.props.mounted,
-      style_class: class_name,
-    };
   }; // end constructor
 
-  unMountStyle() {
-    var class_name = 'fancy-btn-unload';
-    if ( this.props.direction ) class_name += '-' + this.props.direction;
-    this.setState({ style_class: class_name });
-  }; // end unMountStyle
-  mountStyle() {
-    var class_name = 'fancy-btn-load';
-    if ( this.props.direction ) class_name += '-' + this.props.direction;
-    this.setState({ style_class: class_name });
-  }; // end unMountStyle
-  
-  componentDidUpdate(prevProps, prevState) {
-    if ( this.props.mounted != prevProps.mounted ) {
-      if ( !this.props.mounted ) {
-        return this.unMountStyle();
-      } else {
-        this.setState({ show: true });
-        setTimeout( this.mountStyle, 10 );
-      }
-    }
-  }; // end componentDidUpdate
-  
-  componentDidMount() {
-    setTimeout( this.mountStyle, 10 );
-  }; // end componentDidMount
-  
-  transitionEnd() {
-    if ( !this.props.mounted ) {
-      this.setState({ show: false });
-    }
-  }; // end transitionEnd
-
   render() {
-    var class_name = 'fancy-button ' + this.state.style_class;
+    var class_name = 'fancy-button';
     if ( this.props.className ) class_name += ' ' + this.props.className;
-    return this.state.show && (
-      <div className={class_name} onClick={this.props.onClick} onTransitionEnd={this.transitionEnd}>
-        <i className="material-icons">{this.props.icon}</i>
-        <span>{this.props.text}</span>
-      </div>
+    return (
+      <TransationContainer
+        mounted={this.props.mounted}
+        className={class_name}
+        onClick={this.props.onClick}
+        transition={this.props.transition}
+      >
+          <i className="material-icons">{this.props.icon}</i>
+          <span>{this.props.text}</span>
+      </TransationContainer>
     );
   }; // end render
 
@@ -91,7 +55,7 @@ FancyButton.defaultProps = {
   onClick: () => 1,
   icon: 'check_box_outline_blank',
   text: '',
-  direction: null
+  transition: null
 };
 
 export default FancyButton;

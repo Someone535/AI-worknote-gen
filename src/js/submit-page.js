@@ -26,63 +26,25 @@ import css from '../css/submit-page.css';
 
 import backend from './notes-gen.js';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import TransitionContainer from './transition-container.js';
 
 class SubmitPage extends React.Component {
 
   constructor(props) {
     super(props);
-    this.unMountStyle = this.unMountStyle.bind(this);
-    this.mountStyle = this.mountStyle.bind(this);
-    this.transitionEnd = this.transitionEnd.bind(this);
-
-    var class_name = 'submit-page-default';
-    if ( this.props.direction ) class_name += '-' + this.props.direction;
-
-    this.state = {
-      show: this.props.mounted,
-      style_class: class_name,
-    };
   }; // end constructor
 
-  unMountStyle() {
-    var class_name = 'submit-page-unload';
-    if ( this.props.direction ) class_name += '-' + this.props.direction;
-    this.setState({ style_class: class_name });
-  }; // end unMountStyle
-  mountStyle() {
-    var class_name = 'submit-page-load';
-    if ( this.props.direction ) class_name += '-' + this.props.direction;
-    this.setState({ style_class: class_name });
-  }; // end unMountStyle
-  
-  componentDidUpdate(prevProps, prevState) {
-    if ( this.props.mounted != prevProps.mounted ) {
-      if ( !this.props.mounted ) {
-        return this.unMountStyle();
-      } else {
-        this.setState({ show: true });
-        setTimeout( this.mountStyle, 10 );
-      }
-    }
-  }; // end componentDidUpdate
- 
-  componentDidMount() {
-    setTimeout( this.mountStyle, 10 );
-  }; // end componentDidMount
-  
-  transitionEnd() {
-    if ( !this.props.mounted ) {
-      this.setState({ show: false });
-    }
-  }; // end transitionEnd
-
   render() {
-    var class_name = 'submit-page ' + this.state.style_class;
-    if ( this.state.show ) {
+    var class_name = 'submit-page';
+    if ( this.props.mounted ) {
       var work_notes = backend.processUIOutput( this.props.sections );
     }
-    return this.state.show && (
-      <div className={class_name} onTransitionEnd={this.transitionEnd}>
+    return (
+      <TransitionContainer
+        mounted={this.props.mounted}
+        className={class_name}
+        transition={this.props.transition}
+      >
         <h1>Your Work Notes:</h1>
         <p>{work_notes}</p>
         <div className='submit-page-options'>
@@ -98,7 +60,7 @@ class SubmitPage extends React.Component {
             <i className='material-icons'>arrow_back</i>
           </div>
         </div>
-      </div>
+      </TransitionContainer>
     );
   }; // end render
 
@@ -107,6 +69,7 @@ class SubmitPage extends React.Component {
 SubmitPage.defaultProps = {
   sections: [],
   unmount: () => 1,
+  transition: 'growup',
 };
 
 export default SubmitPage;

@@ -22,57 +22,19 @@
  */
 import React from 'react';
 
-import css from '../css/accordion-menu.css'
+import TransitionContainer from './transition-container.js';
+
+import css from '../css/accordion-menu.css';
 
 class AccordionMenu extends React.Component {
 
   constructor(props) {
     super(props);
-    this.unMountStyle = this.unMountStyle.bind(this);
-    this.mountStyle = this.mountStyle.bind(this);
-    this.transitionEnd = this.transitionEnd.bind(this);
-
-    var class_name = 'accordion-menu-default';
-    if ( this.props.transition ) class_name += '-' + this.props.transition;
 
     this.state = {
-      show: this.props.mounted,
-      style_class: class_name,
       expanded_child: null,
     };
   }; // end constructor
-
-  unMountStyle() {
-    var class_name = 'accordion-menu-unload';
-    if ( this.props.transition ) class_name += '-' + this.props.transition;
-    this.setState({ style_class: class_name });
-  }; // end unMountStyle
-  mountStyle() {
-    var class_name = 'accordion-menu-load';
-    if ( this.props.transition ) class_name += '-' + this.props.transition;
-    this.setState({ style_class: class_name });
-  }; // end unMountStyle
-  
-  componentDidUpdate(prevProps, prevState) {
-    if ( this.props.mounted != prevProps.mounted ) {
-      if ( !this.props.mounted ) {
-        return this.unMountStyle();
-      } else {
-        this.setState({ show: true });
-        setTimeout( this.mountStyle, 10 );
-      }
-    }
-  }; // end componentDidUpdate
-
-  componentDidMount() {
-    setTimeout( this.mountStyle, 10 );
-  }; // end componentDidMount
-  
-  transitionEnd() {
-    if ( !this.props.mounted ) {
-      this.setState({ show: false });
-    }
-  }; // end transitionEnd
 
   getNode(tree,path) {
     var out = tree;
@@ -102,6 +64,7 @@ class AccordionMenu extends React.Component {
           path={[ ...this.props.path, key ]}
           expandChild={ () => this.expandChild(key) }
           depth={Number(this.props.depth)+1}
+          transition={this.props.transition}
         />
     ));
     var title = this.props.path.length > 0 && (
@@ -111,16 +74,23 @@ class AccordionMenu extends React.Component {
           this.props.onClick( this.props.path );
           this.props.expandChild();
         }}
-      >{node.label}</div>
+      >
+        {node.label}
+      </div>
     );
-    return this.state.show && (
+    return (
       <div
+        mounted={this.props.mounted}
         className={class_name} 
         data-path={this.props.path}
-        onTransitionEnd={this.transitionEnd}
       >
         {title}
-        {children}
+        <TransitionContainer
+          mounted={this.props.expanded}
+          transition={this.props.transition}
+        >
+          {children}
+        </TransitionContainer>
       </div>
     );
   }; // end render
