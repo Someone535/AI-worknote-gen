@@ -63,7 +63,7 @@ function processUIOutput( ui_output ) {
   var notes_arr = ui_output.map( el => {
     return {
       label: el.label,
-      notes: collapseOutputTree( el.leaves )
+      notes: collapseOutputTree( buildOutputTree( el.leaves ) )
     }
   });
 
@@ -72,7 +72,7 @@ function processUIOutput( ui_output ) {
   notes_arr.forEach( el => {
     if ( el.notes != '' ) {
       final_notes += '\n'+el.label+'\n';
-      final_notes += el.notes+'\n';
+      final_notes += el.notes+'\n\n';
     }
   });
 

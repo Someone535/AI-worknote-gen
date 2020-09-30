@@ -844,7 +844,7 @@ var worknotes_submap = {
           "loose": {
             label: "Floor Guide Fixings Loose",
             input: false,
-            leafcode: "F_FLOOR_GUDIE_FIXINGSLOOSE"
+            leafcode: "F_FLOORGUIDE_FIXINGSLOOSE"
           },
           "doorloose": {
             label: "Door Panel Fixings Loose",

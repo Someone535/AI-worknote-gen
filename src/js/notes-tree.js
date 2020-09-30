@@ -21,32 +21,52 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-var door_notes = {
-  format: "{symptoms}{faults}{causes}{actions}",
+var FORMAT_TREE;
+export default FORMAT_TREE = {
+  format: "{opening}{symptoms}{faults}{causes}{actions}",
   nodes: {
-    "symptoms": {
-      format: "Symptoms displayed:\n",
+    "opening": {
+      format: "\n",
       nodes: {
-        "squeaking": "Door was squeaking.\n",
+      }
+    },
+    "symptoms": {
+      format: "Symptoms displayed:\n{alerts}{sensorissues:\n}{switchissues:\n}{speedissues:\n}{mechanicalissues:\n}{listed:\n}",
+      nodes: {
+        "alerts": {
+          format: "Digtal kepad displays: {listed:, }.",
+          nodes: { "listed": [], }
+        },
+        "sensorissues": [],
+        "switchissues": [],
+        "speedissues": [],
+        "mechanicalissues": [],
+        "listed": [],
       }
     },
     "faults": {
-      format: "Faults Found:\n",
-      nodes: {}
+            format: "Faults Found:\n{listed:\n}",
+      nodes: {
+        "listed": [],
+      }
     },
     "causes": {
-      format: "Suspected Contributing Factors:\n",
-      nodes: {}
+            format: "Suspected Contributing Factors:\n{listed:\n}",
+      nodes: {
+        "listed": [],
+      }
     },
     "actions": {
-      format: "Actions Taken:\n",
-      nodes: {}
-    }
+      format: "Actions Taken:\n{listed:\n}",
+      nodes: {
+        "listed": [],
+      }
+    },
   }
 }
 
-var FORMAT_TREE;
-export default FORMAT_TREE = {
+var door_notes = FORMAT_TREE;
+var OLD_FORMAT_TREE = {
   format: "{ARRIVAL_NOTES}{ALL_DOORS}{SPECIFIC_DOORS}{REMAINING_DOORS}{DEPARTURE_NOTES}",
   nodes: {
     "ARRIVAL_NOTES": {
