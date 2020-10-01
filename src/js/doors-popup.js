@@ -108,10 +108,12 @@ class DoorsPopup extends React.Component {
           <i
             className='doors-popup-submit material-icons'
             onClick={() => {
-              if ( Object.keys(this.state.selected).length > 0 ) 
+              if ( Object.keys(this.state.selected).length > 0 ) {
                 this.props.onSubmit( Object.values(this.state.selected) );
-              else
+                this.setState({ selected: {} });
+              } else {
                 this.props.onUnmount();
+              }
             }}
           >
             check
