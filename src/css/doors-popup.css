@@ -24,12 +24,12 @@
   display: flex;
   width: 100vw;
   position: absolute;
-  bottom: 0;
+  top: 20vw;
   left: 0;
   flex-direction: column;
   overflow: hidden;
   background-color: hsla(360,89%,66%,0.7);
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 10px 0px 0px 10px;
   color: white;
 }
 .doors-popup-title {
@@ -51,7 +51,7 @@
 .doors-popup-submit {
   align-self: flex-end;
   font-size: 8vw;
-  padding: 10vw 10vw 10vw 0;
+  padding: 10vw 10vw 10vw 10vw;
 }
 .doors-popup-submit:active {
   transform: rotate(360deg);
@@ -116,4 +116,24 @@
   transform: scaleY(0) translateY(100%);
   transform-origin: bottom;
   transition: transform .5s ease;
+}
+
+/* Styles for alert mode */
+.doors-popup-alerting {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0,0,0);
+}
+.doors-popup-blocker {
+  background-color: hsl(360,100%,50%,0);
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+}
+
+/* Shake animation for alert */
+@keyframes shake {
+  10%, 90% { transform: translate3d(0, -5px, 0); }
+  20%, 80% { transform: translate3d(0, 10px, 0); }
+  30%, 50%, 70% { transform: translate3d(0, -20px, 0); }
+  40%, 60% { transform: translate3d(0, 20px, 0); }
 }

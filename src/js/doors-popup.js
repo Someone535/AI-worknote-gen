@@ -22,58 +22,21 @@
  */
 import React from 'react';
 
+import TransitionContainer from './transition-container.js';
+
 import css from '../css/doors-popup.css'
 
 class DoorsPopup extends React.Component {
 
   constructor(props) {
     super(props);
-    this.unMountStyle = this.unMountStyle.bind(this);
-    this.mountStyle = this.mountStyle.bind(this);
-    this.transitionEnd = this.transitionEnd.bind(this);
-
-    var class_name = 'doors-popup-default';
-    if ( this.props.direction ) class_name += '-' + this.props.direction;
 
     this.state = {
-      show: this.props.mounted,
-      style_class: class_name,
       options: this.props.options,
-      selected: {}
+      selected: {},
+      alerting: false
     };
   }; // end constructor
-
-  unMountStyle() {
-    var class_name = 'doors-popup-unload';
-    if ( this.props.direction ) class_name += '-' + this.props.direction;
-    this.setState({ style_class: class_name });
-  }; // end unMountStyle
-  mountStyle() {
-    var class_name = 'doors-popup-load';
-    if ( this.props.direction ) class_name += '-' + this.props.direction;
-    this.setState({ style_class: class_name });
-  }; // end unMountStyle
-  
-  componentDidUpdate(prevProps, prevState) {
-    if ( this.props.mounted != prevProps.mounted ) {
-      if ( !this.props.mounted ) {
-        return this.unMountStyle();
-      } else {
-        this.setState({ show: true });
-        setTimeout( this.mountStyle, 10 );
-      }
-    }
-  }; // end componentDidUpdate
-
-  componentDidMount() {
-    setTimeout( this.mountStyle, 10 );
-  }; // end componentDidMount
-  
-  transitionEnd() {
-    if ( !this.props.mounted ) {
-      this.setState({ show: false });
-    }
-  }; // end transitionEnd
 
   handleCheckbox(ind,key,evt) {
     if ( this.state.selected[ind] && !evt.target.checked ) {
@@ -121,21 +84,40 @@ class DoorsPopup extends React.Component {
   }; // end renderCustom
 
   render() {
-    var class_name = 'doors-popup ' + this.state.style_class;
-    return this.state.show && (
-      <div className={class_name} onTransitionEnd={this.transitionEnd}>
-        <h1 className='doors-popup-title'>{this.props.title}</h1>
-        <div className='doors-popup-options'>
-          {this.renderOptions()}
-          {this.renderCustom()}
-        </div>
-        <i
-          className='doors-popup-submit material-icons'
-          onClick={ () => this.props.onSubmit( Object.values(this.state.selected) ) }
+    var class_name = 'doors-popup';
+    if ( this.state.alerting ) class_name += ' doors-popup-alerting';
+    return (
+      <TransitionContainer
+        mounted={this.props.mounted}
+        transition='growright'
+        className='doors-popup-blocker'
+        onClick={ (evt) => this.setState({ alerting: true }) }
+      >
+        <div
+          className={class_name}
+          onClick={ (evt) => {
+            evt.stopPropagation();
+            evt.nativeEvent.stopImmediatePropagation();
+          }}
         >
-          check
-        </i>
-      </div>
+          <h1 className='doors-popup-title'>{this.props.title}</h1>
+          <div className='doors-popup-options'>
+            {this.renderOptions()}
+            {this.renderCustom()}
+          </div>
+          <i
+            className='doors-popup-submit material-icons'
+            onClick={() => {
+              if ( Object.keys(this.state.selected).length > 0 ) 
+                this.props.onSubmit( Object.values(this.state.selected) );
+              else
+                this.props.onUnmount();
+            }}
+          >
+            check
+          </i>
+        </div>
+      </TransitionContainer>
     );
   }; // end render
 

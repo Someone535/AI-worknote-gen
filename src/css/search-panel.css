@@ -35,13 +35,17 @@
 }
 .search-input {
   font-size: xxx-large;
-  align-self: center;
+  align-self: flex-start;
   background-color: #f7f7f7;
   border: none;
+  margin-left: 30px;
+}
+.search-input:focus {
+  outline: none;
 }
 .search-results-container {
   overflow: scroll;
-  margin: 10vw;
+  margin: 5vw 10vw 15vw 10vw;
 }
 .search-results {
   display: flex;
@@ -56,7 +60,7 @@
   border: solid #81a5f8;
   border-width: 0 0 0.5vw 0;
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column;
   justify-content: center;
 }
 .leaf-input-alert {
