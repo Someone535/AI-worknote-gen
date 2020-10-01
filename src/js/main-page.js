@@ -31,6 +31,7 @@ import InputPopup from './input-popup.js';
 import SubmitPage from './submit-page.js';
 import DoorsPopup from './doors-popup.js';
 import BlockButton from './block-button.js';
+import SearchPanel from './search-panel.js';
 
 import UI_MAP from './ui-tree.js';
 
@@ -53,6 +54,7 @@ class MainPage extends React.Component {
     this.clearSections = this.clearSections.bind(this);
     this.resetSections = this.resetSections.bind(this);
     this.handleSectionSelection = this.handleSectionSelection.bind(this);
+    this.submitLeaf = this.submitLeaf.bind(this);
 
     this.state = {
       section: null, path: [], data: {}, 
@@ -65,7 +67,8 @@ class MainPage extends React.Component {
         { label: 'Closing Notes', leaves: [] },
       ],
       other_sections: [],
-      show_content: false, show_submit_page: false, select_doors: false
+      show_content: false, show_submit_page: false, select_doors: false,
+      show_search: false,
     };
   }; // end constructor
 
@@ -189,7 +192,7 @@ class MainPage extends React.Component {
   }; // end handleHomeBtn
 
   handleSaveExitBtn() {
-    this.setState({ show_submit_page: true });
+    this.setState({ show_content: false, show_submit_page: true });
   }; // end handleSaveExitBtn
 
   handleSectionSelection( section_label ) {
@@ -202,16 +205,20 @@ class MainPage extends React.Component {
   }; // end handleSectionSelection
 
   submitCurrentLeaf() {
-    var section = this.locateSection(this.state.section);
     var node = this.getNode(UI_MAP,this.state.path);
-    section.section.leaves.push({
-      code: node.leafcode, data: Object.values( this.state.data )
+    this.submitLeaf({
+      code: node.leafcode,
+      data: Object.values( this.state.data ) 
     });
+  }; // end submitCurrentLeaf
+  submitLeaf(leaf) {
+    var section = this.locateSection(this.state.section);
+    section.section.leaves.push(leaf);
     var new_state = {};
     new_state[section.state_label] = section;
     this.setState(new_state);
     this.handleBackBtn();
-  }; // end submitCurrentLeaf
+  }; // end submitLeaf
 
   saveData(data) {
     var new_data = this.state.data;
@@ -326,7 +333,9 @@ class MainPage extends React.Component {
       <SubmitPage
         mounted={this.state.show_submit_page}
         sections={this.joinSections()}
-        onUnmount={ () => this.setState({ show_submit_page: false }) }
+        onUnmount={ () => this.setState({
+          show_content: true, show_submit_page: false 
+        }) }
         onClear={ () => {
           this.setState({ show_submit_page: false, show_content: false });
           this.resetSections();
@@ -353,17 +362,37 @@ class MainPage extends React.Component {
     );
   }; // end renderDoorsPopup
 
+  renderSearchPanel() {
+    return (
+      <SearchPanel
+        transition='growright'
+        tree={UI_MAP}
+        onCancel={ () => this.setState({ show_search: false }) }
+        onSubmit={ (leaf) => {
+          this.setState({ show_search: false });
+          this.submitLeaf(leaf);
+        }}
+        mounted={this.state.show_search}
+      />
+    );
+  }; // end renderSearchPanel
+
   render() {
     return (
       <div className='main-page'>
         {this.renderTitles()}
         {this.renderNavPane()}
-        <FancyButton className='menu-btn' icon='list' transition='growleft' mounted='true' />
-        <FancyButton className='search-btn' icon='search' transition='growright' mounted='true' />
         <FancyButton
-          className='exit-btn'
-          icon='save'
-          transition='growright'
+          className='menu-btn' icon='list' transition='growleft'
+          mounted='true'
+        />
+        <FancyButton
+          className='search-btn' icon='search' transition='growright'
+          onClick={ () => this.setState({ show_search: true }) }
+          mounted={this.state.section}
+        />
+        <FancyButton
+          className='exit-btn' icon='save' transition='growright'
           onClick={this.handleSaveExitBtn}
           mounted={this.hasLeaves()}
         />
@@ -382,6 +411,7 @@ class MainPage extends React.Component {
         {this.renderSectionSelection()}
         {this.renderDoorsPopup()}
         {this.renderSubmitPage()}
+        {this.renderSearchPanel()}
       </div>
     );
   }; // end render
