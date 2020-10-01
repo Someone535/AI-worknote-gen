@@ -20,6 +20,8 @@
  * along with the Auto Ingress Work Note Generator.
  * If not, see <https://www.gnu.org/licenses/>.
  */
+
+/* Main Styles */
 .doors-popup {
   display: flex;
   width: 100vw;
@@ -37,7 +39,9 @@
   font-weight: bold;
 }
 .doors-popup-options {
-  width: auto;
+  width: 90%;
+  max-height: 50vh;
+  overflow: scroll;
 }
 .doors-popup-option {
   align-self: flex-start;
@@ -45,7 +49,31 @@
   font-size: xxx-large;
   font-weight: bold;
 }
+
+/* Custom Input */
 .doors-popup-custom input {
+  font-size: xxx-large;
+  position: relative;
+  left: 5vw;
+}
+
+/* Search Box */
+.doors-popup-search {
+  font-size: xxx-large;
+}
+
+/* Buttons */
+.doors-popup-submit-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.doors-popup-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.doors-popup-btnlabel {
   font-size: xxx-large;
 }
 .doors-popup-submit {
@@ -61,6 +89,7 @@
 /* Custom Checkbox */
 .doors-popup-label {
   position: relative;
+  left: 5vw;
 }
 .doors-popup-checkbox {
   height: 0;

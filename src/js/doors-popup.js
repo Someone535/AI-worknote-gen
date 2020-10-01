@@ -30,11 +30,13 @@ class DoorsPopup extends React.Component {
 
   constructor(props) {
     super(props);
+    this.searchOptions = this.searchOptions.bind(this);
 
     this.state = {
       options: this.props.options,
       selected: {},
-      alerting: false
+      alerting: false,
+      search_text: ''
     };
   }; // end constructor
 
@@ -47,8 +49,18 @@ class DoorsPopup extends React.Component {
     console.log(this.state.selected);
   }; // end handleCheckbox
 
+  searchOptions() {
+    if ( this.state.search_text != '' ) {
+      return this.props.options.filter( el => 
+        el.search( new RegExp( this.state.search_text, 'gi' ) ) != -1
+      );
+    } else {
+      return this.props.options;
+    }
+  }; // end searchOptions
+
   renderOptions() {
-    return this.state.options.map( (el,ind) => (
+    return this.searchOptions().map( (el,ind) => (
       <div key={el+ind} className='doors-popup-option'>
         <label className='doors-popup-label'>
           <input type='checkbox' className='doors-popup-checkbox' 
@@ -64,10 +76,6 @@ class DoorsPopup extends React.Component {
   renderCustom() {
     return this.props.custom && (
       <div className='doors-popup-custom'>
-        <label className='doors-popup-label'>
-          <input type='checkbox' className='doors-popup-checkbox' />
-          <span className='doors-popup-custom-checkmark'></span>
-        </label>
         <input
           type='text'
           onKeyDown={ (evt) => {
@@ -101,23 +109,43 @@ class DoorsPopup extends React.Component {
           }}
         >
           <h1 className='doors-popup-title'>{this.props.title}</h1>
+          <input
+            type='text'
+            className='doors-popup-search'
+            onChange={(evt) => this.setState({ search_text: evt.target.value })}
+          />
           <div className='doors-popup-options'>
             {this.renderOptions()}
             {this.renderCustom()}
           </div>
-          <i
-            className='doors-popup-submit material-icons'
-            onClick={() => {
-              if ( Object.keys(this.state.selected).length > 0 ) {
-                this.props.onSubmit( Object.values(this.state.selected) );
-                this.setState({ selected: {} });
-              } else {
-                this.props.onUnmount();
-              }
-            }}
-          >
-            check
-          </i>
+          <div className='doors-popup-submit-container'>
+            <div className='doors-popup-btn'>
+              <div className='doors-popup-btnlabel'>Select All</div>
+              <i
+                className='doors-popup-submit material-icons'
+                onClick={() => 1}
+              >
+                select_all
+              </i>
+            </div>
+            <div className='doors-popup-btn'>
+              <div className='doors-popup-btnlabel'>Submit</div>
+              <i
+                className='doors-popup-submit material-icons'
+                onClick={() => {
+                  if ( Object.keys(this.state.selected).length > 0 ) {
+                    this.props.onSubmit( Object.values(this.state.selected) );
+                    this.setState({ selected: {}, search_text: '' });
+                  } else {
+                    this.setState({ search_text: '' });
+                    this.props.onUnmount();
+                  }
+                }}
+              >
+                check
+              </i>
+            </div>
+          </div>
         </div>
       </TransitionContainer>
     );
