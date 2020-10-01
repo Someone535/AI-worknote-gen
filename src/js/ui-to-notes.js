@@ -127,7 +127,7 @@ export default MAP_TO_TREE = {
   "S_SENSOR_NOTWORKING": [
     { path: [ "symptoms", "sensorissues" ], value: "{0} sensor is is not working at all." }
   ],
-  "S_SENSOR_SENSITIVE": [
+  "S_SENSOR_TOOSENSITIVE": [
     { path: [ "symptoms", "sensorissues" ], value: "{0} sensor is too sensitive." }
   ],
   "S_SHORTDWELL": [
@@ -467,7 +467,7 @@ export default MAP_TO_TREE = {
     { path: [ "actions", "listed" ], value: "Provided a quote for additional works required/recommended." }
   ],
   "A_REPLACEDPART": [
-    { path: [ "actions", "listed" ], value: "Replaced an part with: {0}." }
+    { path: [ "actions", "listed" ], value: "Replaced a part with: {0}." }
   ],
   "A_REVISIT_2TECHS": [
     { path: [ "actions", "listed" ], value: "Must return with 2 technicians to complete works safely." }

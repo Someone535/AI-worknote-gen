@@ -40,7 +40,7 @@ function () {
             str = str.replace(new RegExp("\\{" + key + "\\}", "gi"), args[key]);
         }
         // Replace all missing keys with empty strings
-        str = str.replace(new RegExp("\\{.*\\}","gi"),'');
+        str = str.replace(new RegExp("\\{.*?\\}","gi"),'');
     }
 
     return str;
@@ -71,7 +71,9 @@ function processUIOutput( ui_output ) {
   var final_notes = '';
   notes_arr.forEach( el => {
     if ( el.notes != '' ) {
-      final_notes += '\n'+el.label+'\n';
+      if ( el.label != 'Opening Notes' && el.label != 'Closing Notes' ) {
+        final_notes += '\n'+el.label;
+      }
       final_notes += el.notes+'\n\n';
     }
   });
@@ -86,7 +88,12 @@ function buildOutputTree( leaves ) {
 
   leaves.forEach( function(leaf) {
 
-    MAP_TO_TREE[ leaf.code ].forEach( function(entry) {
+    var entry = MAP_TO_TREE[ leaf.code ];
+    if ( entry == undefined ) {
+      console.log('ERROR: No entry found for '+leaf.code+'.');
+      return out_tree;
+    }
+    entry.forEach( function(entry) {
 
       // format each element of the path array
       var fmt_path = [];
@@ -138,6 +145,8 @@ function buildOutputTree( leaves ) {
 
 function collapseOutputTree( notes_tree ) {
 
+  if ( notes_tree.nodes == undefined ) return '';
+
   var work_notes = _collapseNode( notes_tree );
   console.log('WORK NOTES: '+work_notes);
 
@@ -151,6 +160,10 @@ function _collapseNode( node ) {
 
     // Generate separator array for all sub-nodes
     var sep_regexp = new RegExp('{(.*?)(:(.*?))?}','gis');
+    var node_format = node.format;
+    if ( node.format == undefined ) {
+      throw new Error('ERROR: No format found in - '+JSON.stringify(node));
+    }
     var result = Array.from( node.format.matchAll( sep_regexp ), function(el) {
       return { key: el[1], sep: el[3] || ' ' } 
     });
@@ -204,7 +217,5 @@ function verifyCurrentNode( node, path_arr ) {
 
 var exp;
 export default exp = {
-  //buildOutputTree: buildOutputTree,
-  //collapseOutputTree: collapseOutputTree,
   processUIOutput: processUIOutput
 }

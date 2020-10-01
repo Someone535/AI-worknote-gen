@@ -287,9 +287,9 @@ class MainPage extends React.Component {
   renderSectionSelection() {
     var sections = this.joinSections().map( el => el.label );
     sections.push('Custom Doors');
-    sections = sections.map( el => (
+    sections = sections.map( (el,ind) => (
       <BlockButton
-        key={el}
+        key={el+ind}
         text={el}
         mounted={this.state.section == null}
         transition='growdown'

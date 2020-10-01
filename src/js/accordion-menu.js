@@ -80,7 +80,6 @@ class AccordionMenu extends React.Component {
     );
     return (
       <div
-        mounted={this.props.mounted}
         className={class_name} 
         data-path={this.props.path}
       >
