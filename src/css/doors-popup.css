@@ -21,6 +21,9 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
+:root {
+}
+
 /* Main Styles */
 .doors-popup {
   display: flex;
@@ -30,18 +33,25 @@
   left: 0;
   flex-direction: column;
   overflow: hidden;
-  background-color: hsla(360,89%,66%,0.7);
+  background-color: hsla(360,89%,66%,1);
   border-radius: 10px 0px 0px 10px;
   color: white;
 }
 .doors-popup-title {
   font-size: xxx-large;
   font-weight: bold;
+  align-self: flex-start;
+  margin-left: 5vw;
 }
 .doors-popup-options {
   width: 90%;
   max-height: 50vh;
   overflow: scroll;
+  padding-left: 3vh;
+  margin-top: 3vh;
+  padding-top: 3vh;
+  padding-bottom: 3vh;
+  background-color: hsla(360,89%,73%,1);
 }
 .doors-popup-option {
   align-self: flex-start;
@@ -52,14 +62,34 @@
 
 /* Custom Input */
 .doors-popup-custom input {
-  font-size: xxx-large;
+  font-size: xx-large;
   position: relative;
   left: 5vw;
+  padding: 10px;
+  margin-left: 1vw;
+  background-color: hsla(360,0%,0%,0);
+  border: solid black;
+  border-width: 0px 0px 1px 0px;
 }
 
 /* Search Box */
+.doors-popup-search-container {
+  display: flex;
+  flex-direction: row;
+}
+.doors-popup-search-label {
+  font-size: xx-large;
+  margin-right: 2vw;
+}
 .doors-popup-search {
-  font-size: xxx-large;
+  font-size: xx-large;
+  padding: 10px;
+  background-color: hsla(360,0%,0%,0);
+  border: solid black;
+  border-width: 0px 0px 1px 1px;
+}
+.doors-popup-search:focus {
+  outline: none;
 }
 
 /* Buttons */
@@ -67,6 +97,8 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  width: 100%;
+  margin: 2vh 0 2vh 0;
 }
 .doors-popup-btn {
   display: flex;
@@ -74,14 +106,14 @@
   justify-content: center;
 }
 .doors-popup-btnlabel {
-  font-size: xxx-large;
+  font-size: xx-large;
+  padding-right: 2vw;
 }
 .doors-popup-submit {
   align-self: flex-end;
   font-size: 8vw;
-  padding: 10vw 10vw 10vw 10vw;
 }
-.doors-popup-submit:active {
+.doors-popup-btn:active .doors-popup-submit {
   transform: rotate(360deg);
   transition: transform .5s ease;
 }

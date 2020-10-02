@@ -342,11 +342,15 @@ class MainPage extends React.Component {
   }; // end renderSubmitPage
 
   renderDoorsPopup() {
+    var url_params = new URLSearchParams(window.location.search);
+    var doors = url_params.get('doors');
+    if ( doors ) doors = doors.split(',');
+    else doors = [];
     return (
       <DoorsPopup
         mounted={this.state.select_doors}
         title='Select Doors:'
-        options={['12345','45a56','Rear Entry']}
+        options={doors}
         custom='true'
         onUnmount={() => this.setState({ select_doors: false })}
         onSubmit={(arr) => {
