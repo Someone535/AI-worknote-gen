@@ -32,6 +32,7 @@ import SubmitPage from './submit-page.js';
 import DoorsPopup from './doors-popup.js';
 import BlockButton from './block-button.js';
 import SearchPanel from './search-panel.js';
+import LeafReview from './leaf-review.js';
 
 import UI_MAP from './ui-tree.js';
 
@@ -49,24 +50,17 @@ class MainPage extends React.Component {
     this.navigateTo = this.navigateTo.bind(this);
     this.handleSaveExitBtn = this.handleSaveExitBtn.bind(this);
     this.renderDoorsPopup = this.renderDoorsPopup.bind(this);
-    this.locateSection = this.locateSection.bind(this);
     this.joinSections = this.joinSections.bind(this);
-    this.clearSections = this.clearSections.bind(this);
-    this.resetSections = this.resetSections.bind(this);
     this.handleSectionSelection = this.handleSectionSelection.bind(this);
     this.submitLeaf = this.submitLeaf.bind(this);
 
     this.state = {
       section: null, path: [], data: {}, 
-      open_sections: [
-        { label: 'Opening Notes', leaves: [] },
-      ],
-      close_sections: [
-        { label: 'Closing Notes', leaves: [] },
-      ],
-      other_sections: [],
+      leaves: [],
+      default_sections: [ 'Opening Notes', 'Closing Notes' ],
+      sections: [ 'Opening Notes', 'Closing Notes' ],
       show_content: false, show_submit_page: false, select_doors: false,
-      show_search: false,
+      show_search: false, show_review: false,
     };
   }; // end constructor
 
@@ -76,33 +70,18 @@ class MainPage extends React.Component {
     return out;
   }; // getNode
 
-  locateSection( section_label ) {
-    var section_arr = '';
-    switch ( section_label ) {
-      case 'Opening Notes':
-        section_arr = 'open_sections';
-        break;
-      case 'Closing Closing':
-        section_arr = 'close_sections';
-        break;
-      default:
-        section_arr = 'other_sections';
-    };
-    section_arr = this.state[section_arr];
-    var section = section_arr.find( el => el.label == section_label );
-    if ( section == undefined ) {
-      section = { label: section_label, leaves: [] };
-      section_arr.push(section);
-    }
-    return { state_arr: section_arr, section: section }
-  }; // end locateSection
-
   joinSections() {
-    return [ 
-      ...this.state.open_sections, 
-      ...this.state.close_sections,
-      ...this.state.other_sections, 
-    ];
+    var sections = {};
+    this.state.sections.forEach( label => {
+      sections[label] = {
+        label: label,
+        leaves: []
+      }
+    });
+    this.state.leaves.forEach( leaf => {
+      sections[leaf.section].leaves.push(leaf);
+    });
+    return Object.values(sections);
   }; // end joinSections
 
   hasLeaves() {
@@ -112,18 +91,6 @@ class MainPage extends React.Component {
     });
     return leaves_found;
   }; // end hasLeaves
-
-  clearSections() {
-    this.state.open_sections.forEach( el => el.leaves = [] );
-    this.state.close_sections.forEach( el => el.leaves = [] );
-    this.state.other_sections.forEach( el => el.leaves = [] );
-    this.setState({ section: null });
-  }; // end clearSections
-
-  resetSections() {
-    this.setState({ other_sections: [] });
-    this.clearSections();
-  }; // end resetSections
 
   navigateTo(path) {
     // Locate data to be cleared based on differences between two paths
@@ -204,15 +171,14 @@ class MainPage extends React.Component {
     var node = this.getNode(UI_MAP,this.state.path);
     this.submitLeaf({
       code: node.leafcode,
-      data: Object.values( this.state.data ) 
+      data: Object.values( this.state.data ),
+      path: this.state.path,
+      section: this.state.section
     });
   }; // end submitCurrentLeaf
   submitLeaf(leaf) {
-    var section = this.locateSection(this.state.section);
-    section.section.leaves.push(leaf);
-    var new_state = {};
-    new_state[section.state_label] = section;
-    this.setState(new_state);
+    var leaves = this.state.leaves;
+    leaves.push(leaf);
     this.handleBackBtn();
   }; // end submitLeaf
 
@@ -325,6 +291,11 @@ class MainPage extends React.Component {
   }; // end renderNavPane
 
   renderSubmitPage() {
+    var sections = this.joinSections();
+    console.log(sections);
+    sections.forEach( el => {
+      el.leaves = el.leaves.map( l => l.leaf );
+    });
     return (
       <SubmitPage
         mounted={this.state.show_submit_page}
@@ -333,8 +304,13 @@ class MainPage extends React.Component {
           show_content: true, show_submit_page: false 
         }) }
         onClear={ () => {
-          this.setState({ show_submit_page: false, show_content: false });
-          this.resetSections();
+          this.setState({
+            show_submit_page: false,
+            show_content: false,
+            section: null,
+            sections: this.state.default_sections,
+            leaves: []
+          });
           this.navigateTo([]);
         }}
       />
@@ -355,8 +331,10 @@ class MainPage extends React.Component {
         onUnmount={() => this.setState({ select_doors: false })}
         onSubmit={(arr) => {
           this.setState({ select_doors: false, show_content: true });
-          this.locateSection( 'Doors: '+arr.join(', ') );
-          this.setState({ section: 'Doors: '+arr.join(', ') });
+          var section_label = 'Doors: '+arr.join(', ');
+          var sections = this.state.sections;
+          sections.push(section_label);
+          this.setState({ sections: sections, section: section_label });
         }}
       />
     );
@@ -377,6 +355,19 @@ class MainPage extends React.Component {
     );
   }; // end renderSearchPanel
 
+  renderLeafReview() {
+    return (
+      <LeafReview
+        mounted={this.state.show_review}
+        onDelete={(section,path) => console.log(section+' - '+path)}
+        onUnmount={() => this.setState({ show_review: false })}
+        sections={this.state.sections}
+        leaves={this.state.leaves}
+        tree={UI_MAP}
+      />
+    );
+  }; // end renderLeafReview
+
   render() {
     return (
       <div className='main-page'>
@@ -384,6 +375,7 @@ class MainPage extends React.Component {
         {this.renderNavPane()}
         <FancyButton
           className='menu-btn' icon='list' transition='growleft'
+          onClick={ () => this.setState({ show_review: true }) }
           mounted='true'
         />
         <FancyButton
@@ -412,6 +404,7 @@ class MainPage extends React.Component {
         {this.renderDoorsPopup()}
         {this.renderSubmitPage()}
         {this.renderSearchPanel()}
+        {this.renderLeafReview()}
       </div>
     );
   }; // end render
