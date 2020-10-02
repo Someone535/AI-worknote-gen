@@ -60,10 +60,8 @@ class MainPage extends React.Component {
       section: null, path: [], data: {}, 
       open_sections: [
         { label: 'Opening Notes', leaves: [] },
-        { label: 'All Doors', leaves: [] },
       ],
       close_sections: [
-        { label: 'Remaining Doors', leaves: [] },
         { label: 'Closing Notes', leaves: [] },
       ],
       other_sections: [],
@@ -82,11 +80,9 @@ class MainPage extends React.Component {
     var section_arr = '';
     switch ( section_label ) {
       case 'Opening Notes':
-      case 'All Doors':
         section_arr = 'open_sections';
         break;
       case 'Closing Closing':
-      case 'Remaining Doors':
         section_arr = 'close_sections';
         break;
       default:
@@ -104,8 +100,8 @@ class MainPage extends React.Component {
   joinSections() {
     return [ 
       ...this.state.open_sections, 
-      ...this.state.other_sections, 
       ...this.state.close_sections,
+      ...this.state.other_sections, 
     ];
   }; // end joinSections
 
@@ -197,7 +193,7 @@ class MainPage extends React.Component {
 
   handleSectionSelection( section_label ) {
     console.log(section_label);
-    if ( section_label == "Custom Doors" ) {
+    if ( section_label == "Select Doors" ) {
       this.setState({ select_doors: true });
     } else {
       this.setState({ section: section_label });
@@ -293,7 +289,7 @@ class MainPage extends React.Component {
 
   renderSectionSelection() {
     var sections = this.joinSections().map( el => el.label );
-    sections.push('Custom Doors');
+    sections.push('Select Doors');
     sections = sections.map( (el,ind) => (
       <BlockButton
         key={el+ind}
@@ -346,11 +342,15 @@ class MainPage extends React.Component {
   }; // end renderSubmitPage
 
   renderDoorsPopup() {
+    var url_params = new URLSearchParams(window.location.search);
+    var doors = url_params.get('doors');
+    if ( doors ) doors = doors.split(',');
+    else doors = [];
     return (
       <DoorsPopup
         mounted={this.state.select_doors}
         title='Select Doors:'
-        options={['12345','45a56','Rear Entry']}
+        options={doors}
         custom='true'
         onUnmount={() => this.setState({ select_doors: false })}
         onSubmit={(arr) => {

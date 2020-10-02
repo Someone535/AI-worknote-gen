@@ -30,32 +30,94 @@ class DoorsPopup extends React.Component {
 
   constructor(props) {
     super(props);
+    this.searchOptions = this.searchOptions.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSelectAll = this.handleSelectAll.bind(this);
+
+    var option_status_map = this.props.options.map( (el,ind) => { 
+      return { label: el, ind: ind, marked: false } ;
+    });
 
     this.state = {
-      options: this.props.options,
-      selected: {},
-      alerting: false
+      options: option_status_map,
+      alerting: false,
+      search_text: '',
+      select_all: true,
     };
   }; // end constructor
 
-  handleCheckbox(ind,key,evt) {
-    if ( this.state.selected[ind] && !evt.target.checked ) {
-      delete this.state.selected[ind];
-    } else if ( !this.state.selected[ind] && evt.target.checked ) {
-      this.state.selected[ind] = key;
-    }
-    console.log(this.state.selected);
+  selectAll(opts) {
+    if ( !opts ) opts = this.state.options;
+    var options = this.state.options;
+    opts.forEach( el => {
+      options[el.ind].marked = true; 
+    });
+    this.setState({ options: options });
+  }; // end selectAll
+
+  handleCheckbox(ind,evt) {
+    var options = this.state.options;
+    options[ind].marked = !options[ind].marked;
+    this.setState({ options: options });
   }; // end handleCheckbox
 
+  clearAll() {
+    var options = this.state.options;
+    options.forEach( el => el.marked = false );
+    this.setState({ options: options });
+  }; // end clearAll
+
+  getMarked() {
+    var marked = [];
+    this.state.options.forEach( el => {
+      if ( el.marked ) marked.push(el.label);
+    });
+    return marked;
+  }; // end hasMarked
+
+  handleSubmit() {
+    var marked = this.getMarked();
+    if ( marked.length > 0 ) {
+      this.props.onSubmit( marked );
+      this.clearAll();
+      this.setState({ select_all: true, search_text: '' });
+    } else {
+      this.setState({ select_all: true, search_text: '' });
+      this.props.onUnmount();
+    }
+  }; // end handleSubmit
+
+  handleSelectAll() {
+    if ( this.state.select_all ) {
+      this.selectAll( this.searchOptions() );
+    } else {
+      this.clearAll();
+    }
+    this.setState({ select_all: !this.state.select_all });
+  }; // end handleSelectAll
+
+  searchOptions() {
+    if ( this.state.search_text != '' ) {
+      return this.state.options.filter( el => 
+        el.label.search( new RegExp( this.state.search_text, 'gi' ) ) != -1
+      );
+    } else {
+      return this.state.options;
+    }
+  }; // end searchOptions
+
   renderOptions() {
-    return this.state.options.map( (el,ind) => (
-      <div key={el+ind} className='doors-popup-option'>
+    return this.searchOptions().map( (el) => (
+      <div key={el.label+el.ind} className='doors-popup-option'>
         <label className='doors-popup-label'>
-          <input type='checkbox' className='doors-popup-checkbox' 
-            onChange={(evt) => this.handleCheckbox(ind,el,evt)}
+          <input
+            type='checkbox'
+            className='doors-popup-checkbox' 
+            checked={this.state.options[el.ind].marked}
+            onChange={(evt) => this.handleCheckbox(el.ind,evt)}
           />
           <span className='doors-popup-checkmark'></span>
-          {el}
+          {el.label}
         </label>
       </div>
     ))
@@ -64,16 +126,17 @@ class DoorsPopup extends React.Component {
   renderCustom() {
     return this.props.custom && (
       <div className='doors-popup-custom'>
-        <label className='doors-popup-label'>
-          <input type='checkbox' className='doors-popup-checkbox' />
-          <span className='doors-popup-custom-checkmark'></span>
-        </label>
         <input
           type='text'
+          placeholder='enter custom door here'
           onKeyDown={ (evt) => {
             if ( evt.key == 'Enter' ) {
               var new_options = this.state.options;
-              new_options.push( evt.target.value );
+              new_options.push({
+                label: evt.target.value,
+                ind: this.state.options.length,
+                marked: true 
+              });
               this.setState({ options: new_options });
               evt.target.value = '';
             }
@@ -101,21 +164,44 @@ class DoorsPopup extends React.Component {
           }}
         >
           <h1 className='doors-popup-title'>{this.props.title}</h1>
+          <div className='doors-popup-search-container'>
+            <div className='doors-popup-search-label'>Filter/Search:</div>
+            <input
+              autoFocus
+              type='text'
+              className='doors-popup-search'
+              placeholder='filter list here'
+              onChange={(evt) => this.setState({ search_text: evt.target.value })}
+            />
+          </div>
           <div className='doors-popup-options'>
             {this.renderOptions()}
             {this.renderCustom()}
           </div>
-          <i
-            className='doors-popup-submit material-icons'
-            onClick={() => {
-              if ( Object.keys(this.state.selected).length > 0 ) 
-                this.props.onSubmit( Object.values(this.state.selected) );
-              else
-                this.props.onUnmount();
-            }}
-          >
-            check
-          </i>
+          <div className='doors-popup-submit-container'>
+            <label 
+              onClick={this.handleSelectAll}
+              className='doors-popup-btn'>
+            >
+              <div className='doors-popup-btnlabel'>
+                {this.state.select_all ? 'Select All' : 'Unselect All'}
+              </div>
+              <i className='doors-popup-submit material-icons'>
+                select_all
+              </i>
+            </label>
+            <label
+              onClick={this.handleSubmit}
+              className='doors-popup-btn'
+            >
+              <div className='doors-popup-btnlabel'>
+                {this.getMarked().length > 0 ? 'Submit' : 'Cancel'}
+              </div>
+              <i className='doors-popup-submit material-icons'>
+                {this.getMarked().length > 0 ? 'check' : 'cancel'}
+              </i>
+            </label>
+          </div>
         </div>
       </TransitionContainer>
     );
