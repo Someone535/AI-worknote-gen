@@ -20,6 +20,8 @@
  * along with the Auto Ingress Work Note Generator.
  * If not, see <https://www.gnu.org/licenses/>.
  */
+
+/* Main Styles */
 .leaf-tile {
   position: relative;
   flex-grow: 1;
@@ -27,9 +29,25 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  background-color: hsla(124,89%,36%,0.7);
+  background-color: hsla(124,0%,36%,0.5);
   border-radius: 10px;
   margin: 5px;
+}
+.leaf-tile-titlebox {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color: hsla(124,89%,40%,0.5);
+  border-radius: 10px;
+  justify-content: space-between;
+  font-size: xx-large;
+  color: white;
+}
+.leaf-tile-type {
+  padding-left: 2vw;
+}
+.leaf-tile-titlebox i {
+  font-size: 5vw;
 }
 .leaf-path {
   margin: 10px;
@@ -43,4 +61,47 @@
   margin: 10px 20px 10px 20px;
   font-size: x-large;
   color: white;
+}
+.leaf-tile-details-container {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Delete Styles */
+.leaf-tile-delete-confirm {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: hsla(360,89%,40%,1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.delete-confirm-title {
+  align-self: center;
+}
+.delete-confirm-options {
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+/* Type Styles */
+.leaf-tile-titlebox.leaf-style-symptoms {
+  background-color: hsla(360,89%,40%,0.5);
+}
+.leaf-tile-titlebox.leaf-style-faults {
+  background-color: hsla(250,89%,40%,0.5);
+}
+.leaf-tile-titlebox.leaf-style-possiblerootcauses {
+  background-color: hsla(50,89%,40%,0.5);
+}
+.leaf-tile-titlebox.leaf-style-actions {
+  background-color: hsla(150,89%,40%,0.5);
 }
