@@ -53,6 +53,7 @@ class MainPage extends React.Component {
     this.joinSections = this.joinSections.bind(this);
     this.handleSectionSelection = this.handleSectionSelection.bind(this);
     this.submitLeaf = this.submitLeaf.bind(this);
+    this.handleLeafDeletion = this.handleLeafDeletion.bind(this);
 
     this.state = {
       section: null, path: [], data: {}, 
@@ -166,6 +167,13 @@ class MainPage extends React.Component {
       this.setState({ section: section_label });
     }
   }; // end handleSectionSelection
+
+  handleLeafDeletion(path) {
+    var path_str = path.join(':');
+    var leaves = this.state.leaves;
+    leaves = leaves.filter( leaf => leaf.path.join(':') != path_str );
+    this.setState({ leaves: leaves });
+  }; // end handleLeafDeletion
 
   submitCurrentLeaf() {
     var node = this.getNode(UI_MAP,this.state.path);
@@ -359,7 +367,7 @@ class MainPage extends React.Component {
     return (
       <LeafReview
         mounted={this.state.show_review}
-        onDelete={(section,path) => console.log(section+' - '+path)}
+        onDelete={this.handleLeafDeletion}
         onUnmount={() => this.setState({ show_review: false })}
         sections={this.state.sections}
         leaves={this.state.leaves}

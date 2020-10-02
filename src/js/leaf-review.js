@@ -65,6 +65,7 @@ class LeafReview extends React.Component {
         tree={this.props.tree}
         onClick={()=>1}
         mounted={true}
+        onDelete={this.props.onDelete}
       />
     ));
   }; // end renderSection
