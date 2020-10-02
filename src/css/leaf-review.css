@@ -48,3 +48,35 @@
 .review-title {
   font-size: xxx-large;
 }
+.review-container {
+  margin-top: 2vh;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  width: 90vw;
+  height: 85vh;
+}
+.leaf-review .mega-button {
+  background-color: hsla(124,0%,36%,0.5);
+}
+.leaf-review .mega-button-subcontainer {
+  display: flex;
+  flex-flow: column nowrap;
+  width: 98%;
+}
+.leaf-review .mega-button-subtitle {
+  width: 100%;
+  align-self: flex-start;
+  flex-basis: 90%;
+  font-size: xx-large;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.leaf-review .mega-button-subtitle:before {
+  color:black;
+}
+.leaf-review .leaf-tile {
+  flex-grow: 0;
+  width: 90%;
+}

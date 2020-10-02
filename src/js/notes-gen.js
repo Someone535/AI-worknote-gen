@@ -176,6 +176,7 @@ function _collapseNode( node ) {
     for ( var key in node.nodes ) {
       if ( Array.isArray( node.nodes[key] ) ) {
         var node_str = node.nodes[key].join( sep_map[key] );
+        node_str = sep_map[key] + node_str;
         node.nodes[key] = node_str;
       } else if ( typeof node.nodes[key] != 'string' ) {
         var node_str = _collapseNode( node.nodes[key] );

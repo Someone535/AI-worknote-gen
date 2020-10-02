@@ -51,12 +51,12 @@ class LeafTile extends React.Component {
       >
         <div className='delete-confirm-title'>Delete this leaf?</div>
         <div className='delete-confirm-options'>
-          <i className='material-icons delete-confirm-yes'
-            onClick={() => this.props.onDelete(this.props.path)}
-          >check</i>
           <i className='material-icons delete-confirm-no'
             onClick={() => this.setState({ confirm_delete: false })}
           >cancel</i>
+          <i className='material-icons delete-confirm-yes'
+            onClick={() => this.props.onDelete(this.props.path)}
+          >delete</i>
         </div>
       </TransationContainer> 
     );
@@ -77,9 +77,11 @@ class LeafTile extends React.Component {
     var leaftype = '';
     var leafpath = '';
     var node = this.props.tree;
+    var path_cumulative = [];
     this.props.path.forEach( (el,ind) => {
       if ( ind > 1 ) leafpath += '\n';
       node = node.nodes[el];
+      path_cumulative.push(el);
       if ( ind != 0 ) leafpath += '- ' + node.label;
       if ( ind == 0 ) leaftype = node.label;
       if ( node.input ) leafpath += '*';

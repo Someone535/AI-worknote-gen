@@ -89,7 +89,8 @@ class SearchPanel extends React.Component {
       this.state.leaf_to_submit.forEach( el => node = node.nodes[el] );
       this.props.onSubmit({
         code: node.leafcode,
-        data: Object.values( this.state.data )
+        data: Object.values( this.state.data ),
+        path: this.state.leaf_to_submit,
       });
       this.setState({ node_to_gather: null, leaf_to_submit: null });
     }

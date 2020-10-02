@@ -115,7 +115,6 @@ class MainPage extends React.Component {
       if ( node.value ) new_data[ path_cumulative.join(':') ] = node.value;
     });
     this.setState({ path: path, data: new_data });
-    console.log(JSON.stringify(this.state));
   }; // end navigateTo
 
   hideContentCallback( fnc, params ) {
@@ -160,7 +159,6 @@ class MainPage extends React.Component {
   }; // end handleSaveExitBtn
 
   handleSectionSelection( section_label ) {
-    console.log(section_label);
     if ( section_label == "Select Doors" ) {
       this.setState({ select_doors: true });
     } else {
@@ -169,9 +167,9 @@ class MainPage extends React.Component {
   }; // end handleSectionSelection
 
   handleLeafDeletion(path) {
-    var path_str = path.join(':');
+    var path_str = path.join('');
     var leaves = this.state.leaves;
-    leaves = leaves.filter( leaf => leaf.path.join(':') != path_str );
+    leaves = leaves.filter( leaf => leaf.path.join('') != path_str );
     this.setState({ leaves: leaves });
   }; // end handleLeafDeletion
 
@@ -181,12 +179,21 @@ class MainPage extends React.Component {
       code: node.leafcode,
       data: Object.values( this.state.data ),
       path: this.state.path,
-      section: this.state.section
     });
   }; // end submitCurrentLeaf
   submitLeaf(leaf) {
+    leaf.section = this.state.section;
     var leaves = this.state.leaves;
-    leaves.push(leaf);
+    // Check for leaf with same path and section to replace
+    var match_ind = leaves.findIndex( el => 
+      el.path.join('') == leaf.path.join('') && el.section == leaf.section
+    );
+    if ( match_ind != -1 ) {
+      leaves[match_ind] = leaf;
+    } else {
+      leaves.push(leaf);
+    }
+    this.setState({ leaves: leaves });
     this.handleBackBtn();
   }; // end submitLeaf
 
@@ -300,7 +307,6 @@ class MainPage extends React.Component {
 
   renderSubmitPage() {
     var sections = this.joinSections();
-    console.log(sections);
     sections.forEach( el => {
       el.leaves = el.leaves.map( l => l.leaf );
     });
@@ -339,7 +345,7 @@ class MainPage extends React.Component {
         onUnmount={() => this.setState({ select_doors: false })}
         onSubmit={(arr) => {
           this.setState({ select_doors: false, show_content: true });
-          var section_label = 'Doors: '+arr.join(', ');
+          var section_label = 'Door(s): '+arr.join(', ');
           var sections = this.state.sections;
           sections.push(section_label);
           this.setState({ sections: sections, section: section_label });

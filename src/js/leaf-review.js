@@ -113,7 +113,10 @@ class LeafReview extends React.Component {
         </div>
         <FancyButton
           className='menu-btn' icon='list' transition='growleft'
-          onClick={this.props.onUnmount}
+          onClick={() => {
+            this.setState({ section: null });
+            this.props.onUnmount();
+          }}
           mounted='true'
         />
         <FancyButton 
@@ -121,8 +124,10 @@ class LeafReview extends React.Component {
           onClick={() => this.setState({ section: null })}
           mounted={this.state.section != null}
         />
-        {this.renderSection()}
-        {this.renderSections()}
+        <div className='review-container'>
+          {this.renderSection()}
+          {this.renderSections()}
+        </div>
       </TransationContainer>
     );
   }; // end render
