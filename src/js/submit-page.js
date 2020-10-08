@@ -32,13 +32,42 @@ class SubmitPage extends React.Component {
 
   constructor(props) {
     super(props);
+    this.onTextChange = this.onTextChange.bind(this);
+
+    this.state = {
+      text: this.buildNotes(),
+      firstLoad: true,
+    };
   }; // end constructor
+
+  stringifySection(section) {
+    return section.label + section.leaves.map( l => l.code + l.data.join('') )
+                                         .join('');
+  }; // end stringifySection
+
+  componentDidUpdate(prevProps, prevState) {
+    var prev_sect = prevProps.sections
+                              .map( sect => this.stringifySection(sect) )
+                              .join('');
+    var new_sect = this.props.sections
+                              .map( sect => this.stringifySection(sect) )
+                              .join('');
+    if ( prev_sect != new_sect ) {
+      this.setState({ text: this.buildNotes() });
+    }
+  }; // end componentDidUpdate
+
+  onTextChange(evt) {
+    this.setState({ text: evt.target.value });
+  }; // end onTextChange
+
+  buildNotes() {
+    return backend.processUIOutput( this.props.sections );
+  }; // end buildNotes
 
   render() {
     var class_name = 'submit-page';
-    if ( this.props.mounted ) {
-      var work_notes = backend.processUIOutput( this.props.sections );
-    }
+    var work_notes = this.state.text;
     return (
       <TransitionContainer
         mounted={this.props.mounted}
@@ -46,7 +75,8 @@ class SubmitPage extends React.Component {
         transition={this.props.transition}
       >
         <h1>Your Work Notes:</h1>
-        <p>{work_notes}</p>
+        <p>(edit notes below)</p>
+        <textarea onChange={this.onTextChange} value={work_notes} />
         <div className='submit-page-options'>
           <div className='submit-page-clear' onClick={this.props.onClear}>
             <i className='material-icons'>delete_forever</i>

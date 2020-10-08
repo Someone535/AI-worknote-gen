@@ -65,7 +65,7 @@ class SearchPanel extends React.Component {
   }; // end needsData
 
   submitLeaf(path) {
-    this.setState({ leaf_to_submit: path }, () => this.gatherData(path) );
+    this.setState({ leaf_to_submit: path }, this.gatherData );
   }; // end submitLeaf
 
   gatherData() {

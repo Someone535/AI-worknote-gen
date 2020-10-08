@@ -26,7 +26,7 @@ export default MAP_TO_TREE = {
 
   /* Symptoms */
   "S_BATTERYFAILDISPLAY": [
-    { path: [ "symptoms", "alerts", "listed" ], value: "battery failure" }
+    { path: [ "symptoms", "alerts", "listed" ], value: "Battery Failure" }
   ],
   "S_CLOSINGFAST": [
     { path: [ "symptoms", "speedissues" ], value: "Doors traveling closed too quickly." }
@@ -92,7 +92,7 @@ export default MAP_TO_TREE = {
     { path: [ "symptoms", "speedissues" ], value: "Doors traveling open too slowly." }
   ],
   "S_POWERFAILDISPLAY": [
-    { path: [ "symptoms", "alerts", "listed" ], value: "AC power failure" }
+    { path: [ "symptoms", "alerts", "listed" ], value: "AC Power Failure" }
   ],
   "S_RANDOMOPEN": [
     { path: [ "symptoms", "listed" ], value: "Door opening seemingly at random." }
