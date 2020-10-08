@@ -3,6 +3,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
+  watch: true,
+  watchOptions: {
+    ignored: /node_modules/
+  },
   mode: 'development',
   entry: {
     index: './src/js/index.js',
@@ -10,7 +14,7 @@ module.exports = {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist',
-    host: '192.168.0.72'
+    host: '192.168.0.72',
   },
   plugins: [
     new CleanWebpackPlugin(),

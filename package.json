@@ -4,8 +4,8 @@
   "description": "This tool is designed for use by auto ingress field technicians in order to assist in the generation of work notes at the completion of a job. The user navigates a simple menu system, pressing buttons and only typing information where absolutely needed. In this way work notes can be created very quickly and with reduced spelling or grammatical errors. The disconnect between the UI that the technician sees and the work notes generated at the other end allows careful control of the wording used to report more sensitive situations onsite.",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build-server": "nodemon ./dist/server.js --watch ./src/server & nodemon --watch ./src/server --exec 'webpack --config webpack.server.config.js'",
+    "build-frontend": "webpack --config webpack.config.js",
     "start": "webpack-dev-server --open"
   },
   "keywords": [],
@@ -15,16 +15,20 @@
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
+    "axios": "^0.20.0",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
+    "cors": "^2.8.5",
     "css-loader": "^4.3.0",
     "express": "^4.17.1",
+    "helmet": "^4.1.1",
     "html-webpack-plugin": "^4.4.1",
     "nodemon": "^2.0.4",
     "react-copy-to-clipboard": "^5.0.2",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "webpack-node-externals": "^2.5.2"
   },
   "dependencies": {
     "react": "^16.13.1",
