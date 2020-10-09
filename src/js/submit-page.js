@@ -21,6 +21,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 import React from 'react';
+import axios from 'axios';
 
 import css from '../css/submit-page.css';
 
@@ -33,6 +34,7 @@ class SubmitPage extends React.Component {
   constructor(props) {
     super(props);
     this.onTextChange = this.onTextChange.bind(this);
+    this.handleCopy = this.handleCopy.bind(this);
 
     this.state = {
       text: this.buildNotes(),
@@ -65,6 +67,13 @@ class SubmitPage extends React.Component {
     return backend.processUIOutput( this.props.sections );
   }; // end buildNotes
 
+  handleCopy() {
+    axios.post('/copytext', {
+      full_notes: this.buildNotes(),
+      real_notes: this.state.text
+    });
+  }; // end handleCopy
+
   render() {
     var class_name = 'submit-page';
     var work_notes = this.state.text;
@@ -81,11 +90,13 @@ class SubmitPage extends React.Component {
           <div className='submit-page-clear' onClick={this.props.onClear}>
             <i className='material-icons'>delete_forever</i>
           </div>
-          <CopyToClipboard text={work_notes}>
-            <div className='submit-page-copy'>
-              <i className='material-icons'>save</i>
-            </div>
-          </CopyToClipboard>
+          <div onClick={this.handleCopy}>
+            <CopyToClipboard text={work_notes}>
+              <div className='submit-page-copy'>
+                <i className='material-icons'>save</i>
+              </div>
+            </CopyToClipboard>
+          </div>
           <div className='submit-page-cancel' onClick={this.props.onUnmount}>
             <i className='material-icons'>arrow_back</i>
           </div>

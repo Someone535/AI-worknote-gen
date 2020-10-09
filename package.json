@@ -4,7 +4,7 @@
   "description": "This tool is designed for use by auto ingress field technicians in order to assist in the generation of work notes at the completion of a job. The user navigates a simple menu system, pressing buttons and only typing information where absolutely needed. In this way work notes can be created very quickly and with reduced spelling or grammatical errors. The disconnect between the UI that the technician sees and the work notes generated at the other end allows careful control of the wording used to report more sensitive situations onsite.",
   "private": true,
   "scripts": {
-    "build-server": "nodemon ./dist/server.js --watch ./src/server & nodemon --watch ./src/server --exec 'webpack --config webpack.server.config.js'",
+    "build-server": "nodemon --watch ./src/server --exec 'webpack --config webpack.server.config.js' & nodemon ./dist/server.js --watch ./dist",
     "build-frontend": "webpack --config webpack.config.js",
     "start": "webpack-dev-server --open"
   },
@@ -19,11 +19,13 @@
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "css-loader": "^4.3.0",
     "express": "^4.17.1",
     "helmet": "^4.1.1",
     "html-webpack-plugin": "^4.4.1",
     "nodemon": "^2.0.4",
+    "oauth-1.0a": "^2.2.6",
     "react-copy-to-clipboard": "^5.0.2",
     "style-loader": "^1.2.1",
     "webpack": "^4.44.2",
@@ -31,6 +33,7 @@
     "webpack-node-externals": "^2.5.2"
   },
   "dependencies": {
+    "cookie-parser": "^1.4.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "save-dev": "0.0.1-security",
