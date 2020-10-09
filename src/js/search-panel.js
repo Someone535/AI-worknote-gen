@@ -22,7 +22,7 @@
  */
 import React from 'react';
 
-import TransationContainer from './transition-container.js';
+import TransitionContainer from './transition-container.js';
 import LeafTile from './leaf-tile.js';
 import InputPopup from './input-popup.js';
 import FancyButton from './fancy-button.js';
@@ -161,7 +161,7 @@ class SearchPanel extends React.Component {
 
   render() {
     return (
-      <TransationContainer
+      <TransitionContainer
         mounted={this.props.mounted}
         className='search-panel'
         transition={this.props.transition}
@@ -190,7 +190,7 @@ class SearchPanel extends React.Component {
           onClick={this.props.onCancel}
           mounted={true}
         />
-      </TransationContainer>
+      </TransitionContainer>
     );
   }; // end render
 

@@ -2072,7 +2072,8 @@ var worknotes_submap = {
           },
           "replaced": {
             label: "Replaced Component",
-            input: true,
+            input: false,
+            parts: true,
             input_message: "What did you replace?",
             leafcode: "A_REPLACEDPART"
           },
@@ -2098,7 +2099,8 @@ var worknotes_submap = {
           },
           "installed": {
             label: "Installed New Part",
-            input: true,
+            input: false,
+            parts: true,
             input_message: "Which part(s) did you install?",
             leafcode: "A_INSTALLEDPART"
           },
@@ -2121,6 +2123,7 @@ var worknotes_submap = {
           "parts": {
             label: "Send Quote for Parts",
             input: false,
+            parts: true,
             leafcode: "A_QUOTEPART"
           },
           "operator": {

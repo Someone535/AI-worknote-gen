@@ -22,7 +22,7 @@
  */
 import React from 'react';
 
-import TransationContainer from './transition-container.js';
+import TransitionContainer from './transition-container.js';
 import LeafTile from './leaf-tile.js';
 import MegaButton from './mega-button.js';
 import FancyButton from './fancy-button.js';
@@ -103,7 +103,7 @@ class LeafReview extends React.Component {
   render() {
     var class_name = 'leaf-review';
     return (
-      <TransationContainer
+      <TransitionContainer
         mounted={this.props.mounted}
         className='leaf-review'
         transition='growleft'
@@ -128,7 +128,7 @@ class LeafReview extends React.Component {
           {this.renderSection()}
           {this.renderSections()}
         </div>
-      </TransationContainer>
+      </TransitionContainer>
     );
   }; // end render
 

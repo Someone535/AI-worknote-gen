@@ -68,10 +68,10 @@ class SubmitPage extends React.Component {
   }; // end buildNotes
 
   handleCopy() {
-    axios.post('/copytext', {
+    /*axios.post('/copytext', {
       full_notes: this.buildNotes(),
       real_notes: this.state.text
-    });
+    });*/
   }; // end handleCopy
 
   render() {

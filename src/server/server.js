@@ -15,12 +15,6 @@ const app = express(),
 app.use(express.static(__dirname));
 app.use(express.json());
 
-app.post('/copytext', (req,res) => {
-  console.log(req.body);
-  res.status(200);
-  res.send('Saved a record of these work notes to server.');
-});
-
 var last_update = null;
 var parts = null;
 app.get('/gettechparts', (req,res) => {
@@ -59,9 +53,11 @@ app.get('/gettechparts', (req,res) => {
 //    }
 function callPartRestlet() {
 
+  var url = 'https://5238530-sb2.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=735&deploy=1';
+
   var request_data = {
-    url: 'https://5238530-sb2.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=735&deploy=1',
-    method: 'GET'
+    method: 'GET',
+    url: url
   };
 
   var oauth = OAuth({
@@ -78,7 +74,7 @@ function callPartRestlet() {
   header['content-type'] = 'application/json';
 
   return axios({
-    url: 'https://5238530-sb2.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=735&deploy=1',
+    url: url,
     method: 'GET',
     headers: header,
   });

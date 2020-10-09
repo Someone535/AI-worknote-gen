@@ -407,7 +407,7 @@ export default MAP_TO_TREE = {
     { path: [ "actions", "listed" ], value: "Completed the onsite induction." }
   ],
   "A_INSTALLEDPART": [
-    { path: [ "actions", "listed" ], value: "Installed a new part: {0}." }
+    { path: [ "actions", "listed" ], value: "Installed a new part(s): {0}." }
   ],
   "A_INSTRUCTED_CUSTOMER": [
     { path: [ "actions", "listed" ], value: "Instructed customer on use of door over the phone." }
@@ -467,7 +467,7 @@ export default MAP_TO_TREE = {
     { path: [ "actions", "listed" ], value: "Provided a quote for additional works required/recommended." }
   ],
   "A_REPLACEDPART": [
-    { path: [ "actions", "listed" ], value: "Replaced a part with: {0}." }
+    { path: [ "actions", "listed" ], value: "Replaced a part(s): {0}." }
   ],
   "A_REVISIT_2TECHS": [
     { path: [ "actions", "listed" ], value: "Must return with 2 technicians to complete works safely." }

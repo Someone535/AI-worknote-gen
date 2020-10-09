@@ -21,6 +21,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 import React from 'react';
+import axios from 'axios';
 
 import css from '../css/main-page.css';
 
@@ -54,14 +55,16 @@ class MainPage extends React.Component {
     this.handleSectionSelection = this.handleSectionSelection.bind(this);
     this.submitLeaf = this.submitLeaf.bind(this);
     this.handleLeafDeletion = this.handleLeafDeletion.bind(this);
+    this.renderPartsPopup = this.renderPartsPopup.bind(this);
 
     this.state = {
       section: null, path: [], data: {}, 
       leaves: [],
       default_sections: [ 'Opening Notes', 'Closing Notes' ],
+      parts: null,
       sections: [ 'Opening Notes', 'Closing Notes' ],
       show_content: false, show_submit_page: false, select_doors: false,
-      show_search: false, show_review: false,
+      show_search: false, show_review: false, select_parts: false
     };
   }; // end constructor
 
@@ -214,12 +217,14 @@ class MainPage extends React.Component {
       if ( ind == 0 ) message += node.label;
       else if ( ind == 1 ) message += ' -> ' + node.label;
       else message += '- ' + node.label;
-      if ( node.input ) message += ' ( ' + this.state.data[ path_cumulative.join(':') ] + ' )';
+      if ( node.input || node.parts == true ) {
+        message += ' ( ' + this.state.data[ path_cumulative.join(':') ] + ' )';
+      }
       if ( ind != 0 ) message += '\n';
     });
     var node = this.getNode(UI_MAP,this.state.path);
     message += 'Final Code: ' + node.leafcode;
-    var data = !node.input || this.state.data[ this.state.path.join(':') ];
+    var data = ( !node.input && node.parts != true ) || this.state.data[ this.state.path.join(':') ];
     return (
       <AlertPopup
         className='leaf-alert'
@@ -354,6 +359,44 @@ class MainPage extends React.Component {
     );
   }; // end renderDoorsPopup
 
+  getParts() {
+    axios.get('/gettechparts').then( res => {
+      this.setState({ parts: res.data });
+    }, error => {
+      console.log('Error Gathering Parts Data');
+      console.log(error);
+    });
+  }; // end getParts
+
+  renderPartsPopup() {
+    var node = this.getNode(UI_MAP,this.state.path);
+    var data_gathered = this.state.data[ this.state.path.join(':') ];
+    var select_parts = node.parts == true && data_gathered == undefined;
+    var parts = [];
+    if ( this.state.parts != null ) {
+      for ( var key in this.state.parts ) {
+        var part = this.state.parts[key];
+        parts.push( part.type + ' : ' + part.code + ' : ' + part.desc );
+      }
+    }
+    return (
+      <DoorsPopup
+        mounted={select_parts}
+        title='Which Parts?'
+        options={parts}
+        custom='true'
+        onUnmount={() => this.goUp()}
+        onSubmit={(arr) => {
+          arr = arr.map( el => el.split(' : ') );
+          arr = arr.map( el => el[2] + ' [' + el[1] + '] ' );
+          var new_data = this.state.data;
+          new_data[ this.state.path.join(':') ] = arr.join(', ');
+          this.setState({ data: new_data });
+        }}
+      />
+    );
+  }; // end _renderPartsPopup
+
   renderSearchPanel() {
     return (
       <SearchPanel
@@ -383,6 +426,7 @@ class MainPage extends React.Component {
   }; // end renderLeafReview
 
   render() {
+    if ( this.state.parts == null ) this.getParts();
     return (
       <div className='main-page'>
         {this.renderTitles()}
@@ -416,6 +460,7 @@ class MainPage extends React.Component {
         {this.renderTextInputBox()}
         {this.renderSectionSelection()}
         {this.renderDoorsPopup()}
+        {this.renderPartsPopup()}
         {this.renderSubmitPage()}
         {this.renderSearchPanel()}
         {this.renderLeafReview()}

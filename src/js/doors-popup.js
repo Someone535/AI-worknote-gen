@@ -46,6 +46,21 @@ class DoorsPopup extends React.Component {
     };
   }; // end constructor
 
+  componentDidUpdate(prevProps, prevState) {
+    if ( prevProps.options.join('') != this.props.options.join('') ) {
+      // merge new props with current options array (adding new items)
+      var new_options = this.state.options;
+      this.props.options.forEach( el => {
+        // if the current option cannot be found in the state
+        if ( new_options.find( opt => opt.label == el ) == undefined ) {
+          // add it in
+          new_options.push({ label: el, ind: new_options.length, marked: false });
+        }
+      });
+      this.setState({ options: new_options });
+    }
+  }; // end componentDidUpdate
+
   selectAll(opts) {
     if ( !opts ) opts = this.state.options;
     var options = this.state.options;
@@ -98,9 +113,10 @@ class DoorsPopup extends React.Component {
 
   searchOptions() {
     if ( this.state.search_text != '' ) {
-      return this.state.options.filter( el => 
-        el.label.search( new RegExp( this.state.search_text, 'gi' ) ) != -1
-      );
+      return this.state.options.filter( el => {
+        var s_text = this.state.search_text.replace(/ /g,'.*?');
+        return el.label.search( new RegExp( s_text, 'gi' ) ) != -1
+      });
     } else {
       return this.state.options;
     }
@@ -128,7 +144,7 @@ class DoorsPopup extends React.Component {
       <div className='doors-popup-custom'>
         <input
           type='text'
-          placeholder='enter custom door here'
+          placeholder='enter custom option here followed by the enter key'
           onKeyDown={ (evt) => {
             if ( evt.key == 'Enter' ) {
               var new_options = this.state.options;
