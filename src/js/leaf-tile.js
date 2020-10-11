@@ -22,7 +22,7 @@
  */
 import React from 'react';
 
-import TransationContainer from './transition-container.js';
+import TransitionContainer from './transition-container.js';
 
 import css from '../css/leaf-tile.css'
 
@@ -44,7 +44,7 @@ class LeafTile extends React.Component {
 
   renderDeleteConfirm() {
     return (
-      <TransationContainer
+      <TransitionContainer
         className='leaf-tile-delete-confirm'
         transition='growright'
         mounted={this.state.confirm_delete}
@@ -58,7 +58,7 @@ class LeafTile extends React.Component {
             onClick={() => this.props.onDelete(this.props.path)}
           >delete</i>
         </div>
-      </TransationContainer> 
+      </TransitionContainer> 
     );
   }; // end renderDeleteConfirm
 
@@ -89,7 +89,7 @@ class LeafTile extends React.Component {
     var leafcode = node.leafcode;
     var leaftypestyle = 'leaf-style-'+leaftype.replace(/ /g,'');
     return (
-      <TransationContainer
+      <TransitionContainer
         mounted={this.props.mounted}
         className='leaf-tile'
         transition={this.props.transition}
@@ -106,7 +106,7 @@ class LeafTile extends React.Component {
           <div className='leaf-path'>{leafpath}</div>
           <div className='leaf-code'>{leafcode}</div>
         </div>
-      </TransationContainer>
+      </TransitionContainer>
     );
   }; // end render
 

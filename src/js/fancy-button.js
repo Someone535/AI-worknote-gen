@@ -22,7 +22,7 @@
  */
 import React from 'react';
 
-import TransationContainer from './transition-container.js';
+import TransitionContainer from './transition-container.js';
 
 import css from '../css/fancy-button.css'
 
@@ -36,7 +36,7 @@ class FancyButton extends React.Component {
     var class_name = 'fancy-button';
     if ( this.props.className ) class_name += ' ' + this.props.className;
     return (
-      <TransationContainer
+      <TransitionContainer
         mounted={this.props.mounted}
         className={class_name}
         onClick={this.props.onClick}
@@ -44,7 +44,7 @@ class FancyButton extends React.Component {
       >
           <i className="material-icons">{this.props.icon}</i>
           <span>{this.props.text}</span>
-      </TransationContainer>
+      </TransitionContainer>
     );
   }; // end render
 

@@ -173,14 +173,22 @@ function _collapseNode( node ) {
     node.format = node.format.replace( sep_regexp, '{$1}');
 
     // Process sub-nodes if current node is an object
+    // if sep key starts with f, slice f out and also print the separator in
+    // front of the first element
     for ( var key in node.nodes ) {
+      var first = sep_map[key][0] == 'f';
+      var sep = (sep_map[key] && first) ? sep_map[key].slice(1) : sep_map[key];
+      console.log(key+': '+sep+' - '+first);
       if ( Array.isArray( node.nodes[key] ) ) {
-        var node_str = node.nodes[key].join( sep_map[key] );
-        node_str = sep_map[key] + node_str;
-        node.nodes[key] = node_str;
+        var node_str = node.nodes[key].join( sep );
+        if ( first ) node.nodes[key] = sep + node_str;
+        console.log(node.nodes[key]);
       } else if ( typeof node.nodes[key] != 'string' ) {
         var node_str = _collapseNode( node.nodes[key] );
-        node.nodes[key] = node_str;
+        node.nodes[key] = ( sep && first ? sep : '' ) + node_str;
+        console.log(node.nodes[key]);
+      } else {
+        node.nodes[key] = ( sep && first ? sep : '' ) + node.nodes[key];
       }
     }
 

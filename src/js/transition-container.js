@@ -24,7 +24,7 @@ import React from 'react';
 
 import css from '../css/transition-container.css'
 
-class TransationContainer extends React.Component {
+class TransitionContainer extends React.Component {
 
   constructor(props) {
     super(props);
@@ -94,11 +94,11 @@ class TransationContainer extends React.Component {
   }; // end render
 };
 
-TransationContainer.defaultProps = {
+TransitionContainer.defaultProps = {
   transition: null,
   className: null,
   onClick: () => 1,
   onUnmount: () => 1,
 };
 
-export default TransationContainer;
+export default TransitionContainer;

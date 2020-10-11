@@ -22,7 +22,7 @@
  */
 import React from 'react';
 
-import TransationContainer from './transition-container.js';
+import TransitionContainer from './transition-container.js';
 
 import css from '../css/input-popup.css';
 
@@ -54,7 +54,7 @@ class InputPopup extends React.Component {
     if ( this.props.className ) class_name += ' ' + this.props.className;
     if ( this.state.alerting ) class_name += ' icon-alert';
     return (
-      <TransationContainer
+      <TransitionContainer
         mounted={this.props.mounted}
         transition={this.props.transition}
         className='input-popup-blocker'
@@ -92,7 +92,7 @@ class InputPopup extends React.Component {
             </i>
           </div>
         </div>
-      </TransationContainer>
+      </TransitionContainer>
     );
   }; // end render
 

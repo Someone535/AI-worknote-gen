@@ -31,10 +31,10 @@ export default FORMAT_TREE = {
       }
     },
     "symptoms": {
-      format: "\Symptoms:{alerts}{sensorissues:\n->}{switchissues:\n->}{speedissues:\n->}{mechanicalissues:\n->}{listed:\n->}",
+      format: "\nSymptoms:{alerts}{sensorissues:f\n-> }{switchissues:f\n-> }{speedissues:f\n-> }{mechanicalissues:f\n-> }{listed:f\n-> }",
       nodes: {
         "alerts": {
-          format: "Digtal kepad displays: {listed:, }.",
+          format: "\n-> Digital keypad displays: {listed:, }.",
           nodes: { "listed": [], }
         },
         "sensorissues": [],
@@ -45,19 +45,19 @@ export default FORMAT_TREE = {
       }
     },
     "faults": {
-            format: "\nFaults:{listed:\n->}",
+            format: "\nFaults:{listed:f\n->}",
       nodes: {
         "listed": [],
       }
     },
     "causes": {
-            format: "\nSuspected Causes:{listed:\n->}",
+            format: "\nSuspected Causes:{listed:f\n->}",
       nodes: {
         "listed": [],
       }
     },
     "actions": {
-      format: "\nActions Taken:{listed:\n->}",
+      format: "\nActions Taken:{listed:f\n->}",
       nodes: {
         "listed": [],
       }
