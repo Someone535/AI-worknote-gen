@@ -144,7 +144,7 @@ class DoorsPopup extends React.Component {
       <div className='doors-popup-custom'>
         <input
           type='text'
-          placeholder='enter custom option here followed by the enter key'
+          placeholder='custom (type then hit enter)'
           onKeyDown={ (evt) => {
             if ( evt.key == 'Enter' ) {
               var new_options = this.state.options;
@@ -197,7 +197,7 @@ class DoorsPopup extends React.Component {
           <div className='doors-popup-submit-container'>
             <label 
               onClick={this.handleSelectAll}
-              className='doors-popup-btn'>
+              className='doors-popup-btn'
             >
               <div className='doors-popup-btnlabel'>
                 {this.state.select_all ? 'Select All' : 'Unselect All'}

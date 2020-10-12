@@ -71,6 +71,9 @@
   border: solid black;
   border-width: 0px 0px 1px 0px;
 }
+.doors-popup-custom input:focus {
+  outline: none;
+}
 
 /* Search Box */
 .doors-popup-search-container {
