@@ -1,0 +1,101 @@
+/** welcome.css - Styles for the AlertPopup component
+ *
+ * This file is part of the Auto Ingress Work Note Generator.
+ *
+ *  Copyright 2020 by Auto Ingress Pty Ltd
+ *  Written by Aidan Jessen <aidan.jessen@gmail.com>
+ *  Released under the GNU General Public License
+ *
+ * The Auto Ingress Work Note Generator is free software: you can redistribute 
+ * it and/or modify it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ *
+ * The Auto Ingress Work Note Generator is distributed in the hope that it will 
+ * be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with the Auto Ingress Work Note Generator.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+.welcome {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: black;
+  font-size: xxx-large;
+  background-color: #f7f7f7;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 90 90'%3E%3Ccircle fill='%23cfcfcf' cx='45' cy='45' r='10'/%3E%3Cg fill='%23e3a917' fill-opacity='1'%3E%3Ccircle cx='0' cy='90' r='5'/%3E%3Ccircle cx='90' cy='90' r='5'/%3E%3Ccircle cx='90' cy='0' r='5'/%3E%3Ccircle cx='0' cy='0' r='5'/%3E%3C/g%3E%3C/svg%3E"); 
+  /* background by MattLipman from SVGBackgrounds.com */
+}
+.spacer {
+  flex-grow: 1;
+}
+.welcome-logo {
+  width: 100%;
+}
+.welcome-title {
+  background-color: #f7f7f7;
+  width: 100%;
+  text-align: center;
+  padding: 1vh 0 1vh 0;
+  border: solid #81a5f8;
+  border-width: 0 0 2px 0;
+  font-weight: bold;
+}
+.welcome-message {
+  font-size: xx-large;
+  white-space: pre-wrap;
+  text-align: left;
+  margin: 5vh 3vw 3vh 3vw;
+  padding: 1vh 3vw 1vh 3vw;
+  align-self: center;
+  background-color: #f7f7f7;
+  border: 1px solid #81a5f8;
+  border-radius: 10px;
+}
+.welcome-licence {
+  font-size: x-large;
+  padding: 0 2vw 0 2vw;
+  align-self: center;
+  background-color: #f7f7f7;
+  border: solid #81a5f8;
+  border-width: 2px 0 0 0;
+}
+.welcome-options {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-around;
+  align-self: center;
+}
+.welcome-opt {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #81a5f8;
+  border-radius: 10px;
+  background-color: #f7f7f7;
+  padding: 0vh 3vw 0vh 3vw;
+  justify-content: space-around;
+  color: #81a5f8;
+}
+.welcome-opt span {
+  align-self: center;
+  padding-right: 20px;
+}
+.welcome-opt i {
+  align-self: center;
+  font-size: 8vw;
+  margin: 20px;
+}
+.welcome-opt:active i {
+  transform: rotate(360deg);
+  transition: transform .5s ease;
+}

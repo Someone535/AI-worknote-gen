@@ -34,6 +34,7 @@ import DoorsPopup from './doors-popup.js';
 import BlockButton from './block-button.js';
 import SearchPanel from './search-panel.js';
 import LeafReview from './leaf-review.js';
+import Welcome from './welcome.js';
 
 import UI_MAP from './ui-tree.js';
 
@@ -64,7 +65,8 @@ class MainPage extends React.Component {
       parts: null,
       sections: [ 'Opening Notes', 'Closing Notes' ],
       show_content: false, show_submit_page: false, select_doors: false,
-      show_search: false, show_review: false, select_parts: false
+      show_search: false, show_review: false, select_parts: false,
+      welcome: !document.cookie.split(';').some( el => el.includes('oldUser=true') )
     };
   }; // end constructor
 
@@ -425,6 +427,18 @@ class MainPage extends React.Component {
     );
   }; // end renderLeafReview
 
+  renderWelcome() {
+    return (
+      <Welcome
+        mounted={this.state.welcome}
+        onSubmit={ () => {
+          document.cookie = 'oldUser=true; expires=Fri, 31 Dec 9999 23:59:59 GMT';
+          this.setState({ welcome: false });
+        }}
+      />
+    );
+  }; // end renderWelcome
+
   render() {
     if ( this.state.parts == null ) this.getParts();
     return (
@@ -464,6 +478,7 @@ class MainPage extends React.Component {
         {this.renderSubmitPage()}
         {this.renderSearchPanel()}
         {this.renderLeafReview()}
+        {this.renderWelcome()}
       </div>
     );
   }; // end render
