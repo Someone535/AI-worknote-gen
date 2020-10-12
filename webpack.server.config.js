@@ -4,7 +4,6 @@ const nodeExternals = require('webpack-node-externals')
 
 module.exports = (env, argv) => {
 	return ({
-    watch: false,
     watchOptions: {
       ignored: /node_modules/
     },

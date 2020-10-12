@@ -4,8 +4,8 @@
   "description": "This tool is designed for use by auto ingress field technicians in order to assist in the generation of work notes at the completion of a job. The user navigates a simple menu system, pressing buttons and only typing information where absolutely needed. In this way work notes can be created very quickly and with reduced spelling or grammatical errors. The disconnect between the UI that the technician sees and the work notes generated at the other end allows careful control of the wording used to report more sensitive situations onsite.",
   "private": true,
   "scripts": {
-    "build-server": "nodemon --watch ./src/server --exec 'webpack --config webpack.server.config.js' & nodemon ./dist/server.js --watch ./dist/server.js",
-    "build-frontend": "webpack --config webpack.config.js",
+    "watch": "nodemon --watch ./src/server --exec 'webpack --config webpack.server.config.js' & nodemon ./dist/server.js --watch ./dist/server.js & webpack --watch --config webpack.dev.js",
+    "build": "webpack --config webpack.server.config.js & webpack --config webpack.prod.js",
     "start": "node ./dist/server.js"
   },
   "keywords": [],
@@ -31,6 +31,7 @@
     "style-loader": "^1.2.1",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
+    "webpack-merge": "^5.2.0",
     "webpack-node-externals": "^2.5.2"
   },
   "dependencies": {
