@@ -72,9 +72,9 @@ function processUIOutput( ui_output ) {
   notes_arr.forEach( el => {
     if ( el.notes != '' ) {
       if ( el.label != 'Opening Notes' && el.label != 'Closing Notes' ) {
-        final_notes += '\n'+el.label;
+        final_notes += el.label+'\n';
       }
-      final_notes += el.notes+'\n\n';
+      final_notes += el.notes+'\n';
     }
   });
 

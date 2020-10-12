@@ -64,7 +64,12 @@ class SubmitPage extends React.Component {
   }; // end onTextChange
 
   buildNotes() {
-    return backend.processUIOutput( this.props.sections );
+    var new_sections = [ this.props.sections[0] ];
+    if ( this.props.sections.length > 2 ) {
+      new_sections.push( ...this.props.sections.slice(2) );
+    }
+    new_sections.push( this.props.sections[1] );
+    return backend.processUIOutput( new_sections );
   }; // end buildNotes
 
   handleCopy() {
