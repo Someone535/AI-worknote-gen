@@ -1,4 +1,5 @@
-<img src="src/images/AI_NEW_LOGO.jpg" alt="Logo" height="100">
+<img href="https://www.autoingress.com.au" src="src/images/AI_NEW_LOGO.jpg" alt="Logo" height="100">
+
 # Auto Ingress Work Note Generator
 
 This tool is designed for use by auto ingress field technicians in order to assist in the generation of work notes at the completion of a job. 
