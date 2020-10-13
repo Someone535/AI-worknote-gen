@@ -21,8 +21,8 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-import MAP_TO_TREE from './ui-to-notes.js'
-import FORMAT_TREE from './notes-tree.js'
+import MAP_TO_TREE from '../config/ui-to-notes.js'
+import FORMAT_TREE from '../config/notes-tree.js'
 
 String.prototype.formatUnicorn = String.prototype.formatUnicorn ||
 function () {
