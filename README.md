@@ -1,4 +1,6 @@
-<img href="https://www.autoingress.com.au" src="src/images/AI_NEW_LOGO.jpg" alt="Logo" height="100">
+<a href="https://www.autoingress.com.au">
+  <img src="src/images/AI_NEW_LOGO.jpg" alt="Logo" height="80">
+</a>
 
 # Auto Ingress Work Note Generator
 
