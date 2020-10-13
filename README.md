@@ -53,13 +53,13 @@ $ npm start
 
 ## Development
 
-During development you may want to use the watch script to have the src re-compiled as you make changes. This will watch for both server side &amp; client side changes and recompile accordingly. 
+During development you may want to use the watch script to have the src re-compiled as you make changes. This will watch for server side changes as well as client side and recompile accordingly. This will not automatically re-load the page for any clients connected.
 
 ```
 $ npm run watch
 ```
 
-### Running the tests
+### Modifying Config Files
 
 Config can be modified via the three files saved to the `/src/config/` directory.
 
