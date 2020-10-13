@@ -36,7 +36,7 @@ import SearchPanel from './search-panel.js';
 import LeafReview from './leaf-review.js';
 import Welcome from './welcome.js';
 
-import UI_MAP from './ui-tree.js';
+import UI_MAP from '../config/ui-tree.js';
 
 class MainPage extends React.Component {
   constructor(props) {
