@@ -32,7 +32,18 @@ class BlockButton extends React.Component {
     super(props);
   }; // end constructor
 
+  renderText() {
+    var lines = this.props.text.split('\n');
+    if ( lines.length > 6 ) {
+      lines = [ ...lines.slice(0,6), '(+'+(lines.length-6)+' more)' ];
+    }
+    return lines.map( (el,ind) => (
+      <div id={ind+el} className='block-button-line'>{el}</div>
+    ));
+  }; // end renderText
+
   render() {
+    var titles = this.props.text.split('\n');
     return (
       <TransitionContainer
         className='block-button'
@@ -41,9 +52,7 @@ class BlockButton extends React.Component {
         onUnmount={this.props.onUnmount}
         mounted={this.props.mounted}
       >
-        <div className='block-button-text'>
-          {this.props.text.replace(/ /g,'\n')}
-        </div>
+        {this.renderText()}
       </TransitionContainer>
     );
   }; // end render

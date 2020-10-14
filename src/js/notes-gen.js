@@ -71,7 +71,7 @@ function processUIOutput( ui_output ) {
   var final_notes = '';
   notes_arr.forEach( el => {
     if ( el.notes != '' ) {
-      if ( el.label != 'Opening Notes' && el.label != 'Closing Notes' ) {
+      if ( el.label != 'First Paragraph' && el.label != 'Last Paragraph' ) {
         final_notes += el.label+'\n';
       }
       final_notes += el.notes+'\n';

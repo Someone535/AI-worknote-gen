@@ -61,9 +61,9 @@ class MainPage extends React.Component {
     this.state = {
       section: null, path: [], data: {}, 
       leaves: [],
-      default_sections: [ 'Opening Notes', 'Closing Notes' ],
+      default_sections: [ 'First Paragraph', 'Last Paragraph' ],
       parts: null,
-      sections: [ 'Opening Notes', 'Closing Notes' ],
+      sections: [ 'First Paragraph', 'Last Paragraph' ],
       show_content: false, show_submit_page: false, select_doors: false,
       show_search: false, show_review: false, select_parts: false,
       welcome: !document.cookie.split(';').some( el => el.includes('oldUser=true') )
@@ -164,7 +164,7 @@ class MainPage extends React.Component {
   }; // end handleSaveExitBtn
 
   handleSectionSelection( section_label ) {
-    if ( section_label == "Select Doors" ) {
+    if ( section_label == "Specific Doors" ) {
       this.setState({ select_doors: true });
     } else {
       this.setState({ section: section_label });
@@ -277,7 +277,7 @@ class MainPage extends React.Component {
 
   renderSectionSelection() {
     var sections = this.joinSections().map( el => el.label );
-    sections.push('Select Doors');
+    sections.push('Specific Doors');
     sections = sections.map( (el,ind) => (
       <BlockButton
         key={el+ind}
@@ -346,13 +346,13 @@ class MainPage extends React.Component {
     return (
       <DoorsPopup
         mounted={this.state.select_doors}
-        title='Select Doors:'
+        title='Specific Doors:'
         options={doors}
         custom='true'
         onUnmount={() => this.setState({ select_doors: false })}
         onSubmit={(arr) => {
           this.setState({ select_doors: false, show_content: true });
-          var section_label = 'Door(s): '+arr.join(', ');
+          var section_label = 'Door(s):\n'+arr.join('\n');
           var sections = this.state.sections;
           sections.push(section_label);
           this.setState({ sections: sections, section: section_label });
