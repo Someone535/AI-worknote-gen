@@ -1,4 +1,6 @@
 node_modules/
 *.swp
-src/server/CREDENTIALS
+CREDENTIALS
 dist/
+
+src/server/CREDENTIALS
