@@ -2180,8 +2180,7 @@ var worknotes_submap = {
   }
 };
 
-var UI_MAP;
-export default UI_MAP = {
+module.exports = {
   label: "Select a Section",
   input: false,
   nodes: worknotes_submap

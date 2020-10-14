@@ -21,8 +21,7 @@
  * along with the Auto Ingress Work Note Generator.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-var MAP_TO_TREE;
-export default MAP_TO_TREE = {
+module.exports = {
 
   /* Symptoms */
   "S_BATTERYFAILDISPLAY": [

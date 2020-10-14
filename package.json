@@ -5,8 +5,9 @@
   "private": true,
   "scripts": {
     "watch": "nodemon --watch ./src/server --exec 'webpack --config webpack.server.config.js' & nodemon ./dist/server.js --watch ./dist/server.js & webpack --watch --config webpack.dev.js",
+    "test-config": "node ./src/tests/test-config.js",
     "build": "webpack --config webpack.server.config.js & webpack --config webpack.prod.js",
-    "start": "node ./dist/server.js"
+    "start": "webpack --config webpack.server.config.js & webpack --config webpack.prod.js & node ./dist/server.js"
   },
   "keywords": [],
   "author": "",
