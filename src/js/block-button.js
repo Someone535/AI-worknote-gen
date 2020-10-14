@@ -38,7 +38,7 @@ class BlockButton extends React.Component {
       lines = [ ...lines.slice(0,6), '(+'+(lines.length-6)+' more)' ];
     }
     return lines.map( (el,ind) => (
-      <div id={ind+el} className='block-button-line'>{el}</div>
+      <div key={ind+el} className='block-button-line'>{el}</div>
     ));
   }; // end renderText
 

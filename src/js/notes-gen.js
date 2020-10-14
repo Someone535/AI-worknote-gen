@@ -62,7 +62,7 @@ function processUIOutput( ui_output ) {
   // for each notes section, generate a notes tree and collapse it
   var notes_arr = ui_output.map( el => {
     return {
-      label: el.label,
+      label: el.label.split('\n').join(', '),
       notes: collapseOutputTree( buildOutputTree( el.leaves ) )
     }
   });
@@ -72,7 +72,7 @@ function processUIOutput( ui_output ) {
   notes_arr.forEach( el => {
     if ( el.notes != '' ) {
       if ( el.label != 'First Paragraph' && el.label != 'Last Paragraph' ) {
-        final_notes += el.label+'\n';
+        final_notes += 'Door(s): '+el.label+'\n';
       }
       final_notes += el.notes+'\n';
     }

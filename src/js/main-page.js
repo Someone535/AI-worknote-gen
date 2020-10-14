@@ -352,7 +352,7 @@ class MainPage extends React.Component {
         onUnmount={() => this.setState({ select_doors: false })}
         onSubmit={(arr) => {
           this.setState({ select_doors: false, show_content: true });
-          var section_label = 'Door(s):\n'+arr.join('\n');
+          var section_label = arr.join('\n');
           var sections = this.state.sections;
           sections.push(section_label);
           this.setState({ sections: sections, section: section_label });
