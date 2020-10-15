@@ -81,7 +81,7 @@ module.exports = {
   "S_NOTCLOSING": [
     { path: [ "symptoms", "listed" ], value: "Door not closing." }
   ],
-  "S_NOTOPENINGFULLY": [
+  "S_NOTOPENFULLY": [
     { path: [ "symptoms", "listed" ], value: "Door not opening fully." }
   ],
   "S_OPENINGFAST": [

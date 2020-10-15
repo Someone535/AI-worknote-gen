@@ -27,7 +27,6 @@ var NOTES_MAP = require('../config/notes-tree.js');
 var failed = false;
 
 function traverseNodes(node,callback,path) {
-  console.log('testing node: '+path.join(':'));
   var results = [];
   var res = callback(node,path);
   if ( res ) results.push(res);
@@ -54,7 +53,7 @@ function uiMapCallback(node,path) {
   }
 
   if ( !has_nodes && !has_leafcode ) {
-    issues.push('Not marked as a leaf or a node (missing children).');
+    issues.push('Not marked as a leaf or a node (missing children or leafcode).');
   }
 
   if ( is_input && is_parts_input ) {
@@ -139,14 +138,16 @@ function notesMapCallback(node,path) {
     issues.push('Missing format string.');
   }
 
+  if ( has_format && !has_nodes ) {
+    issues.push('Missing nodes object to store child nodes.');
+  }
+
   if ( has_format && has_nodes ) {
     var missing_nodes = [];
     var keys = node.format.match(/\{.*?\}/gs);
     if ( keys ) {
       keys.forEach( key => {
         var true_key = key.match(/\{(.*?)(:.*?)?\}/s)[1];
-        console.log('checking for key: '+true_key);
-        console.log(node.nodes[true_key]);
         if ( node.nodes[true_key] == undefined ) {
           missing_nodes.push(true_key);
         }
@@ -154,25 +155,115 @@ function notesMapCallback(node,path) {
     }
     if ( missing_nodes.length > 0 ) {
       issues.push(
-        'Key(s) present in format string without matching child node: '
-        + missing_nodes.join(', ') + '.'
+        'Key(s) [ '
+        + missing_nodes.join(', ')
+        +' ] in format string don\'t have a matching child node.'
       );
     }
   }
 
   return issues.length == 0 ? null : {
     title: 'ERROR',
-    message: '',
+    message: issues.join(' '),
     node: node,
     path: path
   };
 }; // end notesMapCallback
 var notesmap_issues = traverseNodes(NOTES_MAP,notesMapCallback,[]);
+if ( notesmap_issues && notesmap_issues.length > 0 ) {
+  failed = true;
+  console.log('The following NOTES_MAP issues were located:');
+  notesmap_issues.forEach( el => {
+    console.log('  '+el.title+':  '+el.path.join(' -> '));
+    el.message.split(' : ').forEach( el => console.log('    - '+el) );
+  });
+} else {
+  console.log('No issues found with NOTES_MAP.');
+}
 
 /// Check all leafcodes in UI_MAP are present in rules
+function leafcodeCallback(node,path) {
+  return node.leafcode ? node.leafcode : null;
+}; // end leafcodeCallback
+var ui_leafcodes = traverseNodes(UI_MAP,leafcodeCallback,[]);
+var missing_leafcodes = [];
+ui_leafcodes.forEach( code => {
+  if ( RULES[code] == undefined ) {
+    missing_leafcodes.push(code);
+  }
+});
+if ( missing_leafcodes.length > 0 ) {
+  failed = true;
+  console.log('The following UI leafcode issues were found:');
+  console.log('  ERROR - These leafcodes are listed in the UI but do not have any matching rules:');
+  missing_leafcodes.forEach( code => {
+    console.log('    - '+code);
+  });
+} else {
+  console.log('All UI codes have rules.');
+}
 
 /// Check all leafcodes in RULES are present in UI_MAP
+missing_leafcodes = [];
+for ( var key in RULES ) {
+  if ( ui_leafcodes.indexOf(key) == -1 ) {
+    missing_leafcodes.push(key);
+  }
+}
+if ( missing_leafcodes.length > 0 ) {
+  failed = true;
+  console.log('The following RULES leafcode issues were found:');
+  console.log('  ERROR - These leafcodes have rules but are not available in the UI:');
+  missing_leafcodes.forEach( code => {
+    console.log('    - '+code);
+  });
+} else {
+  console.log('All rule codes are present in the UI.');
+}
 
 /// Check all RULES point to valid locations in the NOTES_MAP
+function getNode(tree,path) {
+  var curr_node = tree;
+  path.forEach( key => {
+    if ( curr_node.nodes ) {
+      curr_node = curr_node.nodes[key];
+      if ( curr_node == undefined ) throw new Error('Invalid path.');
+    } else {
+      throw new Error('Invalid path.');
+    }
+  });
+  return  curr_node;
+}; // end getNode
+var invalid_rules = [];
+for ( var key in RULES ) {
+  var invalid_entries = [];
+  RULES[key].forEach( entry => {
+    try {
+      getNode(NOTES_MAP,entry.path);
+    } catch (e) {
+      invalid_entries.push(entry);
+    }
+  });
+  if ( invalid_entries.length > 0 ) {
+    failed = true;
+    invalid_rules.push({
+      title: 'ERROR',
+      message: 'Rule '+key+' has entries pointing to invalid locations:',
+      data: invalid_entries
+    });
+  }
+}
+if ( invalid_rules.length > 0 ) {
+  console.log('The following RULES issues were found:');
+  invalid_rules.forEach( el => {
+    console.log('  '+el.title+' - '+el.message);
+    el.data.forEach( entry => {
+      console.log('    - '+entry.path);
+    });
+  });
+} else {
+  console.log('No issues found with RULES paths.');
+}
 
-console.log(failed ? 'COMPLETE: Issues detected, see notes above.' : 'COMPLETE: All tests passed.');
+/// Display final message
+console.log(failed ? '\nCOMPLETE: Issues detected, see notes above.' : '\nCOMPLETE: All tests passed.');
