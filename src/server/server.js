@@ -6,7 +6,12 @@ import OAuth from 'oauth-1.0a'
 import cookieParser from 'cookie-parser'
 import crypto from 'crypto'
 
-import CREDENTIALS from './CREDENTIALS';
+try {
+  var CREDENTIALS = require('./CREDENTIALS');
+} catch (e) {
+  console.log('WARNING: No CREDENTIALS file located.');
+  var CREDENTIALS = null;
+}
 
 const app = express(),
 			DIST_DIR = __dirname,
@@ -16,7 +21,7 @@ app.use(express.static(__dirname));
 app.use(express.json());
 
 var last_update = null;
-var parts = null;
+var parts = {};
 app.get('/gettechparts', (req,res) => {
   // check if parts have been updated recently
   var now = new Date();
@@ -24,19 +29,17 @@ app.get('/gettechparts', (req,res) => {
   if ( last_update ) {
     mins_since = ( now.getTime() - last_update.getTime() ) / ( 1000 * 60 );
   }
-  if ( mins_since > 60 ) {
+  if ( mins_since > 60 && CREDENTIALS != null ) {
     // update parts from netsuite
     last_update = now;
     callPartRestlet().then( response => {
       parts = response.data;
-      res.send(response.data);
     }, error => {
-      res.send(error);
+      console.log('ERROR GETTING PART CODES: '+JSON.stringify(error));
+      parts = {};
     });
-  } else {
-    // send the currently saved parts list
-    res.send(parts);
   }
+  res.send(parts);
 });
 
 // calls the parts restlet from netsuite using the credentials stored in a file
