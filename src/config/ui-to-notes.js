@@ -161,6 +161,9 @@ module.exports = {
   "F_BOGIE_WORN": [
     { path: [ "faults", "listed" ], value: "Bogie is worn down." }
   ],
+  "F_CABLE_WIREDWRONG": [
+    { path: [ "faults", "listed" ], value: "{0} cable has been wired incorrectly." }
+  ],
   "F_CABLE_DAMAGED": [
     { path: [ "faults", "listed" ], value: "{0} cable has become damaged." }
   ],
@@ -196,6 +199,9 @@ module.exports = {
   ],
   "F_COMPONENT_WORN": [
     { path: [ "faults", "listed" ], value: "{0} is worn." }
+  ],
+  "F_COMPONENT_ENDPULLEYWORN": [
+    { path: [ "faults", "listed" ], value: "End pulley is damaged/worn." }
   ],
   "F_COWL_BENT": [
     { path: [ "faults", "listed" ], value: "Cowl has been bent or has bowed." }
@@ -334,7 +340,7 @@ module.exports = {
   "C_THIRDPARTY_FAULT": [
     { path: [ "causes", "listed" ], value: "Fault in a third party system." }
   ],
-  "C_PREVTECH_OVERSIGHT": [
+  "C_THIRDPARTY_OVERSIGHT": [
     { path: [ "causes", "listed" ], value: "Simple oversight by a third party contractor." }
   ],
   "C_THIRDPARTY_INCORRECTWIRING": [
@@ -342,6 +348,9 @@ module.exports = {
   ],
 
   /* Actions */
+  "A_REWIRED": [
+    { path: [ "actions", "listed" ], value: "Rewired {0}." }
+  ],
   "A_ADJUSTEDDOOR": [
     { path: [ "actions", "listed" ], value: "Adjusted the alignment of the door panel." }
   ],

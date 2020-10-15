@@ -788,6 +788,11 @@ module.exports = {
 									"label": "Unsecured",
 									"input": false,
 									"leafcode": "F_CABLE_UNSECURED"
+								},
+								"wiring": {
+									"label": "Wired Incorrectly",
+									"input": false,
+									"leafcode": "F_CABLE_WIREDWRONG"
 								}
 							}
 						},
@@ -815,6 +820,11 @@ module.exports = {
 									"label": "Unsecured",
 									"input": false,
 									"leafcode": "F_CABLE_UNSECURED"
+								},
+								"wiring": {
+									"label": "Wired Incorrectly",
+									"input": false,
+									"leafcode": "F_CABLE_WIREDWRONG"
 								}
 							}
 						},
@@ -842,6 +852,11 @@ module.exports = {
 									"label": "Unsecured",
 									"input": false,
 									"leafcode": "F_CABLE_UNSECURED"
+								},
+								"wiring": {
+									"label": "Wired Incorrectly",
+									"input": false,
+									"leafcode": "F_CABLE_WIREDWRONG"
 								}
 							}
 						},
@@ -869,6 +884,11 @@ module.exports = {
 									"label": "Unsecured",
 									"input": false,
 									"leafcode": "F_CABLE_UNSECURED"
+								},
+								"wiring": {
+									"label": "Wired Incorrectly",
+									"input": false,
+									"leafcode": "F_CABLE_WIREDWRONG"
 								}
 							}
 						},
@@ -896,6 +916,11 @@ module.exports = {
 									"label": "Unsecured",
 									"input": false,
 									"leafcode": "F_CABLE_UNSECURED"
+								},
+								"wiring": {
+									"label": "Wired Incorrectly",
+									"input": false,
+									"leafcode": "F_CABLE_WIREDWRONG"
 								}
 							}
 						},
@@ -923,6 +948,11 @@ module.exports = {
 									"label": "Unsecured",
 									"input": false,
 									"leafcode": "F_CABLE_UNSECURED"
+								},
+								"wiring": {
+									"label": "Wired Incorrectly",
+									"input": false,
+									"leafcode": "F_CABLE_WIREDWRONG"
 								}
 							}
 						}
@@ -1664,7 +1694,7 @@ module.exports = {
 							"leafcode": "A_ADJUSTEDMODEPAD"
 						},
 						"speeds": {
-							"label": "Modified Spped Settings",
+							"label": "Modified Speed Settings",
 							"input": false,
 							"leafcode": "A_ADJUSTEDSPEEDS"
 						},
@@ -1679,6 +1709,48 @@ module.exports = {
 							"parts": true,
 							"input_message": "What did you replace?",
 							"leafcode": "A_REPLACEDPART"
+						},
+						"rewired": {
+							"label": "Rewired",
+							"input": false,
+							"nodes": {
+								"batteries": {
+									"label": "Batteries",
+									"value": "Batteries",
+									"input": false,
+									"leafcode": "A_REWIRED"
+								},
+								"modepad": {
+									"label": "Mode Pad",
+									"value": "Mode Pad",
+									"input": false,
+									"leafcode": "A_REWIRED"
+								},
+								"motor": {
+									"label": "Motor",
+									"value": "Motor",
+									"input": false,
+									"leafcode": "A_REWIRED"
+								},
+								"sensor": {
+									"label": "Sensor",
+									"value": "Sensor",
+									"input": false,
+									"leafcode": "A_REWIRED"
+								},
+								"switch": {
+									"label": "Switch",
+									"value": "Switch",
+									"input": false,
+									"leafcode": "A_REWIRED"
+								},
+								"transformer": {
+									"label": "Transformer",
+									"value": "Transformer",
+									"input": false,
+									"leafcode": "A_REWIRED"
+								}
+							}
 						},
 						"sensors": {
 							"label": "Tweaked Sensor Settings",
