@@ -2,5 +2,6 @@ node_modules/
 *.swp
 CREDENTIALS
 dist/
+src/config/ui-tree-orig.js
 
 src/server/CREDENTIALS

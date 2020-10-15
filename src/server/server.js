@@ -10,6 +10,7 @@ try {
   var CREDENTIALS = require('./CREDENTIALS');
 } catch (e) {
   console.log('WARNING: No CREDENTIALS file located.');
+  console.log(e);
   var CREDENTIALS = null;
 }
 
