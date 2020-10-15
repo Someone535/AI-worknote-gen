@@ -25,20 +25,23 @@
   flex-direction: column;
   overflow: hidden;
   color: white;
-  font-size: xxx-large;
+  font-size: 1rem;
   background-color: hsla(124,89%,36%,0.7);
   height: auto;
 }
+.alert-popup-title {
+  margin-top: 2vh;
+}
 .alert-popup-textinput {
-  border-radius: 10px 0px 0px 10px;
+  border-radius: 1vw 0px 0px 1vw;
 }
 .alert-popup-message {
-  font-size: xx-large;
+  font-size: 0.8rem;
   white-space: pre-wrap;
   text-align: center;
 }
 .alert-popup-textinput {
-  font-size: xx-large;
+  font-size: 0.8rem;
 }
 .alert-popup-options {
   display: flex;
@@ -52,12 +55,12 @@
 }
 .alert-popup-opt span {
   align-self: center;
-  padding-right: 20px;
+  padding-right: 2vw;
 }
 .alert-popup-opt i {
   align-self: center;
   font-size: 8vw;
-  margin: 40px;
+  margin: 4vw;
 }
 .alert-popup-opt i:active {
   transform: scale(1.5) rotate(360deg);

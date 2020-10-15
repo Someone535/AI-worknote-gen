@@ -22,17 +22,16 @@
  */
 .accordion-menu {
   overflow: hidden;
-  width: calc(100% - 30px);
-  margin-top: 5px;
+  width: calc(100% - 2vw);
+  margin-top: 0.7vw;
   float: right;
 }
 .accordion-title {
   background-color: #444444;
   color: white;
-  padding-left: 10px;
-  border-radius: 10px;
-  font-size: xx-large;
-  padding-left: 30px;
+  border-radius: 1vw;
+  font-size: 0.8rem;
+  padding-left: 2vw;
   font-weight: bold;
 }
 .accordion-title:active {
@@ -51,10 +50,9 @@
 }
 .accordion-leaf:after {
   content: 'Submit';
-  font-size: x-large;
-  padding-left: 10px;
+  font-size: 0.5rem;
   float: right;
-  padding-right: 30px;
+  padding-right: 2vw;
 }
 .accordion-menu-expanded {
   text-decoration: underline;

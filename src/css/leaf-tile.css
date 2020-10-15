@@ -30,17 +30,18 @@
   flex-direction: column;
   justify-content: space-around;
   background-color: hsla(124,0%,36%,0.5);
-  border-radius: 10px;
-  margin: 5px;
+  border-radius: 1vw;
+  margin: 0.5vw;
+  width: 100%;
 }
 .leaf-tile-titlebox {
   display: flex;
   flex-direction: row;
   width: 100%;
   background-color: hsla(124,89%,40%,0.5);
-  border-radius: 10px;
+  border-radius: 1vw;
   justify-content: space-between;
-  font-size: xx-large;
+  font-size: 0.8rem;
   color: white;
 }
 .leaf-tile-type {
@@ -50,16 +51,16 @@
   font-size: 5vw;
 }
 .leaf-path {
-  margin: 10px;
+  margin: 1vw;
   align-self: flex-start;
-  font-size: xx-large;
+  font-size: 0.8rem;
   color: white;
   white-space: pre-wrap;
 }
 .leaf-code {
   align-self: flex-end;
-  margin: 10px 20px 10px 20px;
-  font-size: x-large;
+  margin: 1vh 3vw 1vh 3vw;
+  font-size: 0.5rem;
   color: white;
 }
 .leaf-tile-details-container {

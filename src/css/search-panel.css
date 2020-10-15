@@ -27,29 +27,37 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   overflow: scroll;
 }
 .search-input {
-  font-size: xxx-large;
+  font-size: 1rem;
   align-self: flex-start;
   background-color: #f7f7f7;
   border: none;
-  margin-left: 30px;
+  margin-left: 3vw;
 }
 .search-input:focus {
   outline: none;
 }
 .search-results-container {
-  overflow: scroll;
+  overflow-y: auto;
   margin: 5vw 10vw 15vw 10vw;
+}
+.search-results-container::-webkit-scrollbar {
+  width: 1vw;
+}
+.search-results-container::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background-color: hsla(360,0%,36%,0.5);
 }
 .search-results {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column nowrap;
+  width: 85vw;
 }
 .search-title-container {
   margin: 0;
