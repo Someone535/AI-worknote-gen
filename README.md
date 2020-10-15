@@ -32,10 +32,9 @@ If you would like to have the work note generator integrated with a Netsuite RES
 
 Your Netsuite administrator should be able to provide you a Token Key &amp; Secret for a netsuite account/role combo. They should also be able to provide you the Consumer Key &amp; Secret for the integration record the token was generated against.
 
-Example `/src/server/CREDENTIALS` file:
+Example `src/server/CREDENTIALS` file:
 ```
-var CREDENTIALS;
-export default CREDENTIALS = {
+module.exports = {
   token: {
     key: [TOKEN_KEY],
     secret: [TOKEN_SECRET]
@@ -64,11 +63,11 @@ $ npm run watch
 
 ### Modifying Config Files
 
-Config can be modified via the three files saved to the `/src/config/` directory.
+Config can be modified via the three files saved to the `src/config/` directory.
 
-* `/src/config/ui-tree.js` Defines the user interface structure that the user navigates.
-* `/src/config/ui-to-notes.js` Lists the rules applied for each leafcode the user submits.
-* `/src/config/notes-tree.js` Defines the structure and format of the work notes themselves.
+* `src/config/ui-tree.js` Defines the user interface structure that the user navigates.
+* `src/config/ui-to-notes.js` Lists the rules applied for each leafcode the user submits.
+* `src/config/notes-tree.js` Defines the structure and format of the work notes themselves.
 
 The user makes selections in the UI that gathers data and saves a list of leafcodes. Each leafcode triggers a series of rules that builds out the work notes tree for this particular set of work notes. This tree is then collapsed following the format laid out in `/src/config/notes-tree.js`.
 
@@ -76,6 +75,15 @@ Once changes have been made to the config you will want to verify that the confi
 
 ```
 $ npm run test-config
+```
+
+Another handy tool is the UI Alphabetizer which will run through your `src/config/ui-tree.js` file and sort all the parameters alphabetically.
+
+Note that this ignores the very first level of nodes, this way you can maintain your own order for the first nodes the user is presented while the rest are sorted alphabetically.
+
+Run this with the following command:
+```
+$ npm run alhpa-ui
 ```
 
 ## Deployment
