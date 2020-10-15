@@ -79,11 +79,11 @@ $ npm run test-config
 
 Another handy tool is the UI Alphabetizer which will run through your `src/config/ui-tree.js` file and sort all the parameters alphabetically.
 
-Note that this ignores the very first level of nodes, this way you can maintain your own order for the first nodes the user is presented while the rest are sorted alphabetically.
+Note that this ignores the very first level of nodes. This allows you to maintain your own order for the first set of options the user is presented while the rest are still sorted alphabetically.
 
 Run this with the following command:
 ```
-$ npm run alhpa-ui
+$ npm run alpha-ui
 ```
 
 ## Deployment
