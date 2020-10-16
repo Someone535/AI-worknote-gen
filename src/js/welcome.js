@@ -46,8 +46,11 @@ class Welcome extends React.Component {
         className={class_name} 
         transition={this.props.transition}
       >
+        {/* Headings */}
         <img className='welcome-logo' src={Logo}></img>
         <div className='welcome-title'>Work Note Generator</div>
+
+        {/* Main Welcome Text */}
         <div className='welcome-message'>
           <p>Welcome!</p>
           <p>
@@ -63,6 +66,7 @@ class Welcome extends React.Component {
             identifying details about yourself or your device.
           </p>
         </div>
+        {/* Continue Button */}
         <div className='welcome-options'>
           <div className='welcome-cancel welcome-opt' onClick={this.props.onSubmit}>
             <span>Continue</span>
@@ -70,6 +74,8 @@ class Welcome extends React.Component {
           </div>
         </div>
         <div className='spacer'></div>
+
+        {/* Licence Text */}
         <div className='welcome-licence'>
           <p>
             Copyright 2020 by Auto Ingress Pty Ltd<br />

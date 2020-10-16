@@ -34,7 +34,6 @@ function alphabetise(node) {
 var new_map = UI_MAP;
 // Don't alphabetise the first level
 for ( var key in new_map.nodes ) {
-  console.log(key);
   new_map.nodes[key] = alphabetise(new_map.nodes[key]);
 }
 

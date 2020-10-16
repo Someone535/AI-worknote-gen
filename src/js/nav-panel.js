@@ -33,6 +33,8 @@ class NavPanel extends React.Component {
     super(props);
   }; // end constructor
 
+  /* Render large block buttons, very simple.
+   */
   renderBlock(tree) {
     var blocks = [];
     for ( var key in tree.nodes ) {
@@ -49,6 +51,9 @@ class NavPanel extends React.Component {
     ));
   }; // end renderBlock
 
+  /* Render something akin to a mega button, with the child nodes also
+   * displayed as sub-titles (but not selectable).
+   */
   renderMegaList(tree) {
     var btns = [];
     for ( var key in tree.nodes ) {
@@ -70,6 +75,8 @@ class NavPanel extends React.Component {
     ));
   }; // end renderMegaList
 
+  /* Render as an accordion menu.
+   */
   renderAcordion(tree) {
     return (
       <AccordionMenu
@@ -83,6 +90,7 @@ class NavPanel extends React.Component {
   }; // end renderAcordion
 
   render() {
+    // Render the nav-pane children differently depending on the style set
     switch (this.props.style) {
       case 'block': 
         var options = this.renderBlock( this.props.option_tree ); break;

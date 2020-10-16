@@ -36,12 +36,16 @@ class AccordionMenu extends React.Component {
     };
   }; // end constructor
 
+  /* Given a tree and a path, navigate to a particular node and return it.
+   */
   getNode(tree,path) {
     var out = tree;
     path.forEach( el => out = out.nodes[el] );
     return out;
   }; // end getNode
 
+  /* Set the currently expanded child (only 1 can be expanded at once).
+   */
   expandChild(key) {
     if ( this.state.expanded_child == key )
       this.setState({ expanded_child: null });
@@ -54,12 +58,12 @@ class AccordionMenu extends React.Component {
     class_name += ' depth'+this.props.depth;
     if ( this.props.expanded ) class_name += ' accordion-menu-expanded';
     var node = this.getNode(this.props.tree,this.props.path);
+    // Recursively mount Accordion Menu for each child node (if they exist)
     var children = node.nodes && Object.keys( node.nodes ).map( (key) => (
         <AccordionMenu
           key={key}
           tree={this.props.tree}
           expanded={key == this.state.expanded_child}
-          mounted={this.props.expanded}
           onClick={this.props.onClick} 
           path={[ ...this.props.path, key ]}
           expandChild={ () => this.expandChild(key) }
@@ -67,6 +71,7 @@ class AccordionMenu extends React.Component {
           transition={this.props.transition}
         />
     ));
+    // Gather a title, if the current node is not the root node
     var title = this.props.path.length > 0 && (
       <div
         className={'accordion-title'+(!node.nodes ? ' accordion-leaf' : '')}
@@ -83,7 +88,10 @@ class AccordionMenu extends React.Component {
         className={class_name} 
         data-path={this.props.path}
       >
+        {/* Title Block */}
         {title}
+
+        {/* Container for Children - transitions when this node expands */}
         <TransitionContainer
           mounted={this.props.expanded}
           transition={this.props.transition}
@@ -99,12 +107,10 @@ class AccordionMenu extends React.Component {
 AccordionMenu.defaultProps = {
   onClick: () => 1,
   expandChild: () => 1,
-  tree: {},
+  tree: {}, // entire ui tree
   transition: null,
-  mounted: true,
-  expanded_child: null,
   expanded: false,
-  path: [],
+  path: [], // path to the current node
   depth: 0,
 };
 

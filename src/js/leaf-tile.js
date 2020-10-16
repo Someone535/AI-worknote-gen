@@ -37,11 +37,15 @@ class LeafTile extends React.Component {
     };
   }; // end constructor
 
+  /* Used when the delete button is pressed to confirm the action.
+   */
   handleDelete() {
-    console.log('confirming delete');
     this.setState({ confirm_delete: true });
   }; // end handleDelete
 
+  /* Confirmation for deletion, allows the user to either confirm or cancel.
+   * Slides onto the screen smoothly covering the leaf-tile
+   */
   renderDeleteConfirm() {
     return (
       <TransitionContainer
@@ -51,9 +55,11 @@ class LeafTile extends React.Component {
       >
         <div className='delete-confirm-title'>Delete this leaf?</div>
         <div className='delete-confirm-options'>
+          {/* Cancel Button */}
           <i className='material-icons delete-confirm-no'
             onClick={() => this.setState({ confirm_delete: false })}
           >cancel</i>
+          {/* Confirm Delete Button */}
           <i className='material-icons delete-confirm-yes'
             onClick={() => this.props.onDelete(this.props.path)}
           >delete</i>
@@ -62,18 +68,32 @@ class LeafTile extends React.Component {
     );
   }; // end renderDeleteConfirm
 
+  /* Renders the option buttons at the top of the tile, if they have been 
+   * enabled via props.
+   */
   renderBtns() {
     var btns = [];
+    // Delete Button
     if ( this.props.onDelete ) btns.push(
-      <i key='delete' className='material-icons delete' onClick={this.handleDelete}>delete</i>
+      <i key='delete'
+        className='material-icons delete'
+        onClick={this.handleDelete}
+      >delete</i>
     );
+    // Favourite Button
     if ( this.props.onFav ) btns.push(
-      <i key='fav' className='material-icons fav' onClick={this.handleDelete}>star</i>
+      <i key='fav'
+        className='material-icons fav'
+        onClick={this.handleDelete}
+      >star</i>
     );
     return btns;
   }; // end renderBtns
 
   render() {
+    // Generate the string for the leaves path and gather the leaves type
+    // (type is the first label along the path). Marks nodes that require input
+    // with asterisk '*' as it goes.
     var leaftype = '';
     var leafpath = '';
     var node = this.props.tree;
@@ -87,6 +107,7 @@ class LeafTile extends React.Component {
       if ( node.input ) leafpath += '*';
     });
     var leafcode = node.leafcode;
+    // Apply different styles based on the leaftype
     var leaftypestyle = 'leaf-style-'+leaftype.replace(/ /g,'');
     return (
       <TransitionContainer
@@ -94,13 +115,15 @@ class LeafTile extends React.Component {
         className='leaf-tile'
         transition={this.props.transition}
       >
+        {/* Title Bar */}
         <div className={'leaf-tile-titlebox '+leaftypestyle}>
           {this.renderDeleteConfirm()}
           <div className='leaf-tile-type'>{leaftype}</div>
           {this.renderBtns()}
         </div>
-        <div 
-          className='leaf-tile-details-container'
+
+        {/* Main Body */}
+        <div className='leaf-tile-details-container'
           onClick={() => this.props.onClick(this.props.path)}
         >
           <div className='leaf-path'>{leafpath}</div>

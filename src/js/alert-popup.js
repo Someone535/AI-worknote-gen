@@ -41,13 +41,24 @@ class AlertPopup extends React.Component {
         className={class_name} 
         transition={this.props.transition}
       >
+        {/* Title & Message */}
         <div className='alert-popup-title'>{this.props.title}</div>
         <div className='alert-popup-message'>{this.props.message}</div>
+
+        {/* Options */}
         <div className='alert-popup-options'>
-          <div className='alert-popup-cancel alert-popup-opt' onClick={this.props.onCancel}>
+          {/* Cancel Button */}
+          <div
+            className='alert-popup-cancel alert-popup-opt'
+            onClick={this.props.onCancel}
+          >
             <i className='material-icons'>cancel</i>
           </div>
-          <div className='alert-popup-confirm alert-popup-opt' onClick={this.props.onSubmit}>
+          {/* Submit Button */}
+          <div
+            className='alert-popup-confirm alert-popup-opt'
+            onClick={this.props.onSubmit}
+          >
             <i className='material-icons'>check</i>
           </div>
         </div>

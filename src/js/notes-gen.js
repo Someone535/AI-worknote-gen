@@ -24,6 +24,9 @@
 import MAP_TO_TREE from '../config/ui-to-notes.js'
 import FORMAT_TREE from '../config/notes-tree.js'
 
+/* Tool to format a string based on an object containing keys/values, kinda
+ * like fprintf.
+ */
 String.prototype.formatUnicorn = String.prototype.formatUnicorn ||
 function () {
     "use strict";
@@ -46,6 +49,8 @@ function () {
     return str;
 };
 
+/* Callback used to stringify error objects.
+ */
 function replaceErrors(key, value) {
   if (value instanceof Error) {
     var error = {};
@@ -57,6 +62,9 @@ function replaceErrors(key, value) {
   return value;
 };
 
+/* Main function for the module, builds the notes tree based on input from the
+ * ui and then collapses it into work notes.
+ */
 function processUIOutput( ui_output ) {
 
   // for each notes section, generate a notes tree and collapse it
@@ -82,6 +90,9 @@ function processUIOutput( ui_output ) {
 
 }; // end processUIOutput
 
+/* Using the rules setup in config, adds entries to the notes tree for each
+ * leaf provided by the ui. Returns the notes tree for further processing.
+ */
 function buildOutputTree( leaves ) {
 
   var out_tree = {};
@@ -95,13 +106,13 @@ function buildOutputTree( leaves ) {
     }
     entry.forEach( function(entry) {
 
-      // format each element of the path array
+      // format each element of the path array using the leaf data
       var fmt_path = [];
       entry.path.forEach( function(el) {
         fmt_path.push( el.formatUnicorn( leaf.data ) );
       });
 
-      // format the output value
+      // format the output value again using the leaf data
       var fmt_out = entry.value && entry.value.formatUnicorn( leaf.data );
 
       // build out path to penultimate node
@@ -137,28 +148,41 @@ function buildOutputTree( leaves ) {
 
   });
 
-  console.log( 'out_tree: '+JSON.stringify( out_tree, null, '\t' ) );
-
   return out_tree;
 
 }; // end buildOutputTree( leaves )
 
+/* Takes a notes tree created by buildOutputTree and collapses it into a string.
+ * Formatting is it goes following the format strings in the config notes tree.
+ */
 function collapseOutputTree( notes_tree ) {
 
   if ( notes_tree.nodes == undefined ) return '';
 
   var work_notes = _collapseNode( notes_tree );
-  console.log('WORK NOTES: '+work_notes);
 
   return work_notes;
 
 }; // end collapseOutputTree( notes_tree )
 
+/* Recursive function used to traverse the notes tree collapsing each node
+ * into a simple string.
+ */
 function _collapseNode( node ) {
 
   try {
 
-    // Generate separator array for all sub-nodes
+    /* Format strings in the notes tree can have keys of the form:
+     * {key:seperator} where key is a string and separator is another string.
+     * When a key corresponds to an array, the separator string is used to join
+     * that array into one string. If no separator array is present a simple
+     * space is used to join the array. If the separator string starts with the
+     * letter 'f' the separator string is also printed at the front of the
+     * string. If 'f' is used at the start of the separator, it is also placed
+     * in front of single string nodes (not just array nodes).
+     */
+
+    // Generate a map of separator strings to sub-nodes
     var sep_regexp = new RegExp('{(.*?)(:(.*?))?}','gis');
     var node_format = node.format;
     if ( node.format == undefined ) {
@@ -178,16 +202,16 @@ function _collapseNode( node ) {
     for ( var key in node.nodes ) {
       var first = sep_map[key][0] == 'f';
       var sep = (sep_map[key] && first) ? sep_map[key].slice(1) : sep_map[key];
-      console.log(key+': '+sep+' - '+first);
       if ( Array.isArray( node.nodes[key] ) ) {
+        // Join arrays together using the sep string
         var node_str = node.nodes[key].join( sep );
         if ( first ) node.nodes[key] = sep + node_str;
-        console.log(node.nodes[key]);
       } else if ( typeof node.nodes[key] != 'string' ) {
+        // Recurse for objects child nodes that are nodes themselves
         var node_str = _collapseNode( node.nodes[key] );
         node.nodes[key] = ( sep && first ? sep : '' ) + node_str;
-        console.log(node.nodes[key]);
       } else {
+        // Handle simple string case
         node.nodes[key] = ( sep && first ? sep : '' ) + node.nodes[key];
       }
     }
@@ -207,6 +231,9 @@ function _collapseNode( node ) {
 
 }; // end _collapseNode( node )
 
+/* Given a tree object and an array of keys, traverses the object following the
+ * keys and then returns the final node that it arrives at.
+ */
 function getNode( obj, path_arr ) {
   var curr_pos = obj;
   path_arr.forEach( function(key) {
@@ -215,6 +242,9 @@ function getNode( obj, path_arr ) {
   return curr_pos;
 }; // end getNode( path_arr )
 
+/* Given a node in the generated notes tree, checks if it has it's format set.
+ * If no format set, gathers it from config and creates the sub-nodes object.
+ */
 function verifyCurrentNode( node, path_arr ) {
   if ( node.format == undefined ) {
     // gather the format and prepare the sub nodes

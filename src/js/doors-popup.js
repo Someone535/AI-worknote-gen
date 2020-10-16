@@ -46,6 +46,9 @@ class DoorsPopup extends React.Component {
     };
   }; // end constructor
 
+  /* If the provided list of options has changed, merge the new list in with
+   * the existing list.
+   */
   componentDidUpdate(prevProps, prevState) {
     if ( prevProps.options.join('') != this.props.options.join('') ) {
       // merge new props with current options array (adding new items)
@@ -61,6 +64,8 @@ class DoorsPopup extends React.Component {
     }
   }; // end componentDidUpdate
 
+  /* Mark all provided options as selected (only the provided options).
+   */
   selectAll(opts) {
     if ( !opts ) opts = this.state.options;
     var options = this.state.options;
@@ -70,18 +75,25 @@ class DoorsPopup extends React.Component {
     this.setState({ options: options });
   }; // end selectAll
 
+  /* When a checkbox is pressed, make sure the option is marked in the
+   * component's state.
+   */
   handleCheckbox(ind,evt) {
     var options = this.state.options;
     options[ind].marked = !options[ind].marked;
     this.setState({ options: options });
   }; // end handleCheckbox
 
+  /* Unmark all options globally.
+   */
   clearAll() {
     var options = this.state.options;
     options.forEach( el => el.marked = false );
     this.setState({ options: options });
   }; // end clearAll
 
+  /* Gather an array of option labels that have been selected.
+   */
   getMarked() {
     var marked = [];
     this.state.options.forEach( el => {
@@ -90,18 +102,26 @@ class DoorsPopup extends React.Component {
     return marked;
   }; // end hasMarked
 
+  /* If the submit button is pressed when there are options, submit all the
+   * marked options and then reset the component. If there are no options
+   * call the unmount callback.
+   */
   handleSubmit() {
     var marked = this.getMarked();
     if ( marked.length > 0 ) {
       this.props.onSubmit( marked );
       this.clearAll();
-      this.setState({ select_all: true, search_text: '' });
     } else {
-      this.setState({ select_all: true, search_text: '' });
       this.props.onUnmount();
     }
+    this.setState({ select_all: true, search_text: '' });
   }; // end handleSubmit
 
+  /* The select all button alternates between select all and clear all.
+   * If select all, it will select all visible options (not ones that are
+   * hidden). If clear all, it will clear all option globally. After performing
+   * it's action it alternates itself.
+   */
   handleSelectAll() {
     if ( this.state.select_all ) {
       this.selectAll( this.searchOptions() );
@@ -111,6 +131,10 @@ class DoorsPopup extends React.Component {
     this.setState({ select_all: !this.state.select_all });
   }; // end handleSelectAll
 
+  /* Searches through the array of options looking for matches against the
+   * search term entered. Spaces within the search term are converted to
+   * non-greedy wild cards to increase usability.
+   */
   searchOptions() {
     if ( this.state.search_text != '' ) {
       return this.state.options.filter( el => {
@@ -122,6 +146,8 @@ class DoorsPopup extends React.Component {
     }
   }; // end searchOptions
 
+  /* Render the list of options with fancy checkboxes next to them.
+   */
   renderOptions() {
     return this.searchOptions().map( (el) => (
       <div key={el.label+el.ind} className='doors-popup-option'>
@@ -139,6 +165,10 @@ class DoorsPopup extends React.Component {
     ))
   }; // end renderOptions
 
+  /* Render the input for the user to add additional options to the list. New
+   * options are added by default selected. The enter key needs to be pressed
+   * before the new option will be added.
+   */
   renderCustom() {
     return this.props.custom && (
       <div className='doors-popup-custom'>
@@ -172,6 +202,13 @@ class DoorsPopup extends React.Component {
         className='doors-popup-blocker'
         onClick={ (evt) => this.setState({ alerting: true }) }
       >
+      {/*
+        Blocker (above) - to block any other input from the user until input 
+        has been gathered. If the user clicks outside of the doors pop-up, 
+        the blocker sets the alerting state variable to trigger an animation.
+      */}
+
+        {/* Doors Pop-up Main Body */}
         <div
           className={class_name}
           onClick={ (evt) => {
@@ -179,7 +216,11 @@ class DoorsPopup extends React.Component {
             evt.nativeEvent.stopImmediatePropagation();
           }}
         >
+
+          {/* Title */}
           <h1 className='doors-popup-title'>{this.props.title}</h1>
+
+          {/* Search Box */}
           <div className='doors-popup-search-container'>
             <div className='doors-popup-search-label'>Filter/Search:</div>
             <input
@@ -190,11 +231,16 @@ class DoorsPopup extends React.Component {
               onChange={(evt) => this.setState({ search_text: evt.target.value })}
             />
           </div>
+
+          {/* Print Options & Custom Input */}
           <div className='doors-popup-options'>
             {this.renderOptions()}
             {this.renderCustom()}
           </div>
+
+          {/* Buttons */}
           <div className='doors-popup-submit-container'>
+            {/* Select All / Unselect All Button */}
             <label 
               onClick={this.handleSelectAll}
               className='doors-popup-btn'
@@ -206,6 +252,7 @@ class DoorsPopup extends React.Component {
                 select_all
               </i>
             </label>
+            {/* Submit / Cancel Button */}
             <label
               onClick={this.handleSubmit}
               className='doors-popup-btn'

@@ -39,20 +39,9 @@ class LeafReview extends React.Component {
     };
   }; // end constructor
 
-  generateTree() {
-    var tree = { nodes: {} };
-    this.props.sections.forEach( el => {
-      tree[el] = { label: el, nodes: {} };
-    });
-    this.props.leaves.forEach( leaf => {
-      tree[ leaf.section ].nodes[ leaf.path.join(':') ] = {
-        label: leaf.path.join(':'),
-        leaf: leaf
-      };
-    });
-    return tree;
-  }; // end generateTree
-
+  /* Render a single section by printing all of it's leaves. Only prints if
+   * the state.section variable is set.
+   */
   renderSection() {
     var leaves = this.props.leaves.filter(
       leaf => leaf.section == this.state.section
@@ -70,14 +59,16 @@ class LeafReview extends React.Component {
     ));
   }; // end renderSection
 
+  /* Render a list of all available sections if no particular section has
+   * yet been selected.
+   */
   renderSections() {
+    // Gather sections from props into an array of objects
     var sections = this.props.sections.map( label => {
-      return {
-        label: label,
-        sublabels: []
-      };
+      return { label: label, sublabels: [] };
     });
     this.props.leaves.forEach( leaf => {
+      // Generate a label for each leaf
       var leaf_label = '';
       var node = this.props.tree;
       leaf.path.forEach( (key,ind) => {
@@ -85,6 +76,7 @@ class LeafReview extends React.Component {
         if ( ind != 0 ) leaf_label += ', ';
         leaf_label += node.label;
       });
+      // Add the leaf to it's corresponding section tile
       sections.find( el => el.label == leaf.section )
               .sublabels.push( leaf_label );
     });
@@ -108,9 +100,12 @@ class LeafReview extends React.Component {
         className='leaf-review'
         transition='growleft'
       >
+        {/* Title Bar */}
         <div className='review-title-container'>
           <div className='review-title'>Review Work Notes</div>
         </div>
+
+        {/* Buttons */}
         <FancyButton
           className='menu-btn' icon='list' transition='growleft'
           onClick={() => {
@@ -124,6 +119,8 @@ class LeafReview extends React.Component {
           onClick={() => this.setState({ section: null })}
           mounted={this.state.section != null}
         />
+
+        {/* Main Display */}
         <div className='review-container'>
           {this.renderSection()}
           {this.renderSections()}

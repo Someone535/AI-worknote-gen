@@ -70,12 +70,22 @@ class MainPage extends React.Component {
     };
   }; // end constructor
 
+  /* Given a tree and an array of keys, navigate via those keys and return the
+   * node final node that you arrive at.
+   */
   getNode(tree,path) {
     var out = tree;
     path.forEach( function(key) { out = out.nodes[key]; } );
     return out;
   }; // getNode
 
+  /* Build an array containing all of the sections and their leaves out of the
+   * current data stored in the state object.
+   *  [
+   *    { label: [sectionlabel], leaves: [leaves] },
+   *    ...
+   *  ]
+   */
   joinSections() {
     var sections = {};
     this.state.sections.forEach( label => {
@@ -90,6 +100,8 @@ class MainPage extends React.Component {
     return Object.values(sections);
   }; // end joinSections
 
+  /* Checks if there are any leaves currently saved.
+   */
   hasLeaves() {
     var leaves_found = false;
     this.joinSections().forEach( el => {
@@ -98,6 +110,10 @@ class MainPage extends React.Component {
     return leaves_found;
   }; // end hasLeaves
 
+  /* Navigates the state of the component to the provided path. Deletes any
+   * data from nodes not on the current path. If the new path has some default
+   * values, makes sure those are saved to the data object.
+   */
   navigateTo(path) {
     // Locate data to be cleared based on differences between two paths
     var paths_to_clear = [];
@@ -122,14 +138,24 @@ class MainPage extends React.Component {
     this.setState({ path: path, data: new_data });
   }; // end navigateTo
 
+  /* Gives the navPane time to complete it's animation before calling the 
+   * callback that would otherwise cut the animation short.
+   */
   hideContentCallback( fnc, params ) {
     this.setState({ show_content: false });
     setTimeout( () => fnc(...params), 250 );
   }; // end hideContentCallback
+
+  /* Used by callbacks using the hideContentCallback function that allows the
+   * navPane to re-display itself once the callback has been completed.
+   */
   showContent() {
     this.setState({ show_content: true });
   }; // end showContent
 
+  /* Callback used by the nav pan when the user navigates. Modifies the path to
+   * keep track of their location.
+   */
   navClick(input) {
     if ( Array.isArray(input) ) {
       var root_path = this.state.path.slice(0,1);
@@ -143,26 +169,37 @@ class MainPage extends React.Component {
     this.showContent();
   }; // end navClick
 
+  /* Decrement the path by one, going up one level.
+   */
   goUp() {
     var new_path = [...this.state.path];
     new_path.pop();
     this.navigateTo( new_path );
   }; // end goUp
 
+  /* Navigate back to the root of the UI tree for the current section.
+   */
   handleBackBtn() {
     this.navigateTo( [] );
     this.showContent();
   }; // end handleBackBtn
 
+  /* Navigate back to the section selection state.
+   */
   handleHomeBtn() {
     this.navigateTo( [] );
     this.setState({ section: null });
   }; // end handleHomeBtn
 
+  /* Hide the main content (so it transitions nicely later) and show the 
+   * submit page.
+   */
   handleSaveExitBtn() {
     this.setState({ show_content: false, show_submit_page: true });
   }; // end handleSaveExitBtn
 
+  /* Set the current section to be the provided one.
+   */
   handleSectionSelection( section_label ) {
     if ( section_label == "Specific Doors" ) {
       this.setState({ select_doors: true });
@@ -171,6 +208,8 @@ class MainPage extends React.Component {
     }
   }; // end handleSectionSelection
 
+  /* Given a path to a leaf, locate it in the leaves array and remove it.
+   */
   handleLeafDeletion(path) {
     var path_str = path.join('');
     var leaves = this.state.leaves;
@@ -178,6 +217,8 @@ class MainPage extends React.Component {
     this.setState({ leaves: leaves });
   }; // end handleLeafDeletion
 
+  /* Takes data from the current state and submits it as a leaf.
+   */
   submitCurrentLeaf() {
     var node = this.getNode(UI_MAP,this.state.path);
     this.submitLeaf({
@@ -186,6 +227,11 @@ class MainPage extends React.Component {
       path: this.state.path,
     });
   }; // end submitCurrentLeaf
+
+  /* Expects a leaf provided in the form:
+   *   { code: [string], data: [array], path: [array] }
+   * Saves that leaf against the current section and then returns back a page.
+   */
   submitLeaf(leaf) {
     leaf.section = this.state.section;
     var leaves = this.state.leaves;
@@ -202,17 +248,34 @@ class MainPage extends React.Component {
     this.handleBackBtn();
   }; // end submitLeaf
 
+  /* Save the provided data against the current node.
+   */
   saveData(data) {
     var new_data = this.state.data;
     new_data[ this.state.path.join(':') ] = data;
     this.setState({ data: new_data });
   }; // end saveData
 
+  /* Call the server to obtain a list of parts, part-codes and descriptions.
+   */
+  getParts() {
+    axios.get('/gettechparts').then( res => {
+      this.setState({ parts: res.data });
+    }, error => {
+      console.log('Error Gathering Parts Data');
+      console.log(error);
+    });
+  }; // end getParts
+
+  /* This pop-up confirms that the user would like to submit the current leaf
+   * to the current section.
+   */
   renderLeafConfirmation() {
     var title = 'Would you like to submit the following leaf?';
     var message = ''
     var node = UI_MAP;
     var path_cumulative = [];
+    // Build out the message with details from the path and data
     this.state.path.forEach( (el,ind) => {
       node = node.nodes[el];
       path_cumulative.push(el);
@@ -226,7 +289,10 @@ class MainPage extends React.Component {
     });
     var node = this.getNode(UI_MAP,this.state.path);
     message += 'Final Code: ' + node.leafcode;
-    var data = ( !node.input && node.parts != true ) || this.state.data[ this.state.path.join(':') ];
+    // Only mount this component if the current node either doesn't need input
+    // or has already gathered input
+    var data = ( !node.input && node.parts != true ) 
+      || this.state.data[ this.state.path.join(':') ];
     return (
       <AlertPopup
         className='leaf-alert'
@@ -241,9 +307,12 @@ class MainPage extends React.Component {
     );
   }; // end renderLeafConfirmation
 
+
+  /* This pop-up requests that the user provide some additional information.
+   * It will block all other input until the user enters something. Will only
+   * display when the current node needs data and hasn't yet gathered it.
+   */
   renderTextInputBox() {
-    var message = 'This input requires text:';
-    var text_prompt = 'text goes here';
     var node = this.getNode(UI_MAP,this.state.path);
     var data = node.input && !this.state.data[ this.state.path.join(':') ];
     return (
@@ -259,9 +328,13 @@ class MainPage extends React.Component {
     );
   }; // end renderTextInputBox()
 
+  /* Titles change as the user navigates through the ui. This renders them
+   * appropriately.
+   */
   renderTitles() {
     var title = this.state.section || 'Select Section';
-    var subtitle = this.state.path.length > 0 ? ' - ' + UI_MAP.nodes[ this.state.path[0] ].label : '';
+    var subtitle = this.state.path.length == 0 ?  '' :
+      ' - ' + UI_MAP.nodes[ this.state.path[0] ].label;
     var titles = [(
       <div key={'0'} className='main-title title-shortened'>{title}</div> 
     )];
@@ -275,6 +348,9 @@ class MainPage extends React.Component {
     );
   }; // end renderTitles
 
+  /* This is the first panel that is displayed to the user and allows them to
+   * select a section to which notes are to be added.
+   */
   renderSectionSelection() {
     var sections = this.joinSections().map( el => el.label );
     sections.push('Specific Doors');
@@ -293,6 +369,14 @@ class MainPage extends React.Component {
     );
   }; // end renderSectionSelection
 
+  /* This is the main navigation panel in the center of the screen. Once the
+   * user selects a section, this panel displays the tree of options so that
+   * the user can navigate to a leaf. The first layer of options are printed
+   * as mega-buttons, where-as the later layers are displayed in an accordion
+   * menu. Callbacks that would navigate away from this menu or would change
+   * it into a different form must be processed by the hideContentCallback
+   * function so that transitions are animated properly.
+   */
   renderNavPane() {
     var node = this.getNode(UI_MAP,this.state.path);
     var nav_panel_style = 'mega-list';
@@ -312,6 +396,11 @@ class MainPage extends React.Component {
     );
   }; // end renderNavPane
 
+  /* This page is the final one that displays the generated work notes for the
+   * user to review. They can edit the work notes here and copy them to the
+   * clipboard. They are also provided the option to go back and continue
+   * building the notes OR exit and start again fresh.
+   */
   renderSubmitPage() {
     var sections = this.joinSections();
     sections.forEach( el => {
@@ -338,11 +427,18 @@ class MainPage extends React.Component {
     );
   }; // end renderSubmitPage
 
+  /* Pop-up that displays a list of doors by label (normally serial number or
+   * location) for the user to search and select. Doors are passed to the app
+   * via the url parameter ?doors=[comma separated list] . The user can also
+   * add their own to the list of options.
+   */
   renderDoorsPopup() {
     var url_params = new URLSearchParams(window.location.search);
     var doors = url_params.get('doors');
     if ( doors ) doors = doors.split(',');
     else doors = [];
+    // NOTE: Selected doors are combined into a section label which is added
+    // to the list of sections and then set as the current one.
     return (
       <DoorsPopup
         mounted={this.state.select_doors}
@@ -361,19 +457,18 @@ class MainPage extends React.Component {
     );
   }; // end renderDoorsPopup
 
-  getParts() {
-    axios.get('/gettechparts').then( res => {
-      this.setState({ parts: res.data });
-    }, error => {
-      console.log('Error Gathering Parts Data');
-      console.log(error);
-    });
-  }; // end getParts
 
+  /* Pop-up that displays a list of parts for the user to search and select.
+   * Parts and their codes are obtained from the server and saved to the state
+   * object when the app first starts. The user can also add custom parts to
+   * the end of the list if the one they are looking for cannot be found.
+   */
   renderPartsPopup() {
     var node = this.getNode(UI_MAP,this.state.path);
     var data_gathered = this.state.data[ this.state.path.join(':') ];
+    // Only display if current node needs parts and hasn't got any data saved
     var select_parts = node.parts == true && data_gathered == undefined;
+    // Build parts labels
     var parts = [];
     if ( this.state.parts != null ) {
       for ( var key in this.state.parts ) {
@@ -381,6 +476,7 @@ class MainPage extends React.Component {
         parts.push( part.type + ' : ' + part.code + ' : ' + part.desc );
       }
     }
+    // NOTE: Selected parts are saved as data against the current path.
     return (
       <DoorsPopup
         mounted={select_parts}
@@ -397,8 +493,12 @@ class MainPage extends React.Component {
         }}
       />
     );
-  }; // end _renderPartsPopup
+  }; // end renderPartsPopup
 
+  /* Page that allows the user to search for leaves by keyword. Results show
+   * the user where to find the leaf in the future and also allows the user
+   * to add the leaf to their notes directly from the search results.
+   */
   renderSearchPanel() {
     return (
       <SearchPanel
@@ -414,6 +514,9 @@ class MainPage extends React.Component {
     );
   }; // end renderSearchPanel
 
+  /* Page that shows the user the leaves they have currently selected grouped
+   * by section. The user can then delete these leaves as they need.
+   */
   renderLeafReview() {
     return (
       <LeafReview
@@ -427,6 +530,9 @@ class MainPage extends React.Component {
     );
   }; // end renderLeafReview
 
+  /* Welcome page to display cookie message and licensing details. Only
+   * displayed on first visit, cookie then records user's selection.
+   */
   renderWelcome() {
     return (
       <Welcome
@@ -443,42 +549,53 @@ class MainPage extends React.Component {
     if ( this.state.parts == null ) this.getParts();
     return (
       <div className='main-page'>
+
+        {/* Main Title Block and Navigation Panes */}
         {this.renderTitles()}
         {this.renderNavPane()}
+        {this.renderSectionSelection()}
+
+        {/* Leaf Review Button */}
         <FancyButton
           className='menu-btn' icon='list' transition='growleft'
           onClick={ () => this.setState({ show_review: true }) }
           mounted='true'
         />
+        {/* Search Button */}
         <FancyButton
           className='search-btn' icon='search' transition='growright'
           onClick={ () => this.setState({ show_search: true }) }
           mounted={this.state.section}
         />
+        {/* Save & Exit Button - (view work notes) */}
         <FancyButton
           className='exit-btn' icon='save' transition='growright'
           onClick={this.handleSaveExitBtn}
           mounted={this.hasLeaves()}
         />
+        {/* Back Button (go up) */}
         <FancyButton 
           className='back-btn' icon='arrow_back' transition='growleft'
           onClick={() => this.hideContentCallback(this.handleBackBtn,[])}
           mounted={this.state.path.length > 0}
         />
+        {/* Home Button (return to section selection) */}
         <FancyButton 
           className='home-btn' icon='home' transition='growleft'
           onClick={() => this.hideContentCallback(this.handleHomeBtn,[])}
           mounted={this.state.section}
         />
+
+        {/* Various Pop-ups and Pages */}
         {this.renderLeafConfirmation()}
         {this.renderTextInputBox()}
-        {this.renderSectionSelection()}
         {this.renderDoorsPopup()}
         {this.renderPartsPopup()}
         {this.renderSubmitPage()}
         {this.renderSearchPanel()}
         {this.renderLeafReview()}
         {this.renderWelcome()}
+
       </div>
     );
   }; // end render

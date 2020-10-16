@@ -1,4 +1,4 @@
-/** index.js - Main functions required to draw/update the UI
+/** index.js - Entry point for main react component.
  *
  * This file is part of the Auto Ingress Work Note Generator.
  *

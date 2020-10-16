@@ -42,11 +42,17 @@ class SubmitPage extends React.Component {
     };
   }; // end constructor
 
+  /* Convert a section to a string so that it can be compared with other
+   * sections.
+   */
   stringifySection(section) {
     return section.label + section.leaves.map( l => l.code + l.data.join('') )
                                          .join('');
   }; // end stringifySection
 
+  /* If new notes have been added, rebuild the work notes overriding any
+   * manual changes made by the user.
+   */
   componentDidUpdate(prevProps, prevState) {
     var prev_sect = prevProps.sections
                               .map( sect => this.stringifySection(sect) )
@@ -59,10 +65,15 @@ class SubmitPage extends React.Component {
     }
   }; // end componentDidUpdate
 
+  /* Keeps the start variable for the work notes text box up to date.
+   */
   onTextChange(evt) {
     this.setState({ text: evt.target.value });
   }; // end onTextChange
 
+  /* Builds out the work notes after first re-ordering the sections to place
+   * the first paragraph at the start and the last paragraph at the end.
+   */
   buildNotes() {
     var new_sections = [ this.props.sections[0] ];
     if ( this.props.sections.length > 2 ) {
@@ -72,6 +83,10 @@ class SubmitPage extends React.Component {
     return backend.processUIOutput( new_sections );
   }; // end buildNotes
 
+  /* Callback to the server to provide a copy of the work notes for storage.
+   * Not yet being used, but shortly in the future we will want to collect
+   * statistics about the types of issues found and their resolutions.
+   */
   handleCopy() {
     /*axios.post('/copytext', {
       full_notes: this.buildNotes(),
@@ -88,13 +103,20 @@ class SubmitPage extends React.Component {
         className={class_name}
         transition={this.props.transition}
       >
+        {/* Title Block */}
         <h1>Your Work Notes:</h1>
         <p>(edit notes below)</p>
+
+        {/* Work Notes (editable) */}
         <textarea onChange={this.onTextChange} value={work_notes} />
+
+        {/* Buttons */}
         <div className='submit-page-options'>
+          {/* Delete and Restart */}
           <div className='submit-page-clear' onClick={this.props.onClear}>
             <i className='material-icons'>delete_forever</i>
           </div>
+          {/* Copy Notes to Clipboard */}
           <div onClick={this.handleCopy}>
             <CopyToClipboard text={work_notes}>
               <div className='submit-page-copy'>
@@ -102,6 +124,7 @@ class SubmitPage extends React.Component {
               </div>
             </CopyToClipboard>
           </div>
+          {/* Go Back and Continue Adding Notes */}
           <div className='submit-page-cancel' onClick={this.props.onUnmount}>
             <i className='material-icons'>arrow_back</i>
           </div>

@@ -33,6 +33,8 @@ class MegaButton extends React.Component {
   }; // end constructor
 
   render() {
+    // Render each subtitle individually to make formatting easier and allow
+    // overflow with ellipsis etc.
     var subtitles = [];
     this.props.subtitles.forEach( (el,ind) => {
       subtitles.push( 

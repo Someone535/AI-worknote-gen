@@ -32,6 +32,10 @@ class BlockButton extends React.Component {
     super(props);
   }; // end constructor
 
+  /* Split the input text by newlines '\n' and represent them as individual
+   * elements. If there are more than 6x of them, cut them down and replace
+   * the last element with an indicator of how many more are not printed.
+   */
   renderText() {
     var lines = this.props.text.split('\n');
     if ( lines.length > 6 ) {

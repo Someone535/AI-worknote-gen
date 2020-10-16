@@ -42,7 +42,9 @@ class FancyButton extends React.Component {
         onClick={this.props.onClick}
         transition={this.props.transition}
       >
+          {/* Icon */}
           <i className="material-icons">{this.props.icon}</i>
+          {/* Label */}
           <span>{this.props.text}</span>
       </TransitionContainer>
     );

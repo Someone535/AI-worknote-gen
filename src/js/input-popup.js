@@ -41,10 +41,15 @@ class InputPopup extends React.Component {
     };
   }; // end constructor
 
+  /* Keep state up-to-date with the text input.
+   */
   updateText(evt) {
     this.setState({ text: evt.target.value });
   }; // end updateText
 
+  /* Reset the alerting class by updating the state when the alert transition
+   * ends.
+   */
   alertTransitionEnd(evt) {
     this.setState({ alerting: false });
   }; // end alertTransitionEnd
@@ -63,15 +68,25 @@ class InputPopup extends React.Component {
           this.setState({ alerting: true });
         }}
       >
+      {/*
+        Blocker (above) - to block any other input from the user until input 
+        has been gathered. If the user clicks outside of the text input pop-up, 
+        the blocker sets the alerting state variable to trigger an animation.
+      */}
+
+        {/* Input Pop-up Main Body */}
         <div
           className={class_name}
           onClick={ (evt) => {
+            /* Required to stop the alert animation when the input pop-up is
+             * pressed. */
             evt.stopPropagation();
             evt.nativeEvent.stopImmediatePropagation();
           }}
         >
           <div className='input-popup-message'>{this.props.message}</div>
           <div className='input-popup-options'>
+            {/* Text Input - (focused by default, enter key submits) */}
             <input
               autoFocus
               ref={this.textInput}
@@ -83,8 +98,12 @@ class InputPopup extends React.Component {
                 if ( evt.key == 'Enter' ) this.props.onSubmit( this.state.text );
               }}
             />
+            {/* Submit Button */}
             <i
-              className={this.state.alerting ? 'material-icons icon-alert' : 'material-icons'}
+              className={ this.state.alerting ? 
+                'material-icons icon-alert' :
+                'material-icons'
+              }
               onClick={ (evt) => this.props.onSubmit( this.state.text ) }
               onTransitionEnd={this.alertTransitionEnd}
             >
